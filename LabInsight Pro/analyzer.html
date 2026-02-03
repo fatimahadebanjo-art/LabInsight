@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LabInsight Pro</title>
+  <link rel="stylesheet" href="lipro.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <nav class="nav-bar">
+      <div class="nav-left"><img src="/assets/images/LabInsight Pro (1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
+      <div nav class="nav-right">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pro.html">Pro</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="timeline.html">Timeline</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section class="analyzer-hero">
+    <h1>Lab Test Analyzer</h1>
+    <p>Upload a lab report or enter your test values to get instant insights.</p>
+  </section>
+
+
+  <section class="upload-section">
+    <h2>Upload Your Lab Report</h2>
+    <p>You can upload a <b>clear, legible</b> PDF, Word document, or image of your test results.</p>
+
+    <input type="file" id="labUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+
+    <button id="uploadBtn">Upload</button>
+
+    <div id="uploadStatus"></div>
+  </section>
+
+
+  <section class="manual-entry">
+    <!-- Accordion Sections -->
+    <div class="accordion">
+
+      <!-- Blood Count -->
+      <button class="accordion-btn">Blood Count</button>
+      <div class="accordion-panel">
+        <label>Hemoglobin (g/dL)</label>
+        <input type="number" id="hb" class="test-input">
+
+        <label>WBC (x10⁹/L)</label>
+        <input type="number" id="wbc" class="test-input">
+
+        <label>Platelets (x10⁹/L)</label>
+        <input type="number" id="platelets" class="test-input">
+      </div>
+
+      <!-- Metabolic/Kidney -->
+      <button class="accordion-btn">Metabolic</button>
+      <div class="accordion-panel">
+        <label>Blood Sugar (mg/dL)</label>
+        <input type="number" id="sugar" class="test-input">
+
+        <label>Creatinine (mg/dL)</label>
+        <input type="number" id="creatinine" class="test-input">
+
+        <label>Urea / BUN (mg/dL)</label>
+        <input type="number" id="bun" class="test-input">
+
+      </div>
+
+      <!-- Liver Function -->
+      <button class="accordion-btn">Liver Function</button>
+      <div class="accordion-panel">
+        <label>ALT (U/L)</label>
+        <input type="number" id="alt" class="test-input">
+
+        <label>AST (U/L)</label>
+        <input type="number" id="ast" class="test-input">
+      </div>
+
+      <!-- Lipids -->
+      <button class="accordion-btn">Lipids</button>
+      <div class="accordion-panel">
+        <label>Total Cholesterol (mg/dL)</label>
+        <input type="number" id="cholesterol" class="test-input">
+
+        <label>Triglycerides (mg/dL)</label>
+        <input type="number" id="triglycerides" class="test-input">
+
+        <label>HDL Cholesterol (mg/dL)</label>
+        <input type="number" id="hdl" class="test-input">
+
+        <label>LDL Cholesterol (mg/dL)</label>
+        <input type="number" id="ldl" class="test-input">
+      </div>
+
+      <!-- Electrolytes -->
+      <button class="accordion-btn">Electrolytes</button>
+      <div class="accordion-panel">
+        <label>Sodium (mmol/L)</label>
+        <input type="number" id="sodium" class="test-input">
+
+        <label>Potassium (mmol/L)</label>
+        <input type="number" id="potassium" class="test-input">
+
+        <label>Chloride (mmol/L)</label>
+        <input type="number" id="chloride" class="test-input">
+      </div>
+    </div>
+
+
+    <button id="manualAnalyzeBtn">Analyze</button>
+
+
+    <div id="output">
+
+
+      <div class="chart-wrapper">
+        <canvas id="resultChart" height="180"></canvas>
+      </div>
+
+
+    </div>
+
+    <!-- Patient details for report header -->
+    <div class="patient-info" style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" placeholder="e.g., Jane Doe" style="padding:6px;border-radius:6px;border:1px solid #d7e6ef;" />
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <label for="patientDOB">DOB:</label>
+        <input type="date" id="patientDOB" style="padding:6px;border-radius:6px;border:1px solid #d7e6ef;" />
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <label for="patientID">Patient ID:</label>
+        <input type="text" id="patientID" placeholder="ID / MRN" style="padding:6px;border-radius:6px;border:1px solid #d7e6ef;" />
+      </div>
+    </div>
+
+    <div class="result-controls">
+      <button id="saveResultBtn">Save Result</button>
+      <button id="viewTrendBtn">View Trend</button>
+      <button id="downloadBtn">Download CSV</button>
+      <button id="demoFillBtn">Demo Fill</button>
+      <button id="exportPdfBtn">Export PDF</button>
+
+      <div class="view-controls" style="display:inline-block;margin-left:12px;">
+        <button id="monthlyViewBtn" class="view-toggle active" type="button">Monthly</button>
+        <button id="dailyViewBtn" class="view-toggle" type="button">Daily</button>
+        <button id="backToMonthlyBtn" style="display:none; margin-left:8px;" type="button">Back to Monthly</button>
+      </div>
+
+      <span id="questionStatus" aria-live="polite" style="margin-left:12px;"></span>
+    </div>
+
+    <div class="question-box">
+      <label for="patient-question">Add your own question:</label>
+      <input type="text" id="questionInput">
+      <button id="addQuestionBtn">Add Question</button>
+
+    </div>
+    
+ <div class="trend-chart-wrapper">
+  <h2>Monthly Trend</h2>
+  <canvas id="trendChart" height="200"></canvas>
+</div>
+
+
+  </section>
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+
+  <div id="debugLog" aria-live="polite" style="position:fixed;right:12px;bottom:12px;width:320px;max-height:40vh;overflow:auto;background:rgba(255,255,255,0.95);border:1px solid #ddd;padding:8px;font-size:12px;display:none;z-index:9999;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
+    <strong style="display:block;margin-bottom:6px;">Debug log</strong>
+    <div id="debugLogInner"></div>
+    <button id="clearDebugLog" style="margin-top:8px;display:block;">Clear</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Split LabInsight scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ocr.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/pdf.js"></script>
+  <script src="js/analyzer-core.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    
+    console.log('Legacy analyzer.js dynamic loader removed; using split scripts');
+    const inner = document.getElementById('debugLogInner'); if (inner) inner.appendChild(Object.assign(document.createElement('div'), { textContent: '[info] legacy analyzer.js loader removed' }));
+  </script>
+
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Section 1: Brand + Purpose -->
+    <div class="footer-brand">
+      <img src="/assets/images/LabInsight Pro (1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
+      <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear,
+        AI-assisted explanations.</p>
+    </div>
+
+    <!-- Section 2: Quick Links -->
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="analyzer.html">Analyzer</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Legal / Trust -->
+    <div class="footer-legal">
+      <h4>Legal</h4>
+      <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
+        professional.</p>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 4: Footer Bottom Strip -->
+  <div class="footer-bottom">
+    <p>© 2026 LabInsight Pro • Built by Fatimah</p>
+  </div>
+</footer>
+
+<script>
+  // Inline loader check to detect if analyzer.js executed
+  setTimeout(() => {
+    // Consider either legacy analyzer.js or the split global `window.LabInsight` as success
+    const inner = document.getElementById('debugLogInner');
+    if (!window.__analyzerLoaded && !window.LabInsight) {
+      console.error('Inline check: neither legacy analyzer.js nor split LabInsight scripts are present.');
+      alert('Warning: analyzer scripts did not load or failed early. Open DevTools Console -> Network to inspect.');
+      const debug = document.getElementById('debugLog'); if (debug) debug.style.display = 'block';
+      if (inner) inner.appendChild(Object.assign(document.createElement('div'),{textContent:'[error] analyzer scripts did not load'}));
+    } else {
+      console.log('Inline check: analyzer scripts present');
+      // Remove any stale error message about legacy analyzer.js failing to load
+      if (inner) {
+        Array.from(inner.children).forEach(n => {
+          if (n && n.textContent && n.textContent.indexOf('[error] analyzer.js did not load') !== -1) n.remove();
+        });
+        inner.appendChild(Object.assign(document.createElement('div'), { textContent: '[info] analyzer scripts detected' }));
+      }
+    }
+  }, 300);
+</script>
+
+</body>
+
+
+</html>

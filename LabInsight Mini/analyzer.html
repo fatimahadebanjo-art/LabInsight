@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabInsight Mini</title>
+    <link rel="stylesheet" href="labinsight.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <img src="/assets/images/LATEST logo sans bg.png" alt="logo" width="200px" height="50px">
+        <!-- nav bar -->
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="analyzer.html" class="active">Analyzer</a></li>
+                <li><a href="account.html" class="nav-btn">Account</a></li>
+            </ul>
+
+        </nav>
+    </header>
+    <!-- Analyzer-hero -->
+    <section class="analyzer-hero">
+        <h1>Lab Test Analyzer</h1>
+        <p>Upload a lab report or enter your test values to get instant insights.</p>
+    </section>
+
+
+    <section class="upload-section">
+        <h2>Upload Your Lab Report</h2>
+        <p>You can upload a <b>clear, legible</b> PDF, Word document, or image of your test results.</p>
+
+        <input type="file" id="labUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+
+        <button id="uploadBtn">Upload</button>
+
+        <div id="uploadStatus"></div>
+    </section>
+
+
+    <section class="manual-entry">
+        <!-- Accordion Sections -->
+        <div class="accordion">
+
+            <!-- Blood Count -->
+            <button class="accordion-btn">Blood Count</button>
+            <div class="accordion-panel">
+                <label>Haemoglobin (g/dL)</label>
+                <input type="number" id="hb" class="test-input">
+
+                <label>WBC (x10⁹/L)</label>
+                <input type="number" id="wbc" class="test-input">
+
+                <label>Platelets (x10⁹/L)</label>
+                <input type="number" id="platelets" class="test-input">
+            </div>
+
+            <!-- Metabolic/Kidney -->
+            <button class="accordion-btn">Metabolic</button>
+            <div class="accordion-panel">
+                <label>Blood Sugar (mg/dL)</label>
+                <input type="number" id="sugar" class="test-input">
+
+                <label>Creatinine (mg/dL)</label>
+                <input type="number" id="creatinine" class="test-input">
+
+                <label>Urea / BUN (mg/dL)</label>
+                <input type="number" id="bun" class="test-input">
+
+            </div>
+
+            <!-- Liver Function -->
+            <button class="accordion-btn">Liver Function</button>
+            <div class="accordion-panel">
+                <label>ALT (U/L)</label>
+                <input type="number" id="alt" class="test-input">
+
+                <label>AST (U/L)</label>
+                <input type="number" id="ast" class="test-input">
+            </div>
+
+            <!-- Lipids -->
+            <button class="accordion-btn">Lipids</button>
+            <div class="accordion-panel">
+                <label>Total Cholesterol (mg/dL)</label>
+                <input type="number" id="cholesterol" class="test-input">
+
+                <label>Triglycerides (mg/dL)</label>
+                <input type="number" id="triglycerides" class="test-input">
+
+                <label>HDL Cholesterol (mg/dL)</label>
+                <input type="number" id="hdl" class="test-input">
+
+                <label>LDL Cholesterol (mg/dL)</label>
+                <input type="number" id="ldl" class="test-input">
+            </div>
+
+            <!-- Electrolytes -->
+            <button class="accordion-btn">Electrolytes</button>
+            <div class="accordion-panel">
+                <label>Sodium (mmol/L)</label>
+                <input type="number" id="sodium" class="test-input">
+
+                <label>Potassium (mmol/L)</label>
+                <input type="number" id="potassium" class="test-input">
+
+                <label>Chloride (mmol/L)</label>
+                <input type="number" id="chloride" class="test-input">
+            </div>
+        </div>
+
+
+        <button id="manualAnalyzeBtn">Analyze</button>
+
+        
+        <div id="output">
+            
+        </div>
+        <div class="question-box">
+            <label for="patient-question">Add your own question:</label>
+            <input type="text" id="patient-question" placeholder="Type your question here">
+            <button id="add-question-btn">Add Question</button>
+        </div>
+
+    </section>
+
+
+    <script src="analyzer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+</body>
+
+
+
+
+
+
+
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <div><img src="/assets/images/LATEST logo sans bg.png" alt="footer-logo">
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="labinsight.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div>
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope-open"></i> Email: hello@LabInsight.com</p>
+                <p><i class="fa-solid fa-phone"></i> Phone: +234 814 542 0597</p>
+                <p><i class="fa-brands fa-whatsapp"></i> +234 814 542 0597</p>
+                <p><i class="fa-brands fa-instagram"></i> LabInsight_gram</p>
+                <p><i class="fa-brands fa-x-twitter"></i> Lab_Insight</p>
+            </div>
+        </div>
+        <p class="disclaimer"><b>Disclaimer</b>: LabInsight Mini provides general explanations of lab tests for
+            educational purposes only. It does not offer medical advice, diagnosis, or treatment. Always consult a
+            qualified healthcare professional for clinical decisions.</p>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 LabInsight Mini. All rights reserved.</p>
+    </div>
+</footer>
+
+</html>
