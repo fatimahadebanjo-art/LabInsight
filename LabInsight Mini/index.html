@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabInsight Mini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="labinsight.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <script src="analyzer.js"></script>
+</head>
+
+<body class="home">
+
+    <!-- hero section -->
+    <section class="hero">
+        <video autoplay muted loop playsinline>
+            <source src="/assets/videos/1472181_People_Technology_4096x2160.mp4"
+                type="video/mp4">
+        </video>
+
+
+        <div class="hero-content">
+            <h1 class="title">LabInsight <span>Mini</span></h1>
+            <p class="subtitle">Translate your lab results into simple, clear explanations instantly and confidently.
+            </p>
+            <a href="analyzer.html" class="pry-btn">Analyze My Lab Results</a>
+        </div>
+
+
+    </section>
+    <header>
+        <img src="/assets/images/LATEST logo sans bg.png" alt="logo" width="200px" height="50px">
+        <!-- nav bar -->
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="analyzer.html">Analyzer</a></li>
+                <li><a href="account.html" class="nav-btn">Account</a></li>
+            </ul>
+
+
+        </nav>
+    </header>
+
+
+    <section class="features">
+        <h3>How It Works</h3>
+        <div class="steps-flow">
+
+            <div class="feature-card">
+                <i class="fa-solid fa-upload"></i>
+                <h4>Step 1a</h4>
+                <p>Upload your lab results OR</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fa-solid fa-keyboard"></i>
+                <h4>Step 1b</h4>
+                <p>Manually input the values of your lab results.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <h4>Step 2</h4>
+                <p>Scroll down and click the "Analyze" button to let LabInsight Mini analyze it.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Step 3</h4>
+                <i class="fa-solid fa-square-poll-horizontal"></i>
+                <p>Get clear, personalized explanations.</p>
+            </div>
+        </div>
+        <div>
+            <Video autoplay muted loop playsinline class="how-to-video">
+                <source
+                    src="/assets/videos/LabInsight Mini and 2 more pages - Profile 1 - Microsoft​ Edge 2025-12-10 12-53-53.mp4">
+            </Video>
+        </div>
+    </section>
+    <section id="about-home" class="about-home">
+        <h2>Our Mission</h2>
+        <p>Many people leave labs confused, staring at numbers they don't understand. LabInsight Mini turns those number into clarity.</p>
+        <p>At <b>LabInsight Mini</b>, we believe that understanding your health should be simple and empowering.
+            Our mission is to translate complex laboratory results into clear, easy-to-understand explanations that help
+            you feel confident about your health decisions.</p>
+        <div class="values">
+
+            <div class="value">
+                <i class="fa-solid fa-lightbulb fa-2xl"></i>
+                <p><strong>Clarity:</strong> We break down medical jargon into everyday language.</p>
+            </div>
+            <div class="value">
+                <i class="fa-solid fa-shield fa-2xl"></i>
+                <p><strong>Confidence:</strong> We give you the knowledge to ask better questions at your doctor’s
+                    visit.</p>
+            </div>
+            <div class="value">
+                <i class="fa-solid fa-users fa-2xl"></i>
+                <p><strong>Accessibility:</strong> Instant explanations, anytime you need them.</p>
+            </div>
+        </div>
+    </section>
+    </div>
+    <section class="micro-quiz">
+        <p><strong>Can you guess what this means?</strong></p>
+        <p>Hemoglobin: 9.5 g/dL</p>
+        <button class="quiz-btn" onclick="showIncorrectAnswer()">Normal</button>
+        <button class="quiz-btn" onclick="showCorrectAnswer()">Low</button>
+        <p id="quizResult"></p>
+    </section>
+    <section class="testimonials">
+        <h3>What People Are Saying</h3>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <img src="/assets/images/Aisha.jpg" alt="African girl in white top smiling" class="testimonial-img">
+                <blockquote>"LabInsight Mini helped me finally understand my blood test results. I felt less anxious
+                    before
+                    seeing my doctor."
+                    <footer>- Aisha, Lagos</footer>
+                </blockquote>
+            </div>
+            <div class="testimonial-card">
+                <img src="/assets/images/Chinedu.jpg" alt="African man smiling" class="testimonial-img">
+                <blockquote>"The explanations are simple and clear. It gave me confidence to ask better questions during
+                    my
+                    consultation."
+                    <footer>- Chinedu, Abuja</footer>
+                </blockquote>
+            </div>
+            <div class="testimonial-card">
+                <img src="/assets/images/Maryam.jpg" alt="Black girl in kente attire smiling" class="testimonial-img">
+                <blockquote>"Fast, easy to use, and very helpful. I recommend it to anyone who struggles with medical
+                    jargon."
+                    </p>
+                    <footer>- Mariam, Ibadan</footer>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <section class="Mini-stats">
+    
+    <div class="stats">
+        <h2 class="aim2">This tool exists to give people control over their own health understanding.</p>
+        <p>🔬 Tests Supported: 15</p>
+        <p>⚡Average Analysis Time: Less than 2 seconds</p>
+        <p>📘Simple Language Level: 100%</p>
+        <a href="analyzer.html" class="pry-btn2">Analyze My Lab Results</a>
+    </div>
+
+    </section>
+
+</body>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <div><img src="/assets/images/LATEST logo sans bg.png" alt="footer-logo">
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="labinsight.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div>
+                <h4>Contact</h4>
+                <p><i class="fa-regular fa-envelope-open"></i> Email: hello@LabInsight.com</p>
+                <p><i class="fa-solid fa-phone"></i> Phone: +234 814 542 0597</p>
+                <p><i class="fa-brands fa-whatsapp"></i> +234 814 542 0597</p>
+                <p><i class="fa-brands fa-instagram"></i> LabInsight_gram</p>
+                <p><i class="fa-brands fa-x-twitter"></i> Lab_Insight</p>
+            </div>
+        </div>
+        <p class="disclaimer"><b>Disclaimer</b>: LabInsight Mini provides general explanations of lab tests for
+            educational purposes only. It does not offer medical advice, diagnosis, or treatment. Always consult a
+            qualified healthcare professional for clinical decisions.</p>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 LabInsight Mini. All rights reserved.</p>
+    </div>
+</footer>
+
+</html>
