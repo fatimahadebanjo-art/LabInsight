@@ -15,7 +15,7 @@
   <header>
     <nav class="nav-bar">
       <div class="nav-left"><img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
-      <div nav class="nav-right">
+      <div class="nav-right">
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="pro.html">Pro</a></li>
@@ -32,21 +32,67 @@
   </section>
 
 
-  <section class="upload-section">
-    <h2>Upload Your Lab Report</h2>
-    <p>You can upload a <b>clear, legible</b> PDF, Word document, or image of your test results.</p>
+  <section class="analyzer-shell">
+    <div class="container analyzer-grid">
+      <section class="upload-section panel-card">
+        <h2>Upload Your Lab Report</h2>
+        <p>You can upload a <strong>clear, legible</strong> PDF, Word document, or image of your test results.</p>
 
-    <input type="file" id="labUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+        <input type="file" id="labUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
 
-    <button id="uploadBtn">Upload</button>
+        <button id="uploadBtn">Upload</button>
 
-    <div id="uploadStatus"></div>
-  </section>
+        <div id="uploadStatus"></div>
 
+        <div class="patient-info">
+          <div class="field-group">
+            <label for="patientName">Patient Name</label>
+            <input type="text" id="patientName" placeholder="e.g., Jane Doe" />
+          </div>
+          <div class="field-group">
+            <label for="patientDOB">DOB</label>
+            <input type="date" id="patientDOB" />
+          </div>
+          <div class="field-group">
+            <label for="patientID">Patient ID</label>
+            <input type="text" id="patientID" placeholder="ID / MRN" />
+          </div>
+        </div>
 
-  <section class="manual-entry">
-    <!-- Accordion Sections -->
-    <div class="accordion">
+        <div class="result-controls">
+          <button id="saveResultBtn">Save Result</button>
+          <button id="viewTrendBtn">View Trend</button>
+          <button id="downloadBtn">Download CSV</button>
+          <button id="demoFillBtn">Demo Fill</button>
+          <button id="exportPdfBtn">Export PDF</button>
+
+          <div class="view-controls">
+            <button id="monthlyViewBtn" class="view-toggle active" type="button">Monthly</button>
+            <button id="dailyViewBtn" class="view-toggle" type="button">Daily</button>
+            <button id="backToMonthlyBtn" style="display:none;" type="button">Back to Monthly</button>
+          </div>
+
+          <span id="questionStatus" aria-live="polite"></span>
+        </div>
+
+        <div class="question-box">
+          <label for="patient-question">Add your own question:</label>
+          <div class="question-row">
+            <input type="text" id="questionInput" placeholder="Ask about a specific marker or concern">
+            <button id="addQuestionBtn">Add Question</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="manual-entry panel-card">
+        <div class="section-title">
+          <p class="eyebrow">Manual entry</p>
+          <h2>Enter your lab values</h2>
+          <p>Fill in the results you have, then analyze to generate a structured report.</p>
+        </div>
+
+        <!-- Accordion Sections -->
+        <div class="accordion">
 
       <!-- Blood Count -->
       <button class="accordion-btn">Blood Count</button>
@@ -113,67 +159,18 @@
         <label>Chloride (mmol/L)</label>
         <input type="number" id="chloride" class="test-input">
       </div>
+        </div>
+
+        <button id="manualAnalyzeBtn">Analyze</button>
+
+        <div id="output" class="results-panel"></div>
+
+        <div class="trend-chart-wrapper">
+          <h2>Monthly Trend</h2>
+          <canvas id="trendChart" height="200"></canvas>
+        </div>
+      </section>
     </div>
-
-
-    <button id="manualAnalyzeBtn">Analyze</button>
-
-
-    <div id="output">
-
-
-      <div class="chart-wrapper">
-        <canvas id="resultChart" height="180"></canvas>
-      </div>
-
-
-    </div>
-
-    <!-- Patient details for report header -->
-    <div class="patient-info" style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
-      <div style="display:flex;gap:8px;align-items:center;">
-        <label for="patientName">Patient Name:</label>
-        <input type="text" id="patientName" placeholder="e.g., Jane Doe" style="padding:6px;border-radius:6px;border:1px solid #d7e6ef;" />
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <label for="patientDOB">DOB:</label>
-        <input type="date" id="patientDOB" style="padding:6px;border-radius:6px;border:1px solid #d7e6ef;" />
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <label for="patientID">Patient ID:</label>
-        <input type="text" id="patientID" placeholder="ID / MRN" style="padding:6px;border-radius:6px;border:1px solid #d7e6ef;" />
-      </div>
-    </div>
-
-    <div class="result-controls">
-      <button id="saveResultBtn">Save Result</button>
-      <button id="viewTrendBtn">View Trend</button>
-      <button id="downloadBtn">Download CSV</button>
-      <button id="demoFillBtn">Demo Fill</button>
-      <button id="exportPdfBtn">Export PDF</button>
-
-      <div class="view-controls" style="display:inline-block;margin-left:12px;">
-        <button id="monthlyViewBtn" class="view-toggle active" type="button">Monthly</button>
-        <button id="dailyViewBtn" class="view-toggle" type="button">Daily</button>
-        <button id="backToMonthlyBtn" style="display:none; margin-left:8px;" type="button">Back to Monthly</button>
-      </div>
-
-      <span id="questionStatus" aria-live="polite" style="margin-left:12px;"></span>
-    </div>
-
-    <div class="question-box">
-      <label for="patient-question">Add your own question:</label>
-      <input type="text" id="questionInput">
-      <button id="addQuestionBtn">Add Question</button>
-
-    </div>
-    
- <div class="trend-chart-wrapper">
-  <h2>Monthly Trend</h2>
-  <canvas id="trendChart" height="200"></canvas>
-</div>
-
-
   </section>
 
 
@@ -185,11 +182,6 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 
-  <div id="debugLog" aria-live="polite" style="position:fixed;right:12px;bottom:12px;width:320px;max-height:40vh;overflow:auto;background:rgba(255,255,255,0.95);border:1px solid #ddd;padding:8px;font-size:12px;display:none;z-index:9999;box-shadow:0 6px 18px rgba(0,0,0,0.08);">
-    <strong style="display:block;margin-bottom:6px;">Debug log</strong>
-    <div id="debugLogInner"></div>
-    <button id="clearDebugLog" style="margin-top:8px;display:block;">Clear</button>
-  </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Split LabInsight scripts -->
@@ -204,7 +196,6 @@
   <script>
     
     console.log('Legacy analyzer.js dynamic loader removed; using split scripts');
-    const inner = document.getElementById('debugLogInner'); if (inner) inner.appendChild(Object.assign(document.createElement('div'), { textContent: '[info] legacy analyzer.js loader removed' }));
   </script>
 
 
@@ -251,21 +242,10 @@
   // Inline loader check to detect if analyzer.js executed
   setTimeout(() => {
     // Consider either legacy analyzer.js or the split global `window.LabInsight` as success
-    const inner = document.getElementById('debugLogInner');
     if (!window.__analyzerLoaded && !window.LabInsight) {
       console.error('Inline check: neither legacy analyzer.js nor split LabInsight scripts are present.');
-      alert('Warning: analyzer scripts did not load or failed early. Open DevTools Console -> Network to inspect.');
-      const debug = document.getElementById('debugLog'); if (debug) debug.style.display = 'block';
-      if (inner) inner.appendChild(Object.assign(document.createElement('div'),{textContent:'[error] analyzer scripts did not load'}));
     } else {
       console.log('Inline check: analyzer scripts present');
-      // Remove any stale error message about legacy analyzer.js failing to load
-      if (inner) {
-        Array.from(inner.children).forEach(n => {
-          if (n && n.textContent && n.textContent.indexOf('[error] analyzer.js did not load') !== -1) n.remove();
-        });
-        inner.appendChild(Object.assign(document.createElement('div'), { textContent: '[info] analyzer scripts detected' }));
-      }
     }
   }, 300);
 </script>

@@ -1,4 +1,4 @@
-try { console.log('analyzer.js: file loaded'); window.__analyzerLoaded = true; } catch(e){ console.error('analyzer.js startup error', e); }
+﻿try { console.log('analyzer.js: file loaded'); window.__analyzerLoaded = true; } catch(e){ console.error('analyzer.js startup error', e); }
 
 document.addEventListener("DOMContentLoaded", function () {
   const manualBtn = document.getElementById("manualAnalyzeBtn");
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (manualBtn) {
     manualBtn.addEventListener("click", function () {
       const inputs = document.querySelectorAll(".test-input");
-      let message = "";
+      let rows = [];
       let normalCount = 0;
       let borderlineCount = 0;
       let abnormalCount = 0;
@@ -22,109 +22,109 @@ document.addEventListener("DOMContentLoaded", function () {
       const testRules = {
   hb: {
     name: "Hemoglobin (g/dL)", ranges: [
-      { max: 12, msg: "LOW — may suggest anemia.", category: "abnormal", questions: ["Could this be anemia?", "Do I need iron supplements or further tests?"] },
-      { max: 16, msg: "NORMAL — hemoglobin is within the healthy range.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may be due to dehydration or other factors.", category: "abnormal", questions: ["Could dehydration be causing this?", "Do I need further tests for blood disorders?"] }
+      { max: 12, msg: "LOW â€” may suggest anemia.", category: "abnormal", questions: ["Could this be anemia?", "Do I need iron supplements or further tests?"] },
+      { max: 16, msg: "NORMAL â€” hemoglobin is within the healthy range.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may be due to dehydration or other factors.", category: "abnormal", questions: ["Could dehydration be causing this?", "Do I need further tests for blood disorders?"] }
     ]
   },
   wbc: {
-    name: "White Blood Cells (x10⁹/L)", ranges: [
-      { max: 4, msg: "LOW — your immune system may be weakened.", category: "abnormal", questions: ["Is my immune system suppressed?", "Do I need more tests for infections?"] },
-      { max: 11, msg: "NORMAL — white blood cell count is healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may indicate infection, inflammation or stress.", category: "abnormal", questions: ["Could this mean I have an infection?", "Do I need antibiotics or further tests?"] }
+    name: "White Blood Cells (x10â¹/L)", ranges: [
+      { max: 4, msg: "LOW â€” your immune system may be weakened.", category: "abnormal", questions: ["Is my immune system suppressed?", "Do I need more tests for infections?"] },
+      { max: 11, msg: "NORMAL â€” white blood cell count is healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may indicate infection, inflammation or stress.", category: "abnormal", questions: ["Could this mean I have an infection?", "Do I need antibiotics or further tests?"] }
     ]
   },
   platelets: {
-    name: "Platelets (x10⁹/L)", ranges: [
-      { max: 150, msg: "LOW — risk of bleeding or easy bruising.", category: "abnormal", questions: ["Am I at risk of bleeding?", "Do I need treatment for low platelets?"] },
-      { max: 450, msg: "NORMAL — platelet count is healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may be linked to inflammation or bone marrow changes.", category: "abnormal", questions: ["What could cause high platelets?", "Do I need further blood tests?"] }
+    name: "Platelets (x10â¹/L)", ranges: [
+      { max: 150, msg: "LOW â€” risk of bleeding or easy bruising.", category: "abnormal", questions: ["Am I at risk of bleeding?", "Do I need treatment for low platelets?"] },
+      { max: 450, msg: "NORMAL â€” platelet count is healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may be linked to inflammation or bone marrow changes.", category: "abnormal", questions: ["What could cause high platelets?", "Do I need further blood tests?"] }
     ]
   },
   sugar: {
     name: "Blood Sugar (mg/dL)", ranges: [
-      { max: 70, msg: "LOW — may cause dizziness or shakiness.", category: "abnormal", questions: ["Could my diet or medications be causing low sugar?", "How can I prevent hypoglycemia episodes?"] },
-      { max: 99, msg: "NORMAL — fasting blood sugar is healthy.", category: "normal" },
-      { max: 125, msg: "BORDERLINE — in the prediabetes range.", category: "borderline", questions: ["Am I at risk of developing diabetes?", "What lifestyle changes should I make now?"] },
-      { max: Infinity, msg: "HIGH — may indicate diabetes risk.", category: "abnormal", questions: ["Do I need further tests for diabetes?", "Should I start medication or change my diet?"] }
+      { max: 70, msg: "LOW â€” may cause dizziness or shakiness.", category: "abnormal", questions: ["Could my diet or medications be causing low sugar?", "How can I prevent hypoglycemia episodes?"] },
+      { max: 99, msg: "NORMAL â€” fasting blood sugar is healthy.", category: "normal" },
+      { max: 125, msg: "BORDERLINE â€” in the prediabetes range.", category: "borderline", questions: ["Am I at risk of developing diabetes?", "What lifestyle changes should I make now?"] },
+      { max: Infinity, msg: "HIGH â€” may indicate diabetes risk.", category: "abnormal", questions: ["Do I need further tests for diabetes?", "Should I start medication or change my diet?"] }
     ]
   },
   cholesterol: {
     name: "Total Cholesterol (mg/dL)", ranges: [
-      { max: 200, msg: "NORMAL — cholesterol is in a healthy range.", category: "normal" },
-      { max: 239, msg: "BORDERLINE HIGH — keep an eye on diet and exercise.", category: "borderline", questions: ["Should I change my diet to lower cholesterol?", "Do I need medication at this stage?"] },
-      { max: Infinity, msg: "HIGH — increases risk of heart disease.", category: "abnormal", questions: ["What is my risk of heart disease?", "What treatments or lifestyle changes can help lower cholesterol?"] }
+      { max: 200, msg: "NORMAL â€” cholesterol is in a healthy range.", category: "normal" },
+      { max: 239, msg: "BORDERLINE HIGH â€” keep an eye on diet and exercise.", category: "borderline", questions: ["Should I change my diet to lower cholesterol?", "Do I need medication at this stage?"] },
+      { max: Infinity, msg: "HIGH â€” increases risk of heart disease.", category: "abnormal", questions: ["What is my risk of heart disease?", "What treatments or lifestyle changes can help lower cholesterol?"] }
     ]
   },
   triglycerides: {
     name: "Triglycerides (mg/dL)", ranges: [
-      { max: 150, msg: "NORMAL — triglycerides are healthy.", category: "normal" },
-      { max: 199, msg: "BORDERLINE HIGH — may need lifestyle changes.", category: "borderline", questions: ["Should I change my diet to lower triglycerides?", "Do I need medication?"] },
-      { max: 499, msg: "HIGH — raises risk of heart disease.", category: "abnormal", questions: ["What is my risk of heart disease?", "What treatments can help lower triglycerides?"] },
-      { max: Infinity, msg: "VERY HIGH — risk of pancreatitis.", category: "abnormal", questions: ["Am I at risk of pancreatitis?", "Do I need urgent treatment?"] }
+      { max: 150, msg: "NORMAL â€” triglycerides are healthy.", category: "normal" },
+      { max: 199, msg: "BORDERLINE HIGH â€” may need lifestyle changes.", category: "borderline", questions: ["Should I change my diet to lower triglycerides?", "Do I need medication?"] },
+      { max: 499, msg: "HIGH â€” raises risk of heart disease.", category: "abnormal", questions: ["What is my risk of heart disease?", "What treatments can help lower triglycerides?"] },
+      { max: Infinity, msg: "VERY HIGH â€” risk of pancreatitis.", category: "abnormal", questions: ["Am I at risk of pancreatitis?", "Do I need urgent treatment?"] }
     ]
   },
   hdl: {
     name: "HDL Cholesterol (mg/dL)", ranges: [
-      { max: 40, msg: "LOW — less protective against heart disease.", category: "abnormal", questions: ["How can I raise my HDL?", "Do I need lifestyle changes?"] },
-      { max: 59, msg: "NORMAL — HDL is healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — protective for heart health.", category: "normal" }
+      { max: 40, msg: "LOW â€” less protective against heart disease.", category: "abnormal", questions: ["How can I raise my HDL?", "Do I need lifestyle changes?"] },
+      { max: 59, msg: "NORMAL â€” HDL is healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” protective for heart health.", category: "normal" }
     ]
   },
   ldl: {
     name: "LDL Cholesterol (mg/dL)", ranges: [
-      { max: 100, msg: "Optimal — LDL is healthy.", category: "normal" },
-      { max: 129, msg: "Near optimal — acceptable range.", category: "normal" },
-      { max: 159, msg: "Borderline high — may need lifestyle changes.", category: "borderline", questions: ["Should I change my diet to lower LDL?", "Do I need medication?"] },
-      { max: 189, msg: "HIGH — increases risk of heart disease.", category: "abnormal", questions: ["What is my risk of heart disease?", "Do I need cholesterol-lowering medication?"] },
-      { max: Infinity, msg: "Very high — serious heart disease risk.", category: "abnormal", questions: ["Do I need urgent treatment?", "What lifestyle changes are most important?"] }
+      { max: 100, msg: "Optimal â€” LDL is healthy.", category: "normal" },
+      { max: 129, msg: "Near optimal â€” acceptable range.", category: "normal" },
+      { max: 159, msg: "Borderline high â€” may need lifestyle changes.", category: "borderline", questions: ["Should I change my diet to lower LDL?", "Do I need medication?"] },
+      { max: 189, msg: "HIGH â€” increases risk of heart disease.", category: "abnormal", questions: ["What is my risk of heart disease?", "Do I need cholesterol-lowering medication?"] },
+      { max: Infinity, msg: "Very high â€” serious heart disease risk.", category: "abnormal", questions: ["Do I need urgent treatment?", "What lifestyle changes are most important?"] }
     ]
   },
   bun: {
     name: "Urea / BUN (mg/dL)", ranges: [
-      { max: 7, msg: "LOW — may suggest liver issues or poor nutrition.", category: "abnormal", questions: ["Could this mean liver problems?", "Do I need nutrition support?"] },
-      { max: 20, msg: "NORMAL — kidney function looks healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may indicate kidney problems or dehydration.", category: "abnormal", questions: ["Could dehydration be causing this?", "Do I need kidney function tests?"] }
+      { max: 7, msg: "LOW â€” may suggest liver issues or poor nutrition.", category: "abnormal", questions: ["Could this mean liver problems?", "Do I need nutrition support?"] },
+      { max: 20, msg: "NORMAL â€” kidney function looks healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may indicate kidney problems or dehydration.", category: "abnormal", questions: ["Could dehydration be causing this?", "Do I need kidney function tests?"] }
     ]
   },
   sodium: {
     name: "Sodium (mmol/L)", ranges: [
-      { max: 135, msg: "LOW — can cause headaches, nausea, or confusion.", category: "abnormal", questions: ["What could cause low sodium?", "Do I need fluid or salt adjustments?"] },
-      { max: 145, msg: "NORMAL — sodium levels are healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — can cause thirst, weakness, or restlessness.", category: "abnormal", questions: ["What could cause high sodium?", "Do I need to change my fluid intake?"] }
+      { max: 135, msg: "LOW â€” can cause headaches, nausea, or confusion.", category: "abnormal", questions: ["What could cause low sodium?", "Do I need fluid or salt adjustments?"] },
+      { max: 145, msg: "NORMAL â€” sodium levels are healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” can cause thirst, weakness, or restlessness.", category: "abnormal", questions: ["What could cause high sodium?", "Do I need to change my fluid intake?"] }
     ]
   },
   potassium: {
     name: "Potassium (mmol/L)", ranges: [
-      { max: 3.5, msg: "LOW — may cause muscle weakness or cramps.", category: "abnormal", questions: ["Could medications be lowering my potassium?", "Do I need supplements?"] },
-      { max: 5.0, msg: "NORMAL — potassium levels are healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may cause irregular heartbeat or weakness.", category: "abnormal", questions: ["Is my heart at risk?", "Do I need urgent treatment?"] }
+      { max: 3.5, msg: "LOW â€” may cause muscle weakness or cramps.", category: "abnormal", questions: ["Could medications be lowering my potassium?", "Do I need supplements?"] },
+      { max: 5.0, msg: "NORMAL â€” potassium levels are healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may cause irregular heartbeat or weakness.", category: "abnormal", questions: ["Is my heart at risk?", "Do I need urgent treatment?"] }
     ]
   },
   chloride: {
     name: "Chloride (mmol/L)", ranges: [
-      { max: 98, msg: "LOW — blood may be more alkaline than usual.", category: "abnormal", questions: ["What could cause low chloride?", "Do I need further tests for acid-base balance?"] },
-      { max: 106, msg: "NORMAL — chloride levels are healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — blood may be more acidic than usual.", category: "abnormal", questions: ["What could cause high chloride?", "Do I need further tests for acid-base balance?"] }
+      { max: 98, msg: "LOW â€” blood may be more alkaline than usual.", category: "abnormal", questions: ["What could cause low chloride?", "Do I need further tests for acid-base balance?"] },
+      { max: 106, msg: "NORMAL â€” chloride levels are healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” blood may be more acidic than usual.", category: "abnormal", questions: ["What could cause high chloride?", "Do I need further tests for acid-base balance?"] }
     ]
   },
   creatinine: {
     name: "Creatinine (mg/dL)", ranges: [
-      { max: 0.6, msg: "LOW — may reflect low muscle mass.", category: "abnormal", questions: ["Does this mean I have low muscle mass?", "Do I need further kidney tests?"] },
-      { max: 1.3, msg: "NORMAL — kidney function looks healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may indicate kidney problems.", category: "abnormal", questions: ["Do I need further kidney tests?", "Should I see a kidney specialist?"] }
+      { max: 0.6, msg: "LOW â€” may reflect low muscle mass.", category: "abnormal", questions: ["Does this mean I have low muscle mass?", "Do I need further kidney tests?"] },
+      { max: 1.3, msg: "NORMAL â€” kidney function looks healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may indicate kidney problems.", category: "abnormal", questions: ["Do I need further kidney tests?", "Should I see a kidney specialist?"] }
     ]
   },
     alt: {
     name: "ALT (U/L)", ranges: [
-      { max: 40, msg: "NORMAL — ALT is healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may suggest liver stress or injury.", category: "abnormal", questions: ["Could this mean liver damage?", "Do I need further liver tests?"] }
+      { max: 40, msg: "NORMAL â€” ALT is healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may suggest liver stress or injury.", category: "abnormal", questions: ["Could this mean liver damage?", "Do I need further liver tests?"] }
     ]
   },
   ast: {
     name: "AST (U/L)", ranges: [
-      { max: 40, msg: "NORMAL — AST is healthy.", category: "normal" },
-      { max: Infinity, msg: "HIGH — may suggest liver or muscle stress.", category: "abnormal", questions: ["Could this mean liver or muscle damage?", "Do I need further tests?"] }
+      { max: 40, msg: "NORMAL â€” AST is healthy.", category: "normal" },
+      { max: Infinity, msg: "HIGH â€” may suggest liver or muscle stress.", category: "abnormal", questions: ["Could this mean liver or muscle damage?", "Do I need further tests?"] }
     ]
   }
 };
@@ -164,12 +164,12 @@ switch ((r.category || "").toLowerCase().trim()) {
 console.log(`${rules.name}: value=${value}, checking max=${r.max}, category=${r.category}`);
 
 
-          message += `
-            <p>
-              <strong>${rules.name}:</strong>
-              <span class="${cssClass}">${r.msg}</span>
-            </p>
-          `;
+          rows.push({
+            name: rules.name,
+            value,
+            status: r.msg,
+            cssClass
+          });
           break;
         }
       }
@@ -179,24 +179,34 @@ console.log(`${rules.name}: value=${value}, checking max=${r.max}, category=${r.
 
 
         // --- Add summary + dynamic questions + custom patient questions ---
-        if(message) {
-          message = `<p><strong>Summary:</strong> ${abnormalCount} test value(s) outside the normal range. 
-        Please review the details below and consult a healthcare professional if needed.</p> <p><strong>Disclaimer:</strong>⚠️LabInsight Mini provides educational information only and does not replace professional medical advice. Always consult a qualified health provider for diagnosis or treatment.</p>` + message;
-
-
-          if (doctorQuestions.length > 0 || customQuestions.length > 0) {
-            message += `<h4>Questions to Ask Your Doctor</h4><ul>`;
-            doctorQuestions.forEach(q => { message += `<li>${q}</li>`; });
-            customQuestions.forEach(q => { message += `<li>${q}</li>`; });
-            message += `</ul>`;
-          }
+        if (rows.length === 0) {
+          console.warn('No test values entered.');
+          return;
         }
 
+        let message = `<div class="result-summary">
+          <p><strong>Summary:</strong> ${abnormalCount} test value(s) outside the normal range. Please review the details below and consult a healthcare professional if needed.</p>
+          <p class="disclaimer-text"><strong>Disclaimer:</strong> LabInsight Pro provides educational information only and does not replace professional medical advice. Always consult a qualified health provider for diagnosis or treatment.</p>
+        </div>`;
+
+        message += `<div class="result-table-wrap"><table class="result-table">
+          <thead><tr><th>Test</th><th>Value</th><th>Status</th></tr></thead><tbody>`;
+        rows.forEach(r => {
+          message += `<tr><td>${r.name}</td><td>${r.value}</td><td><span class="${r.cssClass}">${r.status}</span></td></tr>`;
+        });
+        message += `</tbody></table></div>`;
+
+        if (doctorQuestions.length > 0 || customQuestions.length > 0) {
+          message += `<div class="questions-panel"><h4>Questions to Ask Your Doctor</h4><ul>`;
+          doctorQuestions.forEach(q => { message += `<li>${q}</li>`; });
+          customQuestions.forEach(q => { message += `<li>${q}</li>`; });
+          message += `</ul></div>`;
+        }
     // --- Show results ---
     if (output) {
       output.style.display = "block";
       // Ensure the chart canvas is present before rendering the Chart
-      output.innerHTML = `<div class="chart-wrapper"><canvas id="resultChart" height="180"></canvas></div>` + (message || "Please enter at least one test value.");
+      output.innerHTML = `<div class="chart-wrapper"><canvas id="resultChart" height="180"></canvas></div>` + message;
       console.log(`Counts -> Normal: ${normalCount}, Borderline: ${borderlineCount}, Abnormal: ${abnormalCount}`);
 
       // store last analysis summary/questions so Export PDF can include them
@@ -278,11 +288,11 @@ document.getElementById("uploadBtn")?.addEventListener("click", async function (
   } else if (fileName.endsWith(".docx")) {
     status.textContent = "DOCX upload detected. Extraction not yet implemented.";
   } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png")) {
-    status.textContent = "Processing image with OCR…";
+    status.textContent = "Processing image with OCRâ€¦";
     const result = await Tesseract.recognize(file, "eng");
     const fullText = result.data.text;
     console.log("OCR Output:", fullText);
-    status.textContent = "Image text extracted. Auto‑filling inputs…";
+    status.textContent = "Image text extracted. Autoâ€‘filling inputsâ€¦";
     autoFillTests(fullText);
   } else {
     status.textContent = "Unsupported file type. Please upload PDF, DOCX, or image.";
@@ -381,9 +391,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (password === confirmPassword && password.length >= 8) {
         window.location.href = "welcome.html";
       } else if (password.length < 8) {
-        alert("Password must be at least 8 characters long.");
+        console.warn("Password must be at least 8 characters long.");
       } else {
-        alert("Passwords do not match. Please try again.");
+        console.warn("Passwords do not match. Please try again.");
       }
     });
   }
@@ -392,13 +402,13 @@ document.addEventListener("DOMContentLoaded", function () {
 function showCorrectAnswer() {
   const resultElement =
     document.getElementById("quizResult");
-  resultElement.innerHTML = "✅ Correct! 9.5 g/dL is typically considered LOW.";
+  resultElement.innerHTML = "âœ… Correct! 9.5 g/dL is typically considered LOW.";
   resultElement.style.color = "green";
 }
 function showIncorrectAnswer() {
   const resultElement =
     document.getElementById("quizResult")
-  resultElement.innerHTML = "❌ Incorrect. 9.5 g/dL is typically considered LOW.";
+  resultElement.innerHTML = "âŒ Incorrect. 9.5 g/dL is typically considered LOW.";
   resultElement.style.color = "red";
 }
 
@@ -451,7 +461,7 @@ function pickColor(i) {
   return palette[i % palette.length];
 }
 
-// Store results in localStorage (timestamped entries — allows multiple saves per day)
+// Store results in localStorage (timestamped entries â€” allows multiple saves per day)
 function saveResult(results) {
   const timestamp = new Date().toISOString();
   const date = timestamp.split("T")[0];
@@ -460,13 +470,13 @@ function saveResult(results) {
     const stored = JSON.parse(localStorage.getItem("labResults") || "[]");
     stored.push(entry);
     localStorage.setItem("labResults", JSON.stringify(stored));
-    alert("Result saved!");
+    console.warn("Result saved!");
   } catch (e) {
     console.warn('localStorage unavailable for saving; using in-memory fallback', e);
     const f = JSON.parse(window.__labResultsFallback || '[]');
     f.push(entry);
     window.__labResultsFallback = JSON.stringify(f);
-    alert('Result saved to temporary memory (local storage blocked).');
+    console.warn('Result saved to temporary memory (local storage blocked).');
   }
 }
 
@@ -476,7 +486,7 @@ function saveResult(results) {
 function downloadResults() {
   const stored = getStored();
   if (!stored || stored.length === 0) {
-    alert("No results to download.");
+    console.warn("No results to download.");
     return;
   }
 
@@ -505,11 +515,11 @@ document.getElementById("saveResultBtn")?.addEventListener("click", () => {
 document.getElementById("viewTrendBtn")?.addEventListener("click", renderMonthlyChart);
 document.getElementById("downloadBtn")?.addEventListener("click", downloadResults);
 
-// Export PDF — captures current doughnut chart, monthly trend, summary counts, and questions
+// Export PDF â€” captures current doughnut chart, monthly trend, summary counts, and questions
 document.getElementById('exportPdfBtn')?.addEventListener('click', async () => {
   // need a result chart (doughnut) to snapshot
   const resultCanvas = document.getElementById('resultChart');
-  if (!resultCanvas) { alert('Please run Analyze first to generate the result doughnut chart.'); return; }
+  if (!resultCanvas) { console.warn('Please run Analyze first to generate the result doughnut chart.'); return; }
 
   // attempt to load logo from header or footer
   const logoEl = document.querySelector('.nav-left img') || document.querySelector('.footer-logo');
@@ -610,12 +620,12 @@ document.getElementById('exportPdfBtn')?.addEventListener('click', async () => {
 
     // footer note
     pdf.setFontSize(9);
-    pdf.text('Generated by LabInsight Pro • For educational purposes only. Not a medical diagnosis.', 15, pdf.internal.pageSize.getHeight() - 10);
+    pdf.text('Generated by LabInsight Pro â€¢ For educational purposes only. Not a medical diagnosis.', 15, pdf.internal.pageSize.getHeight() - 10);
 
     pdf.save(`LabInsight_Report_${new Date().toISOString().slice(0,10)}.pdf`);
   } catch (err) {
     console.error('Error generating PDF', err);
-    alert('Failed to generate PDF. Check console for details.');
+    console.warn('Failed to generate PDF. Check console for details.');
   }
 });
 
@@ -624,19 +634,19 @@ document.getElementById('exportPdfBtn')?.addEventListener('click', async () => {
 // Demo fill for testing trend chart
 document.getElementById("demoFillBtn")?.addEventListener("click", () => {
   const sample = {
-    hb: 11.0,         // LOW — abnormal (anemia)
-    wbc: 12.5,        // HIGH — abnormal (infection)
+    hb: 11.0,         // LOW â€” abnormal (anemia)
+    wbc: 12.5,        // HIGH â€” abnormal (infection)
     platelets: 180,   // NORMAL
     sugar: 110,       // BORDERLINE (prediabetes range)
-    creatinine: 1.5,  // HIGH — abnormal
+    creatinine: 1.5,  // HIGH â€” abnormal
     bun: 18,          // NORMAL
-    alt: 55,          // HIGH — abnormal
+    alt: 55,          // HIGH â€” abnormal
     ast: 30,          // NORMAL
     cholesterol: 220, // BORDERLINE HIGH
     triglycerides: 180, // BORDERLINE HIGH
-    hdl: 35,          // LOW — abnormal
-    ldl: 160,         // HIGH — abnormal
-    sodium: 132,      // LOW — abnormal
+    hdl: 35,          // LOW â€” abnormal
+    ldl: 160,         // HIGH â€” abnormal
+    sodium: 132,      // LOW â€” abnormal
     potassium: 4.5,   // NORMAL
     chloride: 105     // NORMAL
   };
@@ -645,7 +655,7 @@ document.getElementById("demoFillBtn")?.addEventListener("click", () => {
     if (el) el.value = sample[k];
   });
 
-  // Minimal feedback only — do NOT analyze, save, or render charts
+  // Minimal feedback only â€” do NOT analyze, save, or render charts
   const statusEl = document.getElementById("questionStatus");
   if (statusEl) statusEl.textContent = "Demo values populated.";
 });
@@ -696,7 +706,7 @@ let trendCountsMap = {}; // used by tooltip callbacks
 // Render monthly aggregated chart; clicking a month drills down into daily view
 function renderMonthlyChart() {
   const stored = getStored();
-  if (!stored || stored.length === 0) { alert('No saved results yet.'); return; }
+  if (!stored || stored.length === 0) { console.warn('No saved results yet.'); return; }
 
   const monthly = {};
   stored.forEach(entry => {
@@ -714,7 +724,7 @@ function renderMonthlyChart() {
   });
 
   const months = Object.keys(monthly).sort();
-  if (months.length === 0) { alert('No saved results yet.'); return; }
+  if (months.length === 0) { console.warn('No saved results yet.'); return; }
 
   // prepare counts map for tooltips
   trendCountsMap = {};
@@ -775,7 +785,7 @@ function renderMonthlyChart() {
 function renderDailyChart(month) {
   const stored = getStored();
   const entries = stored.filter(e => ((e.date || (e.timestamp && e.timestamp.split('T')[0]) || '').startsWith(month)));
-  if (!entries || entries.length === 0) { alert('No data for selected month.'); return; }
+  if (!entries || entries.length === 0) { console.warn('No data for selected month.'); return; }
 
   const daily = {};
   entries.forEach(entry => {
@@ -842,7 +852,7 @@ function renderTrendChart() { renderMonthlyChart(); }
 
 // Fallback handlers: delegated accordion toggle and minimal Analyze fallback
 (function(){
-  // Delegated click handler — keeps accordions & Analyze responsive even if initial handlers failed
+  // Delegated click handler â€” keeps accordions & Analyze responsive even if initial handlers failed
   document.addEventListener('click', function(e){
     try {
       const btn = e.target.closest ? e.target.closest('.accordion-btn') : null;
@@ -877,22 +887,10 @@ function renderTrendChart() { renderMonthlyChart(); }
 (function(){
   function showDebug(msg, level='info'){
     try{
-      const debug = document.getElementById('debugLog');
-      const inner = document.getElementById('debugLogInner');
-      if (debug && inner) {
-        debug.style.display = 'block';
-        const p = document.createElement('div');
-        p.textContent = `[${level}] ${msg}`;
-        p.style.marginBottom = '6px';
-        p.style.wordBreak = 'break-word';
-        if (level === 'error') p.style.color = 'crimson';
-        inner.appendChild(p);
-      } else {
-        console[level === 'error' ? 'error' : 'log']('[debug] '+msg);
-      }
+      const fn = (level === 'error') ? console.error : console.log;
+      fn('[debug] ' + msg);
     } catch (err){ console.error('showDebug error', err); }
   }
-
   window.addEventListener('error', function(e){
     showDebug(`Error: ${e.message} @ ${e.filename}:${e.lineno}`, 'error');
     console.error(e.error || e.message);
@@ -929,7 +927,7 @@ function renderTrendChart() {
   // load stored results
   const stored = getStored();
   if (!stored || stored.length === 0) {
-    alert("No saved results yet.");
+    console.warn("No saved results yet.");
     return;
   }
 
@@ -945,7 +943,7 @@ function renderTrendChart() {
 
   const dates = Object.keys(grouped).sort((a, b) => a.localeCompare(b));
   if (dates.length === 0) {
-    alert("No saved results yet.");
+    console.warn("No saved results yet.");
     return;
   }
 
@@ -1002,6 +1000,9 @@ function renderTrendChart() {
     }
   });
 }
+
+
+
 
 
 

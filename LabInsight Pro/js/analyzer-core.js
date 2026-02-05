@@ -32,7 +32,7 @@
     document.getElementById('saveResultBtn')?.addEventListener('click', ()=>{ const vals = gatherInputs(); window.LabInsight.saveResult(vals); });
     document.getElementById('viewTrendBtn')?.addEventListener('click', ()=>{ if (typeof window.LabInsight.renderMonthlyChart === 'function') window.LabInsight.renderMonthlyChart(); });
     document.getElementById('downloadBtn')?.addEventListener('click', ()=>{ // build CSV from stored
-      const stored = window.LabInsight.getStored(); if (!stored || stored.length === 0) { alert('No results to download.'); return; }
+      const stored = window.LabInsight.getStored(); if (!stored || stored.length === 0) { console.warn('No results to download.'); return; }
       // Include classification counts in CSV
       let csv = 'Timestamp,Date,Cholesterol,LDL,HDL,Triglycerides,Normal,Borderline,Abnormal\n';
       stored.forEach(r => { const ts = r.timestamp || ''; const counts = r.counts || {}; csv += `${ts},${r.date || ''},${r.cholesterol || ''},${r.ldl || ''},${r.hdl || ''},${r.triglycerides || ''},${counts.normal||0},${counts.borderline||0},${counts.abnormal||0}\n`; });
