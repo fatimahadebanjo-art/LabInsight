@@ -551,21 +551,37 @@ header {
 .process-stack {
   display: grid;
   gap: 32px;
-}
+
+
+/* how-to video */
 
 .process-video {
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  height: 100vh;            
+  overflow: hidden;        
   position: relative;
 }
 
 .how-to-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: cover;         
+  object-position: center;  
+  border-radius: 0;          
+  box-shadow: none;         
 }
+
+@media (max-width: 768px) {
+  .process-video {
+    height: 100vh;         
+  }
+
+  .how-to-video {
+    border-radius: 0;       
+    box-shadow: none;      
+  }
+}
+
 
 
 .process-copy h3 {
