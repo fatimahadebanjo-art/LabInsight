@@ -18,10 +18,11 @@
       <div class="nav-left"><img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
       <div class="nav-right">
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
           <li><a href="pro.html">Pro</a></li>
           <li><a href="analyzer.html">Analyzer</a></li>
           <li><a href="timeline.html">Timeline</a></li>
+          <li><a href="account.html">Account</a></li>
         </ul>
       </div>
     </nav>
@@ -41,7 +42,7 @@
           <div class="trust-item"><i class="fa-solid fa-clipboard-check"></i> Clinician-aware</div>
         </div>
         <div style="margin-top: 50px;" class="hero-actions">
-          <a class="btn btn-primary" href="analyzer.html">Start Analysis</a>
+          <a class="btn btn-primary" href="account.html">Start Analysis</a>
           <a class="btn btn-outline" href="#about">Learn More</a>
         </div>
         
@@ -129,7 +130,7 @@
           <div class="insight-mini">
             <p class="mini-title">Next step</p>
             <p class="mini-text">Review trends over time</p>
-            <span class="mini-pill">Timeline</span>
+            <span class="mini-pill"><a href="timeline.html">Timeline</a></span>
           </div>
           <div class="insight-mini">
             <p class="mini-title">Priority</p>
@@ -139,7 +140,7 @@
           <div class="insight-mini">
             <p class="mini-title">Share</p>
             <p class="mini-text">Export summary for your visit</p>
-            <span class="mini-pill">PDF</span>
+            <span class="mini-pill" id="exportPdf">PDF</span>
           </div>
         </div>
       </div>
@@ -175,7 +176,7 @@
         </div>
         <div class="about-card accent">
           <h3>Who it helps</h3>
-          <p>Patients, families, clinicians, and anyone reviewing lab results.</p>
+          <p>Patients, doctors, clinicians, and anyone reviewing lab results.</p>
         </div>
         <div class="about-card">
           <h3>Why it matters</h3>
@@ -190,7 +191,7 @@
     <div class="container process-stack">
       <div class="process-video">
         <video autoplay muted loop playsinline class="how-to-video">
-          <source src="assets/videos/LabInsight Mini and 2 more pages - Profile 1 - Microsoft Edge 2025-12-10 12-53-53.mp4">
+          <source src="assets/video/LabInsight Pro and 8 more pages - Personal - Microsoft​ Edge 2026-02-06 22-20-36.mp4">
         </video>
       </div>
       <div class="process-copy">
@@ -234,9 +235,8 @@
       <a class="btn btn-primary" href="analyzer.html">Get Started</a>
     </div>
   </section>
-</body>
 
-<footer class="footer">
+  <footer class="footer">
   <div class="footer-container">
     <div class="footer-brand">
       <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
@@ -269,5 +269,25 @@
     <p>© 2026 LabInsight Pro • Built by Fatimah</p>
   </div>
 </footer>
+
+  <script src="js/pdf.js"></script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-right a");
+    const currentPath = window.location.pathname.split("/").pop();
+
+    navLinks.forEach(link => {
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
+
+
+</body>
+
+
 
 </html>

@@ -1,145 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LabInsight Pro</title>
-    <link rel="stylesheet" href="lipro.css">
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LabInsight Pro</title>
+  <link rel="stylesheet" href="lipro.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
+
 <body>
-    <header>
-        <nav class="nav-bar">
-            <div class="nav-left"><img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
-           <div class="nav-right">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="pro.html" class="active">Pro</a></li>
-                <li><a href="analyzer.html">Analyzer</a></li>
-                <li><a href="timeline.html">Timeline</a></li>
-            </ul>
-           </div>
-        </nav>
-    </header>
+  <header>
+    <nav class="nav-bar">
+      <div class="nav-left"><img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
+      <div class="nav-right">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pro.html" class="active">Pro</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="account.html">Account</a></li>
+          <li><button id="navLogoutBtn" class="btn btn-secondary">Logout</button></li>
+        </ul>
+      </div>
 
-    <section class="pro-hero">
-      <div class="container pro-hero-grid">
-        <div class="pro-hero-copy">
-          <p class="eyebrow">LabInsight Pro</p>
-          <h1>Deeper insight. Smarter decisions.</h1>
-          <p>Upgrade to advanced analysis, richer visualizations, and clinician-ready flags that help you act with confidence.</p>
-          <div class="pro-hero-actions">
-            <a class="btn btn-primary" href="analyzer.html">Start Pro Analysis</a>
-            <a class="btn btn-outline" href="#pro-features">Explore Features</a>
-          </div>
-          <div class="pro-hero-tags">
-            <span><i class="fa-solid fa-shield-heart"></i> Responsible AI</span>
-            <span><i class="fa-solid fa-chart-line"></i> Trend insights</span>
-            <span><i class="fa-solid fa-file-waveform"></i> Clinical flags</span>
-          </div>
+    </nav>
+  </header>
+
+  <section class="pro-hero">
+    <div class="container pro-hero-grid">
+      <div class="pro-hero-copy">
+        <p class="eyebrow">LabInsight Pro</p>
+        <h1>Deeper insight. Smarter decisions.</h1>
+        <p>Upgrade to advanced analysis, richer visualizations, and clinician-ready flags that help you act with
+          confidence.</p>
+        <div class="pro-hero-actions">
+          <a class="btn btn-primary" href="analyzer.html">Start Pro Analysis</a>
+          <a class="btn btn-outline" href="#pro-features">Explore Features</a>
         </div>
-        <div class="pro-hero-panel">
-          <div class="pro-summary-card">
-            <div class="pro-summary-header">
-              <div>
-                <p class="insight-title">Advanced Report</p>
-                <p class="insight-sub">Comprehensive view</p>
-              </div>
-              <span class="pill">Pro</span>
+        <div class="pro-hero-tags">
+          <span><i class="fa-solid fa-shield-heart"></i> Responsible AI</span>
+          <span><i class="fa-solid fa-chart-line"></i> Trend insights</span>
+          <span><i class="fa-solid fa-file-waveform"></i> Clinical flags</span>
+        </div>
+      </div>
+      <div class="pro-hero-panel">
+        <div class="pro-summary-card">
+          <div class="pro-summary-header">
+            <div>
+              <p class="insight-title">Advanced Report</p>
+              <p class="insight-sub">Comprehensive view</p>
             </div>
-            <div class="pro-summary-row">
-              <span>Flagged markers</span>
-              <strong>3</strong>
-            </div>
-            <div class="pro-summary-row">
-              <span>Trend insights</span>
-              <strong>2</strong>
-            </div>
-            <div class="pro-summary-row">
-              <span>Suggested next steps</span>
-              <strong>5</strong>
-            </div>
-            <div class="pro-summary-note">
-              <i class="fa-solid fa-circle-info"></i>
-              <p>Identify high-priority markers and plan follow-up questions.</p>
-            </div>
+            <span class="pill">Pro</span>
+          </div>
+          <div class="pro-summary-row">
+            <span>Flagged markers</span>
+            <strong>3</strong>
+          </div>
+          <div class="pro-summary-row">
+            <span>Trend insights</span>
+            <strong>2</strong>
+          </div>
+          <div class="pro-summary-row">
+            <span>Suggested next steps</span>
+            <strong>5</strong>
+          </div>
+          <div class="pro-summary-note">
+            <i class="fa-solid fa-circle-info"></i>
+            <p>Identify high-priority markers and plan follow-up questions.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="pro-features" id="pro-features">
-      <div class="container">
-        <div class="section-title">
-          <p class="eyebrow">What you unlock</p>
-          <h2>Premium tools for clearer decisions</h2>
-          <p>Everything you need to interpret lab results with context, clarity, and confidence.</p>
+  <section class="pro-features" id="pro-features">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">What you unlock</p>
+        <h2>Premium tools for clearer decisions</h2>
+        <p>Everything you need to interpret lab results with context, clarity, and confidence.</p>
+      </div>
+      <div class="pro-feature-grid">
+        <div class="pro-feature-card">
+          <i class="fa-solid fa-chart-simple"></i>
+          <h3>Trend visualization</h3>
+          <p>See results over time and highlight meaningful shifts.</p>
         </div>
-        <div class="pro-feature-grid">
-          <div class="pro-feature-card">
-            <i class="fa-solid fa-chart-simple"></i>
-            <h3>Trend visualization</h3>
-            <p>See results over time and highlight meaningful shifts.</p>
-          </div>
-          <div class="pro-feature-card">
-            <i class="fa-solid fa-stethoscope"></i>
-            <h3>Clinical flags</h3>
-            <p>Surface borderline or out-of-range markers instantly.</p>
-          </div>
-          <div class="pro-feature-card">
-            <i class="fa-solid fa-brain"></i>
-            <h3>Smart summaries</h3>
-            <p>Get concise, human-friendly explanations for each marker.</p>
-          </div>
-          <div class="pro-feature-card">
-            <i class="fa-solid fa-file-export"></i>
-            <h3>Shareable reports</h3>
-            <p>Export summaries to bring into appointments.</p>
-          </div>
-          <div class="pro-feature-card">
-            <i class="fa-solid fa-shield-halved"></i>
-            <h3>Privacy-first</h3>
-            <p>Designed with patient safety and data care in mind.</p>
-          </div>
-          <div class="pro-feature-card">
-            <i class="fa-solid fa-bolt"></i>
-            <h3>Faster insight</h3>
-            <p>Identify what matters most in seconds.</p>
-          </div>
+        <div class="pro-feature-card">
+          <i class="fa-solid fa-stethoscope"></i>
+          <h3>Clinical flags</h3>
+          <p>Surface borderline or out-of-range markers instantly.</p>
+        </div>
+        <div class="pro-feature-card">
+          <i class="fa-solid fa-brain"></i>
+          <h3>Smart summaries</h3>
+          <p>Get concise, human-friendly explanations for each marker.</p>
+        </div>
+        <div class="pro-feature-card">
+          <i class="fa-solid fa-file-export"></i>
+          <h3>Shareable reports</h3>
+          <p>Export summaries to bring into appointments.</p>
+        </div>
+        <div class="pro-feature-card">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h3>Privacy-first</h3>
+          <p>Designed with patient safety and data care in mind.</p>
+        </div>
+        <div class="pro-feature-card">
+          <i class="fa-solid fa-bolt"></i>
+          <h3>Faster insight</h3>
+          <p>Identify what matters most in seconds.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="pro-compare">
-      <div class="container compare-grid">
-        <div class="compare-card">
-          <h3>Standard</h3>
-          <p>Quick explanations for basic lab results.</p>
-          <ul class="compare-list">
-            <li><i class="fa-solid fa-check"></i> Basic summaries</li>
-            <li><i class="fa-solid fa-check"></i> Manual data entry</li>
-            <li><i class="fa-solid fa-check"></i> One-off analysis</li>
-          </ul>
-        </div>
-        <div class="compare-card pro">
-          <h3>Pro</h3>
-          <p>Advanced analysis, trends, and clinician-ready flags.</p>
-          <ul class="compare-list">
-            <li><i class="fa-solid fa-check"></i> Trend tracking</li>
-            <li><i class="fa-solid fa-check"></i> Clinical flags</li>
-            <li><i class="fa-solid fa-check"></i> Shareable reports</li>
-          </ul>
-          <a class="btn btn-primary" href="analyzer.html">Upgrade to Pro</a>
-        </div>
+  <section class="pro-compare">
+    <div class="container compare-grid">
+      <div class="compare-card">
+        <h3>Standard</h3>
+        <p>Quick explanations for basic lab results.</p>
+        <ul class="compare-list">
+          <li><i class="fa-solid fa-check"></i> Basic summaries</li>
+          <li><i class="fa-solid fa-check"></i> Manual data entry</li>
+          <li><i class="fa-solid fa-check"></i> One-off analysis</li>
+        </ul>
       </div>
-    </section>
-</body>
-<footer class="footer">
+      <div class="compare-card pro">
+        <h3>Pro</h3>
+        <p>Advanced analysis, trends, and clinician-ready flags.</p>
+        <ul class="compare-list">
+          <li><i class="fa-solid fa-check"></i> Trend tracking</li>
+          <li><i class="fa-solid fa-check"></i> Clinical flags</li>
+          <li><i class="fa-solid fa-check"></i> Shareable reports</li>
+        </ul>
+        <a class="btn btn-primary" href="analyzer.html">Upgrade to Pro</a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
   <div class="footer-container">
     <div class="footer-brand">
       <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
-      <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear, AI-assisted explanations.</p>
+      <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear,
+        AI-assisted explanations.</p>
     </div>
 
     <div class="footer-links">
@@ -154,7 +161,8 @@
 
     <div class="footer-legal">
       <h4>Legal</h4>
-      <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare professional.</p>
+      <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
+        professional.</p>
       <ul>
         <li><a href="privacy.html">Privacy Policy</a></li>
         <li><a href="terms.html">Terms of Use</a></li>
@@ -166,4 +174,22 @@
     <p>© 2026 LabInsight Pro • Built by Fatimah</p>
   </div>
 </footer>
+
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-right a");
+    const currentPath = window.location.pathname.split("/").pop();
+
+    navLinks.forEach(link => {
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
+
+
+</body>
+
 </html>

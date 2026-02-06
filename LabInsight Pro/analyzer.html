@@ -9,9 +9,20 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
     rel="stylesheet">
+
+
 </head>
 
 <body>
+
+
+  <script>
+    if (localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "account.html#login";
+    }
+  </script>
+
+
   <header>
     <nav class="nav-bar">
       <div class="nav-left"><img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
@@ -19,10 +30,12 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="pro.html">Pro</a></li>
-          <li><a href="analyzer.html">Analyzer</a></li>
-          <li><a href="timeline.html">Timeline</a></li>
+          <li><a href="analyzer.html" class="active">Analyzer</a></li>
+          <li><a href="account.html">Account</a></li>
+          <li><button id="navLogoutBtn" class="btn btn-secondary">Logout</button></li>
         </ul>
       </div>
+
     </nav>
   </header>
 
@@ -61,16 +74,11 @@
 
         <div class="result-controls">
           <button id="saveResultBtn">Save Result</button>
-          <button id="viewTrendBtn">View Trend</button>
           <button id="downloadBtn">Download CSV</button>
           <button id="demoFillBtn">Demo Fill</button>
           <button id="exportPdfBtn">Export PDF</button>
 
-          <div class="view-controls">
-            <button id="monthlyViewBtn" class="view-toggle active" type="button">Monthly</button>
-            <button id="dailyViewBtn" class="view-toggle" type="button">Daily</button>
-            <button id="backToMonthlyBtn" style="display:none;" type="button">Back to Monthly</button>
-          </div>
+
 
           <span id="questionStatus" aria-live="polite"></span>
         </div>
@@ -94,71 +102,71 @@
         <!-- Accordion Sections -->
         <div class="accordion">
 
-      <!-- Blood Count -->
-      <button class="accordion-btn">Blood Count</button>
-      <div class="accordion-panel">
-        <label>Hemoglobin (g/dL)</label>
-        <input type="number" id="hb" class="test-input">
+          <!-- Blood Count -->
+          <button class="accordion-btn">Blood Count</button>
+          <div class="accordion-panel">
+            <label>Hemoglobin (g/dL)</label>
+            <input type="number" id="hb" class="test-input">
 
-        <label>WBC (x10⁹/L)</label>
-        <input type="number" id="wbc" class="test-input">
+            <label>WBC (x10⁹/L)</label>
+            <input type="number" id="wbc" class="test-input">
 
-        <label>Platelets (x10⁹/L)</label>
-        <input type="number" id="platelets" class="test-input">
-      </div>
+            <label>Platelets (x10⁹/L)</label>
+            <input type="number" id="platelets" class="test-input">
+          </div>
 
-      <!-- Metabolic/Kidney -->
-      <button class="accordion-btn">Metabolic</button>
-      <div class="accordion-panel">
-        <label>Blood Sugar (mg/dL)</label>
-        <input type="number" id="sugar" class="test-input">
+          <!-- Metabolic/Kidney -->
+          <button class="accordion-btn">Metabolic</button>
+          <div class="accordion-panel">
+            <label>Blood Sugar (mg/dL)</label>
+            <input type="number" id="sugar" class="test-input">
 
-        <label>Creatinine (mg/dL)</label>
-        <input type="number" id="creatinine" class="test-input">
+            <label>Creatinine (mg/dL)</label>
+            <input type="number" id="creatinine" class="test-input">
 
-        <label>Urea / BUN (mg/dL)</label>
-        <input type="number" id="bun" class="test-input">
+            <label>Urea / BUN (mg/dL)</label>
+            <input type="number" id="bun" class="test-input">
 
-      </div>
+          </div>
 
-      <!-- Liver Function -->
-      <button class="accordion-btn">Liver Function</button>
-      <div class="accordion-panel">
-        <label>ALT (U/L)</label>
-        <input type="number" id="alt" class="test-input">
+          <!-- Liver Function -->
+          <button class="accordion-btn">Liver Function</button>
+          <div class="accordion-panel">
+            <label>ALT (U/L)</label>
+            <input type="number" id="alt" class="test-input">
 
-        <label>AST (U/L)</label>
-        <input type="number" id="ast" class="test-input">
-      </div>
+            <label>AST (U/L)</label>
+            <input type="number" id="ast" class="test-input">
+          </div>
 
-      <!-- Lipids -->
-      <button class="accordion-btn">Lipids</button>
-      <div class="accordion-panel">
-        <label>Total Cholesterol (mg/dL)</label>
-        <input type="number" id="cholesterol" class="test-input">
+          <!-- Lipids -->
+          <button class="accordion-btn">Lipids</button>
+          <div class="accordion-panel">
+            <label>Total Cholesterol (mg/dL)</label>
+            <input type="number" id="cholesterol" class="test-input">
 
-        <label>Triglycerides (mg/dL)</label>
-        <input type="number" id="triglycerides" class="test-input">
+            <label>Triglycerides (mg/dL)</label>
+            <input type="number" id="triglycerides" class="test-input">
 
-        <label>HDL Cholesterol (mg/dL)</label>
-        <input type="number" id="hdl" class="test-input">
+            <label>HDL Cholesterol (mg/dL)</label>
+            <input type="number" id="hdl" class="test-input">
 
-        <label>LDL Cholesterol (mg/dL)</label>
-        <input type="number" id="ldl" class="test-input">
-      </div>
+            <label>LDL Cholesterol (mg/dL)</label>
+            <input type="number" id="ldl" class="test-input">
+          </div>
 
-      <!-- Electrolytes -->
-      <button class="accordion-btn">Electrolytes</button>
-      <div class="accordion-panel">
-        <label>Sodium (mmol/L)</label>
-        <input type="number" id="sodium" class="test-input">
+          <!-- Electrolytes -->
+          <button class="accordion-btn">Electrolytes</button>
+          <div class="accordion-panel">
+            <label>Sodium (mmol/L)</label>
+            <input type="number" id="sodium" class="test-input">
 
-        <label>Potassium (mmol/L)</label>
-        <input type="number" id="potassium" class="test-input">
+            <label>Potassium (mmol/L)</label>
+            <input type="number" id="potassium" class="test-input">
 
-        <label>Chloride (mmol/L)</label>
-        <input type="number" id="chloride" class="test-input">
-      </div>
+            <label>Chloride (mmol/L)</label>
+            <input type="number" id="chloride" class="test-input">
+          </div>
         </div>
 
         <button id="manualAnalyzeBtn">Analyze</button>
@@ -167,10 +175,13 @@
 
         <div class="trend-chart-wrapper">
           <h2>Monthly Trend</h2>
+          <p>Go to <a href="timeline.html">Timeline</a> to view your lab trends over time.</p>
           <canvas id="trendChart" height="200"></canvas>
         </div>
       </section>
     </div>
+
+
   </section>
 
 
@@ -184,7 +195,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Split LabInsight scripts -->
+  <!-- LabInsight scripts -->
   <script src="js/storage.js"></script>
   <script src="js/rules.js"></script>
   <script src="js/ui.js"></script>
@@ -194,61 +205,76 @@
   <script src="js/analyzer-core.js"></script>
   <script src="js/main.js"></script>
   <script>
-    
+
     console.log('Legacy analyzer.js dynamic loader removed; using split scripts');
   </script>
 
 
 
-<footer class="footer">
-  <div class="footer-container">
-    <!-- Section 1: Brand + Purpose -->
-    <div class="footer-brand">
-      <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
-      <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear,
-        AI-assisted explanations.</p>
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- Section 1: Brand + Purpose -->
+      <div class="footer-brand">
+        <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
+        <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear,
+          AI-assisted explanations.</p>
+      </div>
+
+      <!-- Section 2: Quick Links -->
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Section 3: Legal / Trust -->
+      <div class="footer-legal">
+        <h4>Legal</h4>
+        <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
+          professional.</p>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
     </div>
 
-    <!-- Section 2: Quick Links -->
-    <div class="footer-links">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="analyzer.html">Analyzer</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+    <!-- Section 4: Footer Bottom Strip -->
+    <div class="footer-bottom">
+      <p>© 2026 LabInsight Pro • Built by Fatimah</p>
     </div>
+  </footer>
 
-    <!-- Section 3: Legal / Trust -->
-    <div class="footer-legal">
-      <h4>Legal</h4>
-      <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
-        professional.</p>
-      <ul>
-        <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Use</a></li>
-      </ul>
-    </div>
-  </div>
+  <script>
+    // Inline loader check to detect if analyzer.js executed
+    setTimeout(() => {
+      // Consider either legacy analyzer.js or the split global `window.LabInsight` as success
+      if (!window.__analyzerLoaded && !window.LabInsight) {
+        console.error('Inline check: neither legacy analyzer.js nor split LabInsight scripts are present.');
+      } else {
+        console.log('Inline check: analyzer scripts present');
+      }
+    }, 300);
+  </script>
 
-  <!-- Section 4: Footer Bottom Strip -->
-  <div class="footer-bottom">
-    <p>© 2026 LabInsight Pro • Built by Fatimah</p>
-  </div>
-</footer>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-right a");
+    const currentPath = window.location.pathname.split("/").pop();
 
-<script>
-  // Inline loader check to detect if analyzer.js executed
-  setTimeout(() => {
-    // Consider either legacy analyzer.js or the split global `window.LabInsight` as success
-    if (!window.__analyzerLoaded && !window.LabInsight) {
-      console.error('Inline check: neither legacy analyzer.js nor split LabInsight scripts are present.');
-    } else {
-      console.log('Inline check: analyzer scripts present');
-    }
-  }, 300);
+    navLinks.forEach(link => {
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+      }
+    });
+  });
 </script>
+
+
 
 </body>
 

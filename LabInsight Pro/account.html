@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabInsight | Account</title>
+    <link rel="stylesheet" href="lipro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="nav-bar">
+            <div class="nav-left">
+                <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo">
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pro.html">Pro</a></li>
+                    <li><a href="analyzer.html">Analyzer</a></li>
+                    <li><a href="account.html" class="active">Account</a></li>
+                    <li><button id="navLogoutBtn" class="btn btn-secondary">Logout</button></li>
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="analyzer-hero">
+        <h1>LabInsight Pro – Account</h1>
+        <p>Create your account or log in to access LabInsight Pro features.</p>
+    </section>
+
+    <!-- Account Panel -->
+    <section class="analyzer-shell">
+        <div class="panel-card">
+            <!-- Tabs -->
+            <div class="account-tabs">
+                <button class="tab-btn active" data-target="signup">Sign Up</button>
+                <button class="tab-btn" data-target="login">Login</button>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signup" class="form-box active">
+                <h2 class="eyebrow">Sign Up</h2>
+                <form>
+                    <label for="signup-name">Full name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your name" required>
+
+                    <label for="signup-email">Email address</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email address" required>
+
+                    <label for="signup-password">New Password</label>
+                    <input type="password" id="signup-password" placeholder="Enter your new password" required>
+
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+
+                    <button id="signupBtn" type="button" class="btn btn-primary">Create Account</button>
+                    <p>Already have an account? <a href="#login">Login here.</a></p>
+                </form>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login" class="form-box">
+                <h2 class="eyebrow">Login</h2>
+                <form>
+                    <label for="login-email">Email address</label>
+                    <input type="email" id="login-email" placeholder="Enter your email address" required>
+
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+
+                    <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
+                    <p>New here? Sign up <a href="#signup">here</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
+                <p>LabInsight Pro helps users understand laboratory test results through clear, AI-assisted
+                    explanations.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="analyzer.html">Analyzer</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-legal">
+                <h4>Legal</h4>
+                <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified
+                    healthcare professional.</p>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 LabInsight Pro • Built by Fatimah</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("loggedIn") === "true") {
+                const userName = localStorage.getItem("userName") || "User";
+                const panel = document.querySelector(".panel-card");
+
+
+                panel.innerHTML = `
+        <div class="form-box active">
+          <h2 class="eyebrow">Account</h2>
+          <p class="account-message">Welcome back, ${userName}! 🎉</p>
+          <div class="account-actions">
+            <a href="pro.html" class="btn btn-primary">Go to LabInsight Pro</a>
+            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+      `;
+                const logoutBtn = document.getElementById("logoutBtn");
+                logoutBtn.addEventListener("click", () => {
+                    localStorage.removeItem("loggedIn");
+                    localStorage.removeItem("userName");
+                    window.location.href = "account.html#login";
+                });
+            }
+        });
+    </script>
+
+<script type="module">
+  import { setupAuthTabs, setupSignupValidation, setupLoginValidation, setupLogout } from './js/auth.js';
+  setupAuthTabs();
+  setupSignupValidation();
+  setupLoginValidation();
+  setupLogout();
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-right a");
+    const currentPath = window.location.pathname.split("/").pop();
+
+    navLinks.forEach(link => {
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
+
+
+
+
+</body>
+
+</html>
