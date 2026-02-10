@@ -6,14 +6,14 @@
           { max: Infinity, category: "abnormal", msg: "HIGH - may be due to dehydration or other factors.",
             questions: ["Could dehydration be causing this?", "Do I need further tests for blood disorders?"] }
         ]},
-        wbc: { name: "White Blood Cells (10^9/L)", ranges: [
+        wbc: { name: "White Blood Cells (x10⁹/L)", ranges: [
           { max: 4, category: "abnormal", msg: "LOW - your immune system may be weakened.",
             questions: ["Is my immune system suppressed?", "Do I need more tests for infections?"] },
           { max: 11, category: "normal", msg: "NORMAL - white blood cell count is healthy." },
           { max: Infinity, category: "abnormal", msg: "HIGH - may indicate infection, inflammation or stress.",
             questions: ["Could this mean I have an infection?", "Do I need antibiotics or further tests?"] }
         ]},
-        platelets: { name: "Platelets (10^9/L)", ranges: [
+        platelets: { name: "Platelets (x10⁹/L)", ranges: [
           { max: 150, category: "abnormal", msg: "LOW - risk of bleeding or easy bruising. It may also reduce your ability to fight infections",
             questions: ["Am I at risk of bleeding?", "Do I need treatment for low platelets?"] },
           { max: 450, category: "normal", msg: "NORMAL - platelet count is healthy. This suggests a healthy immune response." },
