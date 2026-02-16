@@ -240,7 +240,7 @@ document.getElementById("uploadBtn")?.addEventListener("click", async function (
   }
 });
 
-// --- Auto-fill tests from OCR text ---
+// --- OCR text extractor ---
 function autoFillTests(extractedText) {
   const patterns = {
     hb: /hemo\s*globin[\s:]*([\d.,]+)/i,
