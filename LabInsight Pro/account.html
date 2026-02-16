@@ -16,7 +16,7 @@
   <div class="nav-bar">
     
     <div class="nav-left">
-      <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="logo" width="200" height="50">
+      <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="logo">
     </div>
 
     
@@ -174,7 +174,16 @@
 </script>
 
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("navLinks");
 
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("show");
+  });
+});
+</script>
 
 </body>
 
