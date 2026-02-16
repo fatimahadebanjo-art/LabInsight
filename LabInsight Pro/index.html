@@ -14,25 +14,31 @@
 
 <body>
   <header>
-    <div class="hamburger" id="hamburger">
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+  <div class="nav-bar">
+    <!-- Left side: logo -->
+    <div class="nav-left">
+      <img src="assets/images/LATEST logo sans bg.png" alt="logo" width="200" height="50">
+    </div>
 
-    <nav class="nav-bar">
-      <div class="nav-left"><img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight_Pro-logo"></div>
-      <div class="nav-right">
-        <ul>
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="pro.html">Pro</a></li>
-          <li><a href="analyzer.html">Analyzer</a></li>
-          <li><a href="timeline.html">Timeline</a></li>
-          <li><a href="account.html">Account</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+    <!-- Hamburger (only shows on mobile) -->
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- Right side: nav links -->
+    <div class="nav-right">
+      <ul id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="analyzer.html">Analyzer</a></li>
+        <li><a href="account.html" class="nav-btn">Account</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
 
   <!-- Hero -->
   <section class="hero-minimal">
@@ -275,7 +281,7 @@
     <p>© 2026 LabInsight Pro • Built by Fatimah</p>
   </div>
 </footer>
-<script src="js/analyzer-core.js"></script>
+
   <script src="js/pdf.js"></script>
 
   <script>
@@ -291,6 +297,16 @@
   });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("navLinks");
+
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("show");
+  });
+});
+</script>
 
 </body>
 

@@ -90,17 +90,6 @@ body {
 }
 
 /* Navigation */
-.nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(233, 242, 246, 0.92);
-  backdrop-filter: blur(8px);
-  padding: 0 40px;
-  height: 96px;
-  color: var(--primary-color);
-  border-bottom: 1px solid rgba(7, 37, 64, 0.08);
-}
 
 header {
   position: sticky;
@@ -109,15 +98,20 @@ header {
   background: rgba(233, 242, 246, 0.92);
   backdrop-filter: blur(8px);
 }
+/* Base nav bar */
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  background: rgba(233, 242, 246, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 0 40px;
+  height: 96px;
+  border-bottom: 1px solid rgba(7, 37, 64, 0.08);
+}
 
 .nav-left img {
   height: 54px;
-}
-
-.nav-right {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .nav-right ul {
@@ -132,66 +126,54 @@ header {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: 700;
-  font-family: var(--font-family);
-  letter-spacing: 0.2px;
 }
 
 .nav-right ul li a:hover {
-  opacity: 0.9;
   text-decoration: underline;
 }
 
-.nav-right a {
-  display: block;
-  padding: 8px 12px;
-  text-decoration: none;
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
+/* Hamburger icon */
+.hamburger {
+  display: none; 
+  flex-direction: column;
+  cursor: pointer;
 }
 
-.nav-right a.active {
-  background-color: var(--primary);
-  color: #fff;
-  font-weight: bold;
-  padding: 6px 14px;
-  border-radius: 20px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: var(--primary-color);
+  margin: 4px 0;
 }
 
-@media (max-width: 768px) { 
-  .nav-right ul { 
-    flex-direction: column; 
-    background-color: var(--primary-color); 
-    position: absolute; 
-    top: 96px; 
-    right: 0; 
-    width: 220px; 
-    display: none;  
-    padding: 12px; 
-    border-radius: 8px; }
-  .nav-right ul.show {
-    display: flex;
-  }
-  /* Hamburger icon */
+/* Mobile styles */
+@media (max-width: 768px) {
   .hamburger {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    margin-left: auto;
+    display: flex; 
   }
 
-
-  .hamburger div {
-    width: 25px;
-    height: 3px;
+  .nav-right ul {
+    flex-direction: column;
     background-color: var(--primary-color);
-    margin: 4px 0;
+    position: absolute;
+    top: 96px; 
+    right: 0;
+    width: 220px;
+    display: none; 
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .nav-right ul.show {
+    display: flex; 
+  }
+
+  .nav-right ul li a {
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
   }
 }
-
 
 /* Hero */
 .hero-minimal {
