@@ -7,16 +7,40 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("cbc-wbc").textContent = values.wbcStatus || "—";
     document.getElementById("cbc-platelets").textContent = values.plateletsStatus || "—";
     document.getElementById("cbc-note").textContent = values.note || "Awaiting analysis...";
+
+    // Update follow-up pill dynamically
+    const followUpEl = document.getElementById("followUpBtn");
+    if (followUpEl) {
+      if (
+        values.hbStatus === "Normal" &&
+        values.wbcStatus === "Normal" &&
+        values.plateletsStatus === "Normal"
+      ) {
+        followUpEl.textContent = "Routine check";
+        followUpEl.className = "mini-pill normal";
+      } else if (
+        values.hbStatus === "Borderline" ||
+        values.wbcStatus === "Borderline" ||
+        values.plateletsStatus === "Borderline"
+      ) {
+        followUpEl.textContent = "Follow up soon";
+        followUpEl.className = "mini-pill borderline";
+      } else {
+        followUpEl.textContent = "Follow up in 2–4 weeks";
+        followUpEl.className = "mini-pill abnormal";
+      }
+    }
   }
 
   // 1. Read saved results from localStorage
   const savedResults = localStorage.getItem("cbcResults");
-
   if (savedResults) {
     const results = JSON.parse(savedResults);
     updateCBCSummary(results);
+
+    // Log extended markers for debugging
+    console.log("Extended markers loaded on homepage:", results);
   } else {
-    // No results yet
     document.getElementById("cbc-note").textContent = "Awaiting analysis...";
   }
 
@@ -25,9 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Exporting PDF report...");
   });
 
-  // 3. Follow-up button
+  // 3. Follow-up button click
   document.getElementById("followUpBtn")?.addEventListener("click", () => {
-    alert("Reminder set: Follow up in 2–4 weeks.");
+    alert("Reminder set based on your latest results.");
   });
 
   // 4. Doctor Mode toggle
@@ -36,39 +60,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Search feature (context-aware)
+const searchBtn = document.getElementById("searchBtn");
+const searchInput = document.getElementById("searchQuery");
+const searchResults = document.getElementById("searchResults");
 
-  // Search feature (context-aware)
-  const searchBtn = document.getElementById("searchBtn");
-  const searchInput = document.getElementById("searchQuery");
-  const searchResults = document.getElementById("searchResults");
+if (searchBtn) {
+  searchBtn.addEventListener("click", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) {
+      searchResults.innerHTML = "<p>Please enter a search term.</p>";
+      return;
+    }
 
-  if (searchBtn) {
-    searchBtn.addEventListener("click", () => {
-      const query = searchInput.value.trim().toLowerCase();
-      if (!query) {
-        searchResults.innerHTML = "<p>Please enter a search term.</p>";
-        return;
+    let matchedRule = null;
+    for (let id in testRules) {
+      const ruleName = testRules[id].name.toLowerCase();
+      if (ruleName.includes(query) || id.toLowerCase() === query) {
+        matchedRule = testRules[id];
+        break;
       }
+    }
 
-      let matchedRule = null;
-      for (let id in testRules) {
-        const ruleName = testRules[id].name.toLowerCase();
-        if (ruleName.includes(query) || id.toLowerCase() === query) {
-          matchedRule = testRules[id];
-          break;
-        }
-      }
-
-      if (matchedRule) {
-        let ruleInfo = `<h3>${matchedRule.name}</h3><ul>`;
-        matchedRule.ranges.forEach(r => {
-          ruleInfo += `<li>${r.msg}</li>`;
-        });
-        ruleInfo += "</ul>";
-        searchResults.innerHTML = ruleInfo;
-      } else {
-        searchResults.innerHTML = `<p>No match found. Searching online for: <strong>${query}</strong>...</p>`;
-      }
-    });
-  }
-
+    if (matchedRule) {
+      let ruleInfo = `<h3>${matchedRule.name}</h3><ul>`;
+      matchedRule.ranges.forEach((r) => {
+        ruleInfo += `<li>${r.msg}</li>`;
+      });
+      ruleInfo += "</ul>";
+      searchResults.innerHTML = ruleInfo;
+    } else {
+      searchResults.innerHTML = `<p>No match found. Searching online for: <strong>${query}</strong>...</p>`;
+    }
+  });
+}
