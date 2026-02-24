@@ -161,3 +161,98 @@
   window.LabInsight.testRules = testRules;
   window.LabInsight.evaluateInputs = evaluateInputsMap;
 })();
+
+
+// This file is for any additional rules or logic related to interpreting lab results, beyond just the core evaluation function. It can include things like generating doctor questions, providing more detailed explanations, or handling specific edge cases in lab result interpretation.
+
+function calculateMultiRisk() {
+  const values = {};
+  let hasValues = false;
+
+  // Collect values from all test inputs
+  for (let id in testRules) {
+    const el = document.getElementById(id);
+    if (el && el.value !== "") {
+      values[id] = Number(el.value);
+      hasValues = true;
+    }
+  }
+
+  // If no values entered, show a message instead of risks
+  const riskPanel = document.getElementById("riskPanel");
+  if (!hasValues) {
+    if (riskPanel) {
+      riskPanel.innerHTML = `
+        <p style="color:#666; font-style:italic;">
+          Please enter at least one test value before calculating risk.
+        </p>`;
+    }
+    return;
+  }
+
+  const risks = [];
+
+  // Cardiovascular
+  if (values.cholesterol > 240 || values.ldl > 160 || values.triglycerides > 200 || values.hdl < 40) {
+    risks.push({ category: "Heart Risk", level: "High", msg: "Multiple cholesterol markers are abnormal." });
+  } else if (values.cholesterol > 200 || values.ldl > 130 || values.triglycerides > 150) {
+    risks.push({ category: "Heart Risk", level: "Moderate", msg: "Some cholesterol markers are borderline." });
+  } else if (values.cholesterol || values.ldl || values.triglycerides || values.hdl) {
+    risks.push({ category: "Heart Risk", level: "Low", msg: "Cholesterol profile is healthy." });
+  }
+
+  // Diabetes
+  if (values.sugar > 125) {
+    risks.push({ category: "Diabetes Risk", level: "High", msg: "Blood sugar is elevated." });
+  } else if (values.sugar >= 100) {
+    risks.push({ category: "Diabetes Risk", level: "Moderate", msg: "Blood sugar is borderline." });
+  } else if (values.sugar) {
+    risks.push({ category: "Diabetes Risk", level: "Low", msg: "Blood sugar is healthy." });
+  }
+
+  // Kidney
+  if (values.creatinine > 1.3 || values.bun > 20) {
+    risks.push({ category: "Kidney Risk", level: "High", msg: "Creatinine or BUN is elevated." });
+  } else if (values.creatinine || values.bun) {
+    risks.push({ category: "Kidney Risk", level: "Low", msg: "Kidney markers are healthy." });
+  }
+
+  // Liver
+  if (values.alt > 40 || values.ast > 40) {
+    risks.push({ category: "Liver Risk", level: "High", msg: "ALT or AST is elevated." });
+  } else if (values.alt || values.ast) {
+    risks.push({ category: "Liver Risk", level: "Low", msg: "Liver enzymes are healthy." });
+  }
+
+  // Electrolytes
+  if (values.sodium < 135 || values.sodium > 145 || values.potassium < 3.5 || values.potassium > 5.0 || values.chloride < 98 || values.chloride > 106) {
+    risks.push({ category: "Electrolyte Balance", level: "Moderate", msg: "Electrolytes are outside normal ranges." });
+  } else if (values.sodium || values.potassium || values.chloride) {
+    risks.push({ category: "Electrolyte Balance", level: "Low", msg: "Electrolytes are balanced." });
+  }
+
+  // Blood/Immune
+  if (values.hb < 12 || values.wbc < 4 || values.platelets < 150) {
+    risks.push({ category: "Blood/Immune Risk", level: "High", msg: "Low blood counts suggest anemia or immune suppression." });
+  } else if (values.hb || values.wbc || values.platelets) {
+    risks.push({ category: "Blood/Immune Risk", level: "Low", msg: "Blood counts are healthy." });
+  }
+
+  // Display results
+  if (riskPanel) {
+    riskPanel.innerHTML = risks.map(r => `
+      <div class="risk-badge risk-${r.level.toLowerCase()}">
+        <h3>${r.category}: ${r.level}</h3>
+        <p>${r.msg}</p>
+      </div>
+    `).join("");
+  }
+}
+
+
+function updateCBCSummary(values) {
+  document.getElementById("cbc-hb").textContent = values.hbStatus || "—";
+  document.getElementById("cbc-wbc").textContent = values.wbcStatus || "—";
+  document.getElementById("cbc-platelets").textContent = values.plateletsStatus || "—";
+  document.getElementById("cbc-note").textContent = values.note || "";
+}

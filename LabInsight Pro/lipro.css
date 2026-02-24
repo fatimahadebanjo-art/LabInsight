@@ -1019,6 +1019,37 @@ g
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
 }
 
+/* Risk badge */
+.risk-badge {
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 16px;
+  font-family: "Sora", sans-serif;
+  box-shadow: 0 8px 20px rgba(7, 37, 64, 0.12);
+}
+
+.risk-low {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.risk-moderate {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.risk-high {
+  background: #ffebee;
+  color: #c62828;
+}
+
+
+#riskBtn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
 /* Footer */
 .footer {
   background-color: var(--secondary-color);

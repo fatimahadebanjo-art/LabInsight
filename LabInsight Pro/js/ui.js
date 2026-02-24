@@ -33,3 +33,27 @@
   window.LabInsight.closeModal = closeModal;
   window.LabInsight.setupScrollHeader = setupScrollHeader;
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const riskBtn = document.getElementById("riskBtn");
+  const inputs = document.querySelectorAll(".test-input");
+
+  if (riskBtn) {
+    // Disable button initially
+    riskBtn.disabled = true;
+
+    // Watch all inputs
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        // Check if at least one input has a value
+        const hasValues = Array.from(inputs).some(i => i.value.trim() !== "");
+        riskBtn.disabled = !hasValues;
+      });
+    });
+
+    // Run risk calculation when clicked
+    riskBtn.addEventListener("click", () => {
+      calculateMultiRisk(); // function from rules.js
+    });
+  }
+});

@@ -14,30 +14,30 @@
 
 <body>
   <header>
-  <div class="nav-bar">
-    
-    <div class="nav-left">
-      <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="logo">
-    </div>
+    <div class="nav-bar">
 
-    
-    <div class="hamburger" id="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+      <div class="nav-left">
+        <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="logo">
+      </div>
 
-    
-    <div class="nav-right">
-      <ul id="navLinks">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="analyzer.html">Analyzer</a></li>
-        <li><a href="account.html" class="nav-btn">Account</a></li>
-      </ul>
+
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+
+      <div class="nav-right">
+        <ul id="navLinks">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="account.html" class="nav-btn">Account</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
 
   <!-- Hero -->
@@ -46,7 +46,8 @@
       <div class="hero-minimal-copy">
         <p class="eyebrow">LabInsight Pro</p>
         <h1>Professional clarity for every lab result</h1>
-        <p>Turn complex lab data into human-friendly insights with clinically responsible summaries designed to support real conversations.</p>
+        <p>Turn complex lab data into human-friendly insights with clinically responsible summaries designed to support
+          real conversations.</p>
 
         <div style="margin-top: 10px;" class="hero-trust">
           <div class="trust-item"><i class="fa-solid fa-shield-heart"></i> Responsible AI</div>
@@ -57,11 +58,12 @@
           <a class="btn btn-primary" href="account.html">Start Analysis</a>
           <a class="btn btn-outline" href="#about">Learn More</a>
         </div>
-        
+
       </div>
       <div class="hero-minimal-visual">
         <div class="hero-image">
-          <img src="assets/images/expert-ca40a844-5b95-488a-9a14-a52b0731c52c.jfif" alt="Clinical expert reviewing lab results">
+          <img src="assets/images/expert-ca40a844-5b95-488a-9a14-a52b0731c52c.jfif"
+            alt="Clinical expert reviewing lab results">
           <div class="hero-image-badge">
             <div>
               <p class="badge-title">Smart summaries</p>
@@ -101,7 +103,8 @@
       <div class="insight-copy">
         <p class="eyebrow">Insight at a glance</p>
         <h2>See what matters most, faster</h2>
-        <p>LabInsight Pro highlights results that deserve attention, explains what they mean, and suggests the next questions to discuss with your care team.</p>
+        <p>LabInsight Pro highlights results that deserve attention, explains what they mean, and suggests the next
+          questions to discuss with your care team.</p>
         <ul class="checklist">
           <li><i class="fa-solid fa-check"></i> Normal, borderline, or out-of-range flags</li>
           <li><i class="fa-solid fa-check"></i> Plain-language explanations for each marker</li>
@@ -121,23 +124,29 @@
             </div>
             <span class="pill">Review</span>
           </div>
+
+          <!-- Dynamic rows -->
           <div class="insight-row">
             <span>Hemoglobin</span>
-            <span class="tag normal">Normal</span>
+            <span id="cbc-hb" class="tag">—</span>
           </div>
           <div class="insight-row">
             <span>WBC</span>
-            <span class="tag borderline">Borderline</span>
+            <span id="cbc-wbc" class="tag">—</span>
           </div>
           <div class="insight-row">
             <span>Platelets</span>
-            <span class="tag normal">Normal</span>
+            <span id="cbc-platelets" class="tag">—</span>
           </div>
+
+          <!-- Dynamic note -->
           <div class="insight-note">
             <i class="fa-solid fa-circle-info"></i>
-            <p>Borderline WBC may indicate inflammation — consider retesting if symptoms persist.</p>
+            <p id="cbc-note">Awaiting analysis...</p>
           </div>
         </div>
+
+        <!-- Suggested actions -->
         <div class="insight-mini-grid">
           <div class="insight-mini">
             <p class="mini-title">Next step</p>
@@ -147,7 +156,7 @@
           <div class="insight-mini">
             <p class="mini-title">Priority</p>
             <p class="mini-text">Follow up in 2-4 weeks</p>
-            <span class="mini-pill">Suggested</span>
+            <span class="mini-pill" id="followUpBtn">Suggested</span>
           </div>
           <div class="insight-mini">
             <p class="mini-title">Share</p>
@@ -155,6 +164,7 @@
             <span class="mini-pill" id="exportPdf">PDF</span>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -165,7 +175,8 @@
       <div class="about-copy">
         <p class="eyebrow">About LabInsight Pro</p>
         <h2>We bridge lab data and human understanding</h2>
-        <p>LabInsight Pro helps patients, caregivers, and clinicians interpret lab results with clarity and calm. We highlight what matters most and support next-step conversations.</p>
+        <p>LabInsight Pro helps patients, caregivers, and clinicians interpret lab results with clarity and calm. We
+          highlight what matters most and support next-step conversations.</p>
         <div class="about-metrics">
           <div class="metric">
             <p class="metric-value">4-step flow</p>
@@ -203,7 +214,8 @@
     <div class="container process-stack">
       <div class="process-video">
         <video autoplay muted loop playsinline class="how-to-video">
-          <source src="assets/video/LabInsight Pro and 8 more pages - Personal - Microsoft​ Edge 2026-02-06 22-20-36.mp4">
+          <source
+            src="assets/video/LabInsight Pro and 8 more pages - Personal - Microsoft​ Edge 2026-02-06 22-20-36.mp4">
         </video>
       </div>
       <div class="process-copy">
@@ -249,64 +261,77 @@
   </section>
 
   <footer class="footer">
-  <div class="footer-container">
-    <div class="footer-brand">
-      <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
-      <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear,
-        AI-assisted explanations.</p>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
+        <p>LabInsight Pro is a health-tech platform that helps users understand laboratory test results through clear,
+          AI-assisted explanations.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-legal">
+        <h4>Legal</h4>
+        <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
+          professional.</p>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
     </div>
 
-    <div class="footer-links">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="analyzer.html">Analyzer</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+    <div class="footer-bottom">
+      <p>© 2026 LabInsight Pro • Built by Fatimah</p>
     </div>
+  </footer>
+  <script src="js/rules.js"></script>
 
-    <div class="footer-legal">
-      <h4>Legal</h4>
-      <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
-        professional.</p>
-      <ul>
-        <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Use</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="footer-bottom">
-    <p>© 2026 LabInsight Pro • Built by Fatimah</p>
-  </div>
-</footer>
+  <script src="js/analyzer-core.js"></script>
+
+
+  <script src="js/timeline.js"></script>
+
+
+  <script src="js/main.js"></script>
+
 
   <script src="js/pdf.js"></script>
 
+
+  <script src="js/home.js"></script>
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const navLinks = document.querySelectorAll(".nav-right a");
-    const currentPath = window.location.pathname.split("/").pop();
+    document.addEventListener("DOMContentLoaded", () => {
+      const navLinks = document.querySelectorAll(".nav-right a");
+      const currentPath = window.location.pathname.split("/").pop();
 
-    navLinks.forEach(link => {
-      if (link.getAttribute("href") === currentPath) {
-        link.classList.add("active");
-      }
+      navLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
+        }
+      });
     });
-  });
-</script>
+  </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("navLinks");
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
 
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
-});
-</script>
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+    });
+  </script>
 
 </body>
 

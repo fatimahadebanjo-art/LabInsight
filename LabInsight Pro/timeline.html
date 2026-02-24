@@ -81,6 +81,10 @@
         <canvas id="trendChart" height="220"></canvas>
       </div>
     </div>
+
+    <div id="riskPanel"></div>
+<button onclick="calculateMultiRisk()" class="btn btn-primary">Calculate Risk</button>
+
   </section>
 
   <!-- Footer -->
@@ -117,6 +121,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/timeline.js"></script>
+  <script src="js/rules.js"></script>
 
   <script>
 document.addEventListener("DOMContentLoaded", () => {

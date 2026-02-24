@@ -60,3 +60,63 @@ const navLinks = document.getElementById("navLinks");
 hamburger.addEventListener("click", () => {
   navLinks.classList.toggle("show");
 });
+
+
+
+
+function runAnalysis() {
+  // 1. Collect values from inputs
+  const hb = Number(document.getElementById("hb")?.value || 0);
+  const wbc = Number(document.getElementById("wbc")?.value || 0);
+  const platelets = Number(document.getElementById("platelets")?.value || 0);
+
+  // 2. Interpret values using testRules
+  const hbStatus = interpretValue("hb", hb);
+  const wbcStatus = interpretValue("wbc", wbc);
+  const plateletsStatus = interpretValue("platelets", platelets);
+
+  // 3. Generate note
+  let note = "";
+  if (wbcStatus === "Borderline") {
+    note = "Borderline WBC may indicate inflammation — consider retesting if symptoms persist.";
+  }
+
+  // 4. Publish results globally
+  window.analyzerResults = {
+    hbStatus,
+    wbcStatus,
+    plateletsStatus,
+    note
+  };
+
+  // 5. Save results to localStorage so homepage can read them
+  localStorage.setItem("cbcResults", JSON.stringify(window.analyzerResults));
+
+  // 6. Update analyzer page UI
+  updateAnalyzerUI(window.analyzerResults);
+}
+
+// Helper: interpret value using testRules
+function interpretValue(testId, value) {
+  const rule = testRules[testId];
+  if (!rule) return "—";
+
+  for (let r of rule.ranges) {
+    if (value <= r.max) {
+      if (r.msg.toLowerCase().includes("normal")) return "Normal";
+      if (r.msg.toLowerCase().includes("borderline")) return "Borderline";
+      if (r.msg.toLowerCase().includes("low")) return "Low";
+      if (r.msg.toLowerCase().includes("high")) return "High";
+      return r.msg;
+    }
+  }
+  return "—";
+}
+
+// Update analyzer page UI
+function updateAnalyzerUI(results) {
+  document.getElementById("resultHb").textContent = results.hbStatus;
+  document.getElementById("resultWbc").textContent = results.wbcStatus;
+  document.getElementById("resultPlatelets").textContent = results.plateletsStatus;
+  document.getElementById("resultNote").textContent = results.note;
+}
