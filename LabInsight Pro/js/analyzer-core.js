@@ -66,11 +66,13 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    const loggedIn = localStorage.getItem("loggedIn");
-    if (loggedIn !== "true") {
-      alert("Please log in to access the analyzer.");
-      window.location.href = "account.html?show=login";
-      return;
+    if (window.location.pathname.includes('analyzer.html')) {
+      const loggedIn = localStorage.getItem("loggedIn");
+      if (loggedIn !== "true") {
+        alert("Please log in to access the analyzer.");
+        window.location.href = "account.html?show=login";
+        return;
+      }
     }
 
     // Username 

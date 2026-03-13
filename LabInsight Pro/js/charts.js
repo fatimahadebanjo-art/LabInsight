@@ -33,7 +33,19 @@
 
   function renderMonthlyChart(){
     const stored = window.LabInsight.getStored();
-    if (!stored || stored.length === 0) { alert('No saved results yet.'); return; }
+    if (!stored || stored.length === 0) { 
+      const ctx = document.getElementById('trendChart'); 
+      if (ctx) {
+        const parent = ctx.parentElement;
+        ctx.style.display = "none";
+        const msg = document.createElement("p");
+        msg.textContent = "No saved results yet. Run analyses to start tracking trends.";
+        msg.style.textAlign = "center";
+        msg.style.padding = "20px";
+        parent.appendChild(msg);
+      }
+      return; 
+    }
     const monthly = {};
     stored.forEach(entry => {
       const date = entry.date || (entry.timestamp && entry.timestamp.split('T')[0]);
@@ -41,7 +53,19 @@
       if (!monthly[month]) monthly[month] = { sums: {}, counts:{} };
       TREND_SERIES.forEach(s => { const v = entry[s.key]; if (v !== undefined && v !== "") { monthly[month].sums[s.key] = (monthly[month].sums[s.key]||0)+Number(v); monthly[month].counts[s.key] = (monthly[month].counts[s.key]||0)+1; } });
     });
-    const months = Object.keys(monthly).sort(); if (months.length===0){ alert('No saved results yet.'); return; }
+    const months = Object.keys(monthly).sort(); if (months.length===0){ 
+      const ctx = document.getElementById('trendChart'); 
+      if (ctx) {
+        const parent = ctx.parentElement;
+        ctx.style.display = "none";
+        const msg = document.createElement("p");
+        msg.textContent = "No saved results yet. Run analyses to start tracking trends.";
+        msg.style.textAlign = "center";
+        msg.style.padding = "20px";
+        parent.appendChild(msg);
+      }
+      return; 
+    }
     const labels = months.map(m => new Date(m+'-01').toLocaleDateString());
     const datasets = TREND_SERIES.map(s => ({ label: s.label, testKey: s.key, data: months.map(m => { const ms = monthly[m]; if (!ms || !ms.counts[s.key]) return null; return Number((ms.sums[s.key]/ms.counts[s.key]).toFixed(2)); }), backgroundColor: s.color }));
     const ctx = document.getElementById('trendChart'); if(!ctx) return; if (trendChartInstance) trendChartInstance.destroy();

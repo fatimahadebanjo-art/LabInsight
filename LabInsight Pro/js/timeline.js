@@ -4,7 +4,16 @@ let trendChartInstance = null;
 function renderTrendChart() {
   const stored = JSON.parse(localStorage.getItem("labResults") || "[]");
   if (stored.length === 0) {
-    alert("No saved results yet.");
+    const ctx = document.getElementById("trendChart");
+    if (ctx) {
+      const parent = ctx.parentElement;
+      ctx.style.display = "none";
+      const msg = document.createElement("p");
+      msg.textContent = "No saved results yet. Run analyses in the Analyzer to start tracking trends.";
+      msg.style.textAlign = "center";
+      msg.style.padding = "20px";
+      parent.appendChild(msg);
+    }
     return;
   }
 
