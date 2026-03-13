@@ -1,7 +1,6 @@
 (function () {
   window.LabInsight = window.LabInsight || {};
 
-  // Collect all inputs into a map
   function gatherInputs() {
     const inputs = document.querySelectorAll(".test-input");
     const map = {};
@@ -9,35 +8,9 @@
     return map;
   }
 
-  // Extended analysis: CBC + metabolic + liver + lipids + electrolytes
-  function runExtendedAnalysis(values) {
-    const results = {
-      hbStatus: interpretValue("hb", Number(values.hb) || 0),
-      wbcStatus: interpretValue("wbc", Number(values.wbc) || 0),
-      plateletsStatus: interpretValue("platelets", Number(values.platelets) || 0),
-      sugarStatus: interpretValue("sugar", Number(values.sugar) || 0),
-      creatinineStatus: interpretValue("creatinine", Number(values.creatinine) || 0),
-      bunStatus: interpretValue("bun", Number(values.bun) || 0),
-      altStatus: interpretValue("alt", Number(values.alt) || 0),
-      astStatus: interpretValue("ast", Number(values.ast) || 0),
-      cholesterolStatus: interpretValue("cholesterol", Number(values.cholesterol) || 0),
-      triglyceridesStatus: interpretValue("triglycerides", Number(values.triglycerides) || 0),
-      hdlStatus: interpretValue("hdl", Number(values.hdl) || 0),
-      ldlStatus: interpretValue("ldl", Number(values.ldl) || 0),
-      sodiumStatus: interpretValue("sodium", Number(values.sodium) || 0),
-      potassiumStatus: interpretValue("potassium", Number(values.potassium) || 0),
-      chlorideStatus: interpretValue("chloride", Number(values.chloride) || 0),
-      note: "",
-    };
-
-    if (results.wbcStatus === "Borderline") { results.note = "Borderline WBC may indicate inflammation — consider retesting if symptoms persist."; } else if ( results.hbStatus === "Normal" && results.wbcStatus === "Normal" && results.plateletsStatus === "Normal" ) { results.note = "CBC values are within normal range."; } else { results.note = "Some values are outside the normal range — follow up recommended."; } 
-    return results; }
-
-  // Interpret values using testRules
   function interpretValue(testId, value) {
     const rule = testRules[testId];
     if (!rule) return "—";
-
     for (let r of rule.ranges) {
       if (value <= r.max) {
         if (r.msg.toLowerCase().includes("normal")) return "Normal";
@@ -50,7 +23,41 @@
     return "—";
   }
 
-  // Update analyzer page UI (CBC only for now)
+  function runExtendedAnalysis(values) {
+    const results = {
+      hbStatus: interpretValue("hb", Number(values.hb) || 0),
+      wbcStatus: interpretValue("wbc", Number(values.wbc) || 0),
+      plateletsStatus: interpretValue("platelets", Number(values.platelets) || 0),
+      note: "",
+      highlights: []
+    };
+
+    const issues = [];
+    for (const [marker, status] of Object.entries(results)) {
+      if (marker.endsWith("Status")) {
+        const label = marker.replace("Status", "");
+        if (status === "Borderline") {
+          issues.push(`${label} borderline`);
+          results.highlights.push(`${label}: borderline`);
+        } else if (status === "Low") {
+          issues.push(`${label} low`);
+          results.highlights.push(`${label}: low`);
+        } else if (status === "High") {
+          issues.push(`${label} high`);
+          results.highlights.push(`${label}: high`);
+        }
+      }
+    }
+
+    if (issues.length === 0) {
+      results.note = "All values are within normal range.";
+    } else {
+      results.note = "Attention: " + issues.join(", ") + ".";
+    }
+
+    return results;
+  }
+
   function updateAnalyzerUI(results) {
     document.getElementById("resultHb").textContent = results.hbStatus;
     document.getElementById("resultWbc").textContent = results.wbcStatus;
@@ -58,14 +65,28 @@
     document.getElementById("resultNote").textContent = results.note;
   }
 
-  // Bind all UI buttons
   document.addEventListener("DOMContentLoaded", () => {
+    const loggedIn = localStorage.getItem("loggedIn");
+    if (loggedIn !== "true") {
+      alert("Please log in to access the analyzer.");
+      window.location.href = "account.html?show=login";
+      return;
+    }
+
+    // Username 
+    const userName = localStorage.getItem("userName");
+    if (userName) {
+      const welcomeEl = document.getElementById("welcomeUser");
+      if (welcomeEl) { welcomeEl.textContent = `Welcome, ${userName}`; }
+    }
+
     const manualBtn = document.getElementById("manualAnalyzeBtn");
     if (manualBtn) {
       manualBtn.addEventListener("click", function () {
         const values = gatherInputs();
 
-        // 1. Run LabInsight evaluation
+
+        // LabInsight evaluation
         const res = window.LabInsight.evaluateInputs(values);
         if (res) {
           const output = document.getElementById("output");
@@ -73,51 +94,22 @@
           output.innerHTML =
             `<div class="chart-wrapper"><canvas id="resultChart" height="180"></canvas></div>` +
             (res.message || "");
-          window.lastCounts = {
-            normal: res.normalCount,
-            borderline: res.borderlineCount,
-            abnormal: res.abnormalCount,
-          };
-          window.lastDoctorQuestions = res.doctorQuestions.slice();
-          window.lastSummaryHtml = res.message;
           if (typeof window.LabInsight.renderResultChart === "function") {
-            window.LabInsight.renderResultChart(
-              res.normalCount,
-              res.borderlineCount,
-              res.abnormalCount
-            );
+            window.LabInsight.renderResultChart(res.normalCount, res.borderlineCount, res.abnormalCount);
           }
         }
 
-        // 2. Run extended analysis and save results
+        // Extended analysis + save
         const extendedResults = runExtendedAnalysis(values);
+        extendedResults.timestamp = new Date().toISOString();
         localStorage.setItem("cbcResults", JSON.stringify(extendedResults));
-        console.log("Saved extended results:", extendedResults);
-
-        // 3. Update analyzer page UI (CBC summary)
         updateAnalyzerUI(extendedResults);
       });
     }
 
-    // Demo Fill button
+    // Demo Fill
     document.getElementById("demoFillBtn")?.addEventListener("click", function () {
-      const sample = {
-        hb: 11.0,
-        wbc: 12.5,
-        platelets: 180,
-        sugar: 110,
-        creatinine: 1.5,
-        bun: 18,
-        alt: 55,
-        ast: 30,
-        cholesterol: 220,
-        triglycerides: 180,
-        hdl: 35,
-        ldl: 160,
-        sodium: 132,
-        potassium: 4.5,
-        chloride: 105,
-      };
+      const sample = { hb: 11.0, wbc: 12.5, platelets: 180 };
       Object.keys(sample).forEach((k) => {
         const el = document.getElementById(k);
         if (el) el.value = sample[k];
@@ -126,30 +118,12 @@
       if (statusEl) statusEl.textContent = "Demo values populated.";
     });
 
-    // Save Result button
+    // Save Result
     document.getElementById("saveResultBtn")?.addEventListener("click", () => {
       const vals = gatherInputs();
       window.LabInsight.saveResult(vals);
       const statusEl = document.getElementById("questionStatus");
       if (statusEl) statusEl.textContent = "Result saved.";
-    });
-
-    // Add Question button
-    document.getElementById("addQuestionBtn")?.addEventListener("click", function () {
-      const q = document.getElementById("questionInput")?.value?.trim();
-      if (q) {
-        window.customQuestions = window.customQuestions || [];
-        window.customQuestions.push(q);
-        window.LabInsight.customQuestions = window.customQuestions;
-        const statusEl = document.getElementById("questionStatus");
-        if (statusEl) statusEl.textContent = "Question added.";
-        document.getElementById("questionInput").value = "";
-      }
-    });
-
-    // Export PDF button
-    document.getElementById("exportPdfBtn")?.addEventListener("click", function () {
-      if (typeof window.LabInsight.exportPdf === "function") window.LabInsight.exportPdf();
     });
   });
 

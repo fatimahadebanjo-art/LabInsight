@@ -1,28 +1,38 @@
 // home.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Function to update homepage CBC Summary
   function updateCBCSummary(values) {
     document.getElementById("cbc-hb").textContent = values.hbStatus || "—";
     document.getElementById("cbc-wbc").textContent = values.wbcStatus || "—";
     document.getElementById("cbc-platelets").textContent = values.plateletsStatus || "—";
-    document.getElementById("cbc-note").textContent = values.note || "Awaiting analysis...";
+    document.getElementById("cbc-note").textContent = values.note || "";
 
-    // Update follow-up pill dynamically
+    // Highlights
+    const highlightsEl = document.getElementById("cbc-highlights");
+    if (highlightsEl) {
+      highlightsEl.innerHTML = "";
+      if (values.highlights && values.highlights.length > 0) {
+        const ul = document.createElement("ul");
+        values.highlights.forEach((h) => {
+          const li = document.createElement("li");
+          li.textContent = h;
+          if (h.includes("normal")) li.classList.add("highlight-normal");
+          else if (h.includes("borderline")) li.classList.add("highlight-borderline");
+          else if (h.includes("low") || h.includes("high")) li.classList.add("highlight-abnormal");
+          ul.appendChild(li);
+        });
+        highlightsEl.appendChild(ul);
+      } else {
+        highlightsEl.textContent = "No abnormal markers detected.";
+      }
+    }
+
+    // Follow-up pill
     const followUpEl = document.getElementById("followUpBtn");
     if (followUpEl) {
-      if (
-        values.hbStatus === "Normal" &&
-        values.wbcStatus === "Normal" &&
-        values.plateletsStatus === "Normal"
-      ) {
+      if (values.hbStatus === "Normal" && values.wbcStatus === "Normal" && values.plateletsStatus === "Normal") {
         followUpEl.textContent = "Routine check";
         followUpEl.className = "mini-pill normal";
-      } else if (
-        values.hbStatus === "Borderline" ||
-        values.wbcStatus === "Borderline" ||
-        values.plateletsStatus === "Borderline"
-      ) {
+      } else if (values.hbStatus === "Borderline" || values.wbcStatus === "Borderline" || values.plateletsStatus === "Borderline") {
         followUpEl.textContent = "Follow up soon";
         followUpEl.className = "mini-pill borderline";
       } else {
@@ -30,67 +40,28 @@ document.addEventListener("DOMContentLoaded", () => {
         followUpEl.className = "mini-pill abnormal";
       }
     }
+
+    // Timestamp
+    const subEl = document.querySelector(".insight-sub");
+    if (subEl && values.timestamp) {
+      const date = new Date(values.timestamp);
+      const formatted = date.toLocaleString(undefined, {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      subEl.textContent = `Last updated: ${formatted}`;
+    }
   }
 
-  // 1. Read saved results from localStorage
   const savedResults = localStorage.getItem("cbcResults");
   if (savedResults) {
     const results = JSON.parse(savedResults);
     updateCBCSummary(results);
-
-    // Log extended markers for debugging
-    console.log("Extended markers loaded on homepage:", results);
   } else {
     document.getElementById("cbc-note").textContent = "Awaiting analysis...";
   }
-
-  // 2. Export PDF button
-  document.getElementById("exportPdf")?.addEventListener("click", () => {
-    alert("Exporting PDF report...");
-  });
-
-  // 3. Follow-up button click
-  document.getElementById("followUpBtn")?.addEventListener("click", () => {
-    alert("Reminder set based on your latest results.");
-  });
-
-  // 4. Doctor Mode toggle
-  document.getElementById("doctorModeToggle")?.addEventListener("change", function () {
-    document.body.classList.toggle("doctor-mode", this.checked);
-  });
 });
-
-// Search feature (context-aware)
-const searchBtn = document.getElementById("searchBtn");
-const searchInput = document.getElementById("searchQuery");
-const searchResults = document.getElementById("searchResults");
-
-if (searchBtn) {
-  searchBtn.addEventListener("click", () => {
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) {
-      searchResults.innerHTML = "<p>Please enter a search term.</p>";
-      return;
-    }
-
-    let matchedRule = null;
-    for (let id in testRules) {
-      const ruleName = testRules[id].name.toLowerCase();
-      if (ruleName.includes(query) || id.toLowerCase() === query) {
-        matchedRule = testRules[id];
-        break;
-      }
-    }
-
-    if (matchedRule) {
-      let ruleInfo = `<h3>${matchedRule.name}</h3><ul>`;
-      matchedRule.ranges.forEach((r) => {
-        ruleInfo += `<li>${r.msg}</li>`;
-      });
-      ruleInfo += "</ul>";
-      searchResults.innerHTML = ruleInfo;
-    } else {
-      searchResults.innerHTML = `<p>No match found. Searching online for: <strong>${query}</strong>...</p>`;
-    }
-  });
-}

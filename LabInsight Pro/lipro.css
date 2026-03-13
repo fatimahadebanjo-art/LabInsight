@@ -489,6 +489,51 @@ header {
 
 }
 
+/* Highlights section */
+.insight-highlights {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f9fbfc;
+  box-shadow: inset 0 0 0 1px #edf2f6;
+}
+
+.insight-highlights h4 {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.insight-highlights ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.insight-highlights li {
+  margin: 4px 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Colors for highlights */
+.highlight-normal {
+  background: rgba(5, 122, 85, 0.12);
+  color: #057a55;
+}
+
+.highlight-borderline {
+  background: rgba(255, 183, 3, 0.2);
+  color: #9a6a00;
+}
+
+.highlight-abnormal {
+  background: rgba(198, 40, 40, 0.15);
+  color: #c62828;
+}
 
 
 /* About */
