@@ -111,7 +111,7 @@
 
     // Demo Fill
     document.getElementById("demoFillBtn")?.addEventListener("click", function () {
-      const sample = { hb: 11.0, wbc: 12.5, platelets: 180 };
+      const sample = { hb: 11.0, wbc: 12.5, platelets: 180, sugar: 90, creatinine: 1.0, bun: 15, alt: 25, ast: 30, cholesterol: 190, triglycerides: 150, hdl: 50, ldl: 120, sodium: 140, potassium: 4.0, chloride: 100 };
       Object.keys(sample).forEach((k) => {
         const el = document.getElementById(k);
         if (el) el.value = sample[k];

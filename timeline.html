@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="lipro.css">
   <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700&family=Sora:wght@400;700&display=swap"
     rel="stylesheet">
-
+  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
 </head>
 
 <body>
@@ -20,30 +20,30 @@
 
   <!-- Header -->
   <header>
-  <div class="nav-bar">
-    
-    <div class="nav-left">
-      <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="logo">
-    </div>
+    <div class="nav-bar">
 
-    
-    <div class="hamburger" id="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+      <div class="nav-left">
+        <img src="assets/images/LabInsight logo.png" alt="logo">
+      </div>
 
-    
-    <div class="nav-right">
-      <ul id="navLinks">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="analyzer.html">Analyzer</a></li>
-        <li><a href="account.html" class="nav-btn">Account</a></li>
-      </ul>
+
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+
+      <div class="nav-right">
+        <ul id="navLinks">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="account.html" class="nav-btn">Account</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
 
   <!-- Timeline Hero -->
@@ -83,7 +83,7 @@
     </div>
 
     <div id="riskPanel"></div>
-<button onclick="calculateMultiRisk()" class="btn btn-primary">Calculate Risk</button>
+    <button onclick="calculateMultiRisk()" class="btn btn-primary">Calculate Risk</button>
 
   </section>
 
@@ -91,9 +91,13 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo">
-        <p>LabInsight Pro helps users understand laboratory test results through clear, AI-assisted explanations.</p>
+        <img src="assets/images/LabInsight logo.png"
+          alt="LabInsight logo showing a blue heart shape with a medical cross inside the left half and the text LABINSIGHT below in modern font. The design suggests healthcare, trust, and professionalism in a clean and welcoming style."
+          class="footer-logo">
+        <p>LabInsight is a health-tech platform that helps users understand laboratory test results through clear,
+          AI-assisted explanations.</p>
       </div>
+
       <div class="footer-links">
         <h4>Quick Links</h4>
         <ul>
@@ -103,9 +107,10 @@
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
+
       <div class="footer-legal">
         <h4>Legal</h4>
-        <p class="disclaimer">LabInsight Pro does not provide medical diagnosis. Always consult a qualified healthcare
+        <p class="disclaimer">LabInsight does not provide medical diagnosis. Always consult a qualified healthcare
           professional.</p>
         <ul>
           <li><a href="privacy.html">Privacy Policy</a></li>
@@ -113,8 +118,9 @@
         </ul>
       </div>
     </div>
+
     <div class="footer-bottom">
-      <p>© 2026 LabInsight Pro • Built by Fatimah</p>
+      <p>© 2026 LabInsight</p>
     </div>
   </footer>
 
@@ -124,15 +130,15 @@
   <script src="js/rules.js"></script>
 
   <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("navLinks");
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
 
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
-});
-</script>
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+    });
+  </script>
 </body>
 
 

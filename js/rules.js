@@ -163,7 +163,7 @@
 })();
 
 
-// This file is for any additional rules or logic related to interpreting lab results, beyond just the core evaluation function. It can include things like generating doctor questions, providing more detailed explanations, or handling specific edge cases in lab result interpretation.
+// Additional rules or logic related to interpreting lab results, beyond just the core evaluation function. It can include things like generating doctor questions, providing more detailed explanations, or handling specific edge cases in lab result interpretation.
 
 function calculateMultiRisk() {
   const values = {};
