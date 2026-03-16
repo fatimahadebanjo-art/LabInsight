@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LabInsight Pro</title>
+  <title>LabInsight</title>
   <link rel="stylesheet" href="lipro.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
@@ -21,6 +21,27 @@
     }
   </script>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const welcomeText = document.getElementById("welcomeUser");
+      const userName = localStorage.getItem("userName") || "User";
+      if (welcomeText) {
+        welcomeText.textContent = `Welcome, ${userName}`;
+      }
+
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          localStorage.removeItem("loggedIn");
+          localStorage.removeItem("userName");
+          localStorage.removeItem("userEmail");
+          localStorage.removeItem("labinsightCurrentUser");
+          window.location.href = "account.html#login";
+        });
+      }
+    });
+  </script>
 
   <header>
 
@@ -43,8 +64,9 @@
         <ul id="navLinks">
           <li><a href="index.html" class="active">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="analyzer.html">Analyzer</a></li>
-          <li><a href="account.html" class="nav-btn">Account</a></li>
+          <li><a href="account.html">Account</a></li>
+          <li><a href="analyzer.html" class="btn btn-primary">Analyzer</a></li>
+          <li><button id="logoutBtn" class="btn btn-secondary">Logout</button></li>
         </ul>
       </div>
     </div>

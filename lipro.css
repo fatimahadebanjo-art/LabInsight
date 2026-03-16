@@ -89,6 +89,10 @@ body {
   text-decoration: none;
 }
 
+.nav-right a.btn-primary {
+  color: #ffffff !important; 
+}
+
 /* Navigation */
 
 header {
@@ -110,28 +114,54 @@ header {
   border-bottom: 1px solid rgba(7, 37, 64, 0.08);
 }
 
+
 .nav-left img {
   height: 54px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-right ul {
   list-style: none;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 28px;
   margin: 0;
   padding: 0;
+}
+
+.nav-right ul li {
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav-right ul li a {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-right ul li a:hover {
   text-decoration: underline;
 }
 
+.nav-right ul li a.btn {
+  vertical-align: middle;
+  margin-left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
 /* Hamburger icon */
 .hamburger {
   display: none; 
@@ -1473,11 +1503,10 @@ g
 .account-section {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  padding: 100px 40px;
-  background: #f7fffe;
-  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+  padding: 80px 24px;
+  background: linear-gradient(120deg, #e7f5f0 0%, #f6fbf8 55%, #eaf3fb 100%);
 }
 
 .account-tabs {
@@ -1510,21 +1539,38 @@ g
 
 
 .form-box {
-  background: #fff;
-  border-radius: 12px;
-  padding: 30px;
-  width: 320px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 36px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 44px rgba(7, 37, 64, 0.16);
   font-family: "Chivo", sans-serif;
-  margin: 0 auto;
-  display: none !important;
 }
 
 .form-box.active {
   display: block !important;
 
 }
+/* Google */
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d7e6ef;
+  background: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 
+.google-btn:hover {
+  border-color: var(--accent);
+}
 /* Force inactive forms to be hidden */
 .form-box:not(.active) {
   display: none !important;
@@ -1700,6 +1746,7 @@ g
   object-fit: cover;
   display: block;
   margin-bottom: 5px;
+
 }
 
 .aim {

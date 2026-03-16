@@ -2,102 +2,104 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LabInsight | Account</title>
-    <link rel="stylesheet" href="lipro.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LabInsight | Account</title>
+  <link rel="stylesheet" href="lipro.css">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-  <div class="nav-bar">
-    
-    <div class="nav-left">
-      <img src="assets/images/LabInsight logo.png" alt="logo">
+  <!-- Header -->
+  <header>
+    <div class="nav-bar">
+
+      <div class="nav-left">
+        <img src="assets/images/LabInsight logo.png" alt="logo">
+      </div>
+
+
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+
+      <div class="nav-right">
+        <ul id="navLinks">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
     </div>
+  </header>
 
-    
-    <div class="hamburger" id="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
+
+  <!-- Hero -->
+  <section class="analyzer-hero">
+    <h1>Create your LabInsight account</h1>
+    <p>Analyze CBC results and understand lab reports instantly.</p>
+  </section>
+
+  <!-- Account Panel -->
+  <section class="analyzer-shell">
+
+    <div class="panel-card">
+
+      <!-- Sign Up Form -->
+      <div id="signup" class="form-box active">
+        <h2 class="eyebrow">Sign Up</h2>
+        <button class="google-btn" type="button">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+        Continue with Google
+      </button>
+      <p id="googleStatus" style="margin-top: 8px; color: #333; font-size: 0.9rem;"></p>
+      <div class="auth-divider">or</div>
+        <form>
+          <label for="signup-name">Full name</label>
+          <input type="text" id="signup-name" placeholder="Enter your name" required>
+
+          <label for="signup-email">Email address</label>
+          <input type="email" id="signup-email" placeholder="Enter your email address" required>
+
+          <label for="signup-password">New Password</label>
+          <input type="password" id="signup-password" placeholder="Enter your new password" required>
+
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+
+          <button id="signupBtn" type="submit" class="btn btn-primary">Create Account</button>
+          <p>Already have an account? <a href="#" onclick="switchTab('login'); return false;">Login here</a>
+        </form>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login" class="form-box">
+        <h2 class="eyebrow">Login</h2>
+        <form>
+          <label for="login-email">Email address</label>
+          <input type="email" id="login-email" placeholder="Enter your email address" required>
+
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required>
+
+          <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
+          <p>New here? Sign up <a href="#" onclick="switchTab('signup'); return false;">here</a></p>
+        </form>
+      </div>
     </div>
+  </section>
 
-    
-    <div class="nav-right">
-      <ul id="navLinks">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="analyzer.html">Analyzer</a></li>
-        <li><a href="account.html" class="nav-btn">Account</a></li>
-      </ul>
-    </div>
-  </div>
-</header>
-
-
-    <!-- Hero -->
-    <section class="analyzer-hero">
-        <h1>LabInsight Pro – Account</h1>
-        <p>Create your account or log in to access LabInsight Pro features.</p>
-    </section>
-
-    <!-- Account Panel -->
-    <section class="analyzer-shell">
-        <div class="panel-card">
-            <!-- Tabs -->
-            <div class="account-tabs">
-                <button class="tab-btn active" data-target="signup">Sign Up</button>
-                <button class="tab-btn" data-target="login">Login</button>
-            </div>
-
-            <!-- Sign Up Form -->
-            <div id="signup" class="form-box active">
-                <h2 class="eyebrow">Sign Up</h2>
-                <form>
-                    <label for="signup-name">Full name</label>
-                    <input type="text" id="signup-name" placeholder="Enter your name" required>
-
-                    <label for="signup-email">Email address</label>
-                    <input type="email" id="signup-email" placeholder="Enter your email address" required>
-
-                    <label for="signup-password">New Password</label>
-                    <input type="password" id="signup-password" placeholder="Enter your new password" required>
-
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
-
-                    <button id="signupBtn" type="button" class="btn btn-primary">Create Account</button>
-                    <p>Already have an account? <a href="#login">Login here.</a></p>
-                </form>
-            </div>
-
-            <!-- Login Form -->
-            <div id="login" class="form-box">
-                <h2 class="eyebrow">Login</h2>
-                <form>
-                    <label for="login-email">Email address</label>
-                    <input type="email" id="login-email" placeholder="Enter your email address" required>
-
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" placeholder="Enter your password" required>
-
-                    <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
-                    <p>New here? Sign up <a href="#signup">here</a></p>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
+  <!-- Footer -->
+  <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <img src="assets/images/LabInsight logo.png" alt="LabInsight logo showing a blue heart shape with a medical cross inside the left half and the text LABINSIGHT below in modern font. The design suggests healthcare, trust, and professionalism in a clean and welcoming style." class="footer-logo">
+        <img src="assets/images/LabInsight logo.png"
+          alt="LabInsight logo showing a blue heart shape with a medical cross inside the left half and the text LABINSIGHT below in modern font. The design suggests healthcare, trust, and professionalism in a clean and welcoming style."
+          class="footer-logo">
         <p>LabInsight is a health-tech platform that helps users understand laboratory test results through clear,
           AI-assisted explanations.</p>
       </div>
@@ -127,66 +129,72 @@
       <p>© 2026 LabInsight</p>
     </div>
   </footer>
-    <!-- Scripts -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (localStorage.getItem("loggedIn") === "true") {
-                const userName = localStorage.getItem("userName") || "User";
-                const panel = document.querySelector(".panel-card");
+  <!-- Scripts -->
+  <script>
+    if (localStorage.getItem("loggedIn") === "true") {
+      window.location.href = "analyzer.html";
+    }
+  </script>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+    // ADD THIS LINE FOR AUTHENTICATION
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
 
-                panel.innerHTML = `
-        <div class="form-box active">
-          <h2 class="eyebrow">Account</h2>
-          <p class="account-message">Welcome back, ${userName}! 🎉</p>
-          <div class="account-actions">
-            <a href="pro.html" class="btn btn-primary">Go to LabInsight Pro</a>
-            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
-          </div>
-        </div>
-      `;
-                const logoutBtn = document.getElementById("logoutBtn");
-                logoutBtn.addEventListener("click", () => {
-                    localStorage.removeItem("loggedIn");
-                    localStorage.removeItem("userName");
-                    window.location.href = "account.html#login";
-                });
-            }
-        });
-    </script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyANwe8WuJlm52572eLokU35_M-1ECmLQKE",
+      authDomain: "labinsight01.firebaseapp.com",
+      projectId: "labinsight01",
+      storageBucket: "labinsight01.firebasestorage.app",
+      messagingSenderId: "342333331447",
+      appId: "1:342333331447:web:bba0aabef149662c4400f2",
+      measurementId: "G-ECF5BJ9L20"
+    };
 
-<script type="module">
-  import { setupAuthTabs, setupSignupValidation, setupLoginValidation, setupLogout } from './js/auth.js';
-  setupAuthTabs();
-  setupSignupValidation();
-  setupLoginValidation();
-  setupLogout();
-</script>
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    // Initialize Firebase Authentication
+    const auth = getAuth(app); // Get the auth instance here
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const navLinks = document.querySelectorAll(".nav-right a");
-    const currentPath = window.location.pathname.split("/").pop();
+    // Existing script for auth.js imports
+    import { setupAuthTabs, setupSignupValidation, setupLoginValidation, setupGoogleLogin, monitorAuthState } from './js/auth.js';
+    setupAuthTabs();
+    setupSignupValidation();
+    setupLoginValidation();
+    setupGoogleLogin(app); // Pass the 'app' instance
+    monitorAuthState(app); // Pass the 'app' instance to monitor auth state
+  </script>
 
-    navLinks.forEach(link => {
-      if (link.getAttribute("href") === currentPath) {
-        link.classList.add("active");
-      }
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const navLinks = document.querySelectorAll(".nav-right a");
+      const currentPath = window.location.pathname.split("/").pop();
+
+      navLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
+        }
+      });
     });
-  });
-</script>
+  </script>
 
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("navLinks");
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
 
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
-});
-</script>
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+    });
+  </script>
 
 </body>
 
