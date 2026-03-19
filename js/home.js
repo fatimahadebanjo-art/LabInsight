@@ -1,23 +1,35 @@
 // home.js
 document.addEventListener("DOMContentLoaded", () => {
-  function updateCBCSummary(values) {
-    document.getElementById("cbc-hb").textContent = values.hbStatus || "—";
-    document.getElementById("cbc-wbc").textContent = values.wbcStatus || "—";
-    document.getElementById("cbc-platelets").textContent = values.plateletsStatus || "—";
-    document.getElementById("cbc-note").textContent = values.note || "";
+  const storageKey = "analyzedResults";
+
+  function updateCBCSummary(result) {
+    if (!result) return;
+
+    // Update CBC values
+    document.getElementById("cbc-hb").textContent = result.hbStatus || "—";
+    document.getElementById("cbc-wbc").textContent = result.wbcStatus || "—";
+    document.getElementById("cbc-platelets").textContent = result.plateletsStatus || "—";
+    document.getElementById("cbc-note").textContent = result.note || "";
 
     // Highlights
     const highlightsEl = document.getElementById("cbc-highlights");
     if (highlightsEl) {
       highlightsEl.innerHTML = "";
-      if (values.highlights && values.highlights.length > 0) {
+      const markers = ["hbStatus", "wbcStatus", "plateletsStatus"];
+      const hasHighlights = markers.some(key => {
+        const val = result[key] || "";
+        return val.toLowerCase() !== "normal";
+      });
+
+      if (hasHighlights) {
         const ul = document.createElement("ul");
-        values.highlights.forEach((h) => {
+        markers.forEach(key => {
+          const val = result[key] || "—";
           const li = document.createElement("li");
-          li.textContent = h;
-          if (h.includes("normal")) li.classList.add("highlight-normal");
-          else if (h.includes("borderline")) li.classList.add("highlight-borderline");
-          else if (h.includes("low") || h.includes("high")) li.classList.add("highlight-abnormal");
+          li.textContent = `${key.replace("Status", "").toUpperCase()}: ${val}`;
+          if (val.toLowerCase().includes("normal")) li.classList.add("highlight-normal");
+          else if (val.toLowerCase().includes("borderline")) li.classList.add("highlight-borderline");
+          else if (val.toLowerCase().includes("low") || val.toLowerCase().includes("high")) li.classList.add("highlight-abnormal");
           ul.appendChild(li);
         });
         highlightsEl.appendChild(ul);
@@ -29,10 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Follow-up pill
     const followUpEl = document.getElementById("followUpBtn");
     if (followUpEl) {
-      if (values.hbStatus === "Normal" && values.wbcStatus === "Normal" && values.plateletsStatus === "Normal") {
+      if (result.hbStatus === "Normal" && result.wbcStatus === "Normal" && result.plateletsStatus === "Normal") {
         followUpEl.textContent = "Routine check";
         followUpEl.className = "mini-pill normal";
-      } else if (values.hbStatus === "Borderline" || values.wbcStatus === "Borderline" || values.plateletsStatus === "Borderline") {
+      } else if ([result.hbStatus, result.wbcStatus, result.plateletsStatus].some(v => v === "Borderline")) {
         followUpEl.textContent = "Follow up soon";
         followUpEl.className = "mini-pill borderline";
       } else {
@@ -43,8 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Timestamp
     const subEl = document.querySelector(".insight-sub");
-    if (subEl && values.timestamp) {
-      const date = new Date(values.timestamp);
+    if (subEl && result.timestamp) {
+      const date = new Date(result.timestamp);
       const formatted = date.toLocaleString(undefined, {
         weekday: "short",
         year: "numeric",
@@ -57,10 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const savedResults = localStorage.getItem("cbcResults");
-  if (savedResults) {
-    const results = JSON.parse(savedResults);
-    updateCBCSummary(results);
+  // Get latest CBC result
+  const allResults = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  if (allResults.length > 0) {
+    const latestResult = allResults[allResults.length - 1]; // last saved result
+    if (latestResult.hbStatus || latestResult.wbcStatus || latestResult.plateletsStatus) {
+      updateCBCSummary(latestResult);
+    } else {
+      document.getElementById("cbc-note").textContent = "Awaiting analysis...";
+    }
   } else {
     document.getElementById("cbc-note").textContent = "Awaiting analysis...";
   }

@@ -1905,3 +1905,183 @@ g
   text-decoration: underline;
   color: #007bff;
 }
+
+.pro-lock {
+  position: relative;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.pro-lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.85);
+  pointer-events: all;
+}
+
+.pro-lock-card {
+  text-align: center;
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.pro-lock-card button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Pro locked button styles */
+.pro-btn {
+  position: relative;
+  background-color: #d3d3d3;
+  color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+  border: 1px solid #aaa;
+  transition: all 0.2s ease;
+}
+
+.pro-btn::after {
+  content: "🔒";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+.pro-btn.active {
+  background-color: #1982c4;
+  color: #fff;
+  cursor: pointer;
+  opacity: 1;
+  border-color: #1982c4;
+}
+
+.pro-btn.active::after {
+  content: ""; /* remove padlock only for pro users */
+}
+
+/* Notification styling */
+.notification {
+  background-color: #333;
+  color: #fff;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.notification.info {
+  background-color: #2f86eb;
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.error {
+  background-color: #dc3545;
+}
+
+.notification.warning {
+  background-color: #ffc107;
+  color: #333;
+}
+
+#notification-container {
+  pointer-events: none; /* Allows clicks through container */
+}
+
+.notification:hover {
+  opacity: 0.9;
+  pointer-events: all; /* Allow click to dismiss if needed */
+}
+
+.locked {
+  opacity: 0.6;
+  position: relative;
+  cursor: not-allowed;
+}
+
+.locked::after {
+  content: " 🔒";
+  font-size: 0.9rem;
+  color: #c62828;
+}
+button.locked {
+  opacity: 0.8;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+.padlock {
+  margin-left: 4px;
+  font-size: 0.9em;
+}
+
+/* Toast notifications */
+.notification {
+  background: #f0f4f8;
+  color: #333;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: "Sora", sans-serif;
+}
+
+.notification.info { background: #e8f4fd; color: #084298; }
+.notification.success { background: #d1e7dd; color: #0f5132; }
+.notification.error { background: #f8d7da; color: #842029; }
+.notification.warning { background: #fff3cd; color: #856404; }
+
+/* Pro modal */
+.pro-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(7, 37, 64, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.pro-modal-content {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(7, 37, 64, 0.2);
+}
+
+.pro-modal-content h3 {
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+.pro-modal-content p {
+  color: #42586a;
+  margin-bottom: 20px;
+}
+
+.pro-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}

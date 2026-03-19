@@ -11,6 +11,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
+  <script src="https://js.stripe.com/clover/stripe.js"></script>
 </head>
 
 <body>
@@ -49,7 +50,7 @@
         <p>Upgrade to advanced analysis, richer visualizations, and clinician-ready flags that help you act with
           confidence.</p>
         <div class="pro-hero-actions">
-          <a class="btn btn-primary" href="analyzer.html">Start Pro Analysis</a>
+          <a id="startProBtn" class="btn btn-primary" href="analyzer.html">Start Pro Analysis</a>
           <a class="btn btn-outline" href="#pro-features">Explore Features</a>
         </div>
         <div class="pro-hero-tags">
@@ -149,10 +150,13 @@
           <li><i class="fa-solid fa-check"></i> Clinical flags</li>
           <li><i class="fa-solid fa-check"></i> Shareable reports</li>
         </ul>
-        <a class="btn btn-primary" href="analyzer.html">Upgrade to Pro</a>
+        <button id="upgradetoprobtn" class="btn btn-primary">Upgrade to Pro</button>
       </div>
     </div>
   </section>
+  
+
+
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -212,6 +216,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const setProPlan = () => localStorage.setItem("plan", "pro");
+    document.getElementById("startProBtn")?.addEventListener("click", setProPlan);
+    document.getElementById("upgradetoprobtn")?.addEventListener("click", setProPlan);
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("upgradetoprobtn");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        window.location.href = "https://buy.stripe.com/test_6oU14oagV3592fd45KgQE00";
+      });
+    }
+  });
+</script>
+
+
 
 </body>
 

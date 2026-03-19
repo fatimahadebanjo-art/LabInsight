@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upgrade Successful</title>
+</head>
+<body>
+  <h1>Thank you for upgrading to Pro!</h1>
+  <p>Your account is being updated...</p>
+
+  <script type="module">
+    import app from './js/firebase-init.js';
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function markUserPro() {
+      const user = auth.currentUser;
+      if (!user) {
+        console.warn("No user signed in yet.");
+        return;
+      }
+
+      await setDoc(doc(db, "users", user.uid), { plan: "pro" }, { merge: true });
+
+      localStorage.setItem("plan", "pro");
+      localStorage.setItem("isPro", "true");
+      window.dispatchEvent(new Event("labinsight:planChanged"));
+
+      // Redirect back to analyzer
+      setTimeout(() => {
+        window.location.href = "analyzer.html";
+      }, 1500);
+    }
+
+    markUserPro();
+  </script>
+</body>
+</html>
