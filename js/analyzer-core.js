@@ -1,7 +1,7 @@
 // analyzer-core.js
 import app from './firebase-init.js';
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
 const auth = getAuth(app);
 import db from "./firestore-init.js";

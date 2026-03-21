@@ -12,10 +12,10 @@ import {
   onAuthStateChanged,
   setPersistence,
   browserLocalPersistence
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 import { doc, getDoc, collection, getDocs } 
-  from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 
 import db from "./firestore-init.js";   // ✅ single source of Firestore
 
