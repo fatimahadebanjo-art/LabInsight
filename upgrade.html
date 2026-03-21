@@ -14,7 +14,7 @@
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
     const auth = getAuth(app);
-    const db = getFirestore(app);
+    import db from "./firestore-init.js";
 
     async function markUserPro() {
       const user = auth.currentUser;

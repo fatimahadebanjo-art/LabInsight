@@ -17,7 +17,8 @@ import {
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 const auth = getAuth(app);
-const db = getFirestore(app);
+import db from "./firestore-init.js";
+
 
 // 🔹 Ensure login persists across reloads
 setPersistence(auth, browserLocalPersistence)
@@ -228,3 +229,20 @@ export function monitorAuthState() {
     }
   });
 }
+
+
+
+
+import db from "./firestore-init.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+async function testFirestore() {
+  try {
+    const snapshot = await getDocs(collection(db, "users"));
+    console.log("✅ Firestore connected. Users collection size:", snapshot.size);
+  } catch (err) {
+    console.error("❌ Firestore connection failed:", err.message);
+  }
+}
+
+testFirestore();

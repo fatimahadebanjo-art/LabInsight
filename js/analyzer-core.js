@@ -4,7 +4,8 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 const auth = getAuth(app);
-const db = getFirestore(app);
+import db from "./firestore-init.js";
+
 
 (function () {
   window.LabInsight = window.LabInsight || {};
