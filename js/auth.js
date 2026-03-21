@@ -14,11 +14,12 @@ import {
   browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { doc, getDoc, collection, getDocs } 
+  from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+import db from "./firestore-init.js";   // ✅ single source of Firestore
 
 const auth = getAuth(app);
-import db from "./firestore-init.js";
-
 
 // 🔹 Ensure login persists across reloads
 setPersistence(auth, browserLocalPersistence)
@@ -163,7 +164,6 @@ export function setupLogout() {
     e.preventDefault();
     try {
       await signOut(auth);
-      // Clear local state
       localStorage.clear();
       console.log("User logged out");
       redirectToLogin();
@@ -214,7 +214,6 @@ export function monitorAuthState() {
       }
     } else {
       console.log("No user signed in.");
-
       localStorage.setItem("plan", "free");
       localStorage.setItem("isPro", "false");
       window.dispatchEvent(new Event("labinsight:planChanged"));
@@ -222,7 +221,6 @@ export function monitorAuthState() {
       if (logoutBtn) logoutBtn.style.display = "none";
       if (userInfo) userInfo.style.display = "none";
 
-      // Redirect only if on protected page
       if (window.location.pathname.includes("analyzer.html")) {
         redirectToLogin();
       }
@@ -230,12 +228,7 @@ export function monitorAuthState() {
   });
 }
 
-
-
-
-import db from "./firestore-init.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
+// ----------------- Firestore Connectivity Test -----------------
 async function testFirestore() {
   try {
     const snapshot = await getDocs(collection(db, "users"));
@@ -244,5 +237,4 @@ async function testFirestore() {
     console.error("❌ Firestore connection failed:", err.message);
   }
 }
-
-testFirestore();
+testFirestore ();
