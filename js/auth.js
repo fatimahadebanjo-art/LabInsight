@@ -1,5 +1,5 @@
 // auth.js
-import app from './firebase-init.js';
+import app from "./firebase-init.js";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -15,10 +15,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 import { doc, getDoc, collection, getDocs } 
-  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-import db from "./firestore-init.js";   // ✅ single source of Firestore
 
+import db from "./firestore-init.js";   
 const auth = getAuth(app);
 
 // 🔹 Ensure login persists across reloads
