@@ -1,3 +1,4 @@
+// auth.js
 import app from './firebase-init.js';
 import {
   getAuth,
@@ -18,16 +19,16 @@ import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Ensure login persists across reloads
+// 🔹 Ensure login persists across reloads
 setPersistence(auth, browserLocalPersistence)
   .then(() => console.log("Auth persistence set to local"))
   .catch(err => console.error("Failed to set persistence:", err));
 
-// ----------------- Redirects -----------------
+// ----------------- Redirect Helpers -----------------
 function redirectToAnalyzer() { window.location.href = "analyzer.html"; }
 function redirectToLogin() { window.location.href = "account.html#login"; }
 
-// ----------------- Auth Helpers -----------------
+// ----------------- Plan Helpers -----------------
 async function isProUser(userId) {
   try {
     const docRef = doc(db, "users", userId);
@@ -161,6 +162,9 @@ export function setupLogout() {
     e.preventDefault();
     try {
       await signOut(auth);
+      // Clear local state
+      localStorage.clear();
+      console.log("User logged out");
       redirectToLogin();
     } catch (err) {
       console.error("Logout error:", err);
@@ -217,11 +221,10 @@ export function monitorAuthState() {
       if (logoutBtn) logoutBtn.style.display = "none";
       if (userInfo) userInfo.style.display = "none";
 
-      setTimeout(() => {
-        if (!auth.currentUser && window.location.pathname.includes("analyzer.html")) {
-          redirectToLogin();
-        }
-      }, 1000);
+      // Redirect only if on protected page
+      if (window.location.pathname.includes("analyzer.html")) {
+        redirectToLogin();
+      }
     }
   });
 }
