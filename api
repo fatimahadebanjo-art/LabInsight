@@ -12,14 +12,15 @@ export default async function handler(req, res) {
     // Expecting { priceId, uid } in the request body
     const { priceId, uid } = req.body;
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: ["card"],
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: "https://lab-insight.vercel.app/upgrade.html?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://lab-insight.vercel.app/index.html",
-      metadata: { uid }
-    });
+    const origin = req.headers.origin;
+const session = await stripe.checkout.sessions.create({
+  mode: "payment",
+  line_items: [{ price: priceId, quantity: 1 }],
+  success_url: `${origin}/upgrade.html?session_id={CHECKOUT_SESSION_ID}`,
+  cancel_url: `${origin}/index.html`,
+  metadata: { uid }
+});
+
 
     res.json({ sessionId: session.id });
   } catch (err) {
