@@ -1,5 +1,5 @@
 // analyzer-core.js
-import app from './firebase-init.js';
+import './firebase-init.js';
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 import { ref, get, set, push } 
   from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
@@ -314,6 +314,23 @@ import db from "./realtime-init.js";
         console.warn('Could not write cbcSummary to localStorage:', err);
       }
 
+      // --- NEW: keep window.lastCounts in sync when saving results ---
+      try {
+        if (typeof window.LabInsight.evaluateInputs === "function") {
+          const res = window.LabInsight.evaluateInputs(vals);
+          if (res) {
+            window.lastCounts = {
+              normal: res.normalCount,
+              borderline: res.borderlineCount,
+              abnormal: res.abnormalCount
+            };
+            window.lastDoctorQuestions = res.doctorQuestions || [];
+          }
+        }
+      } catch (err) {
+        console.warn("Could not update window.lastCounts during saveResult:", err);
+      }
+
       // Save to Realtime Database
       const res = await saveResultToDB(user.uid, vals, extendedResults);
       const statusEl = document.getElementById("questionStatus");
@@ -397,6 +414,16 @@ import db from "./realtime-init.js";
                   (res.message || "");
                 if (typeof window.LabInsight.renderResultChart === "function") {
                   window.LabInsight.renderResultChart(res.normalCount, res.borderlineCount, res.abnormalCount);
+
+                  // 🔑 Save counts for exportPdf
+                  window.lastCounts = {
+                    normal: res.normalCount,
+                    borderline: res.borderlineCount,
+                    abnormal: res.abnormalCount
+                  };
+
+                  // 🔑 Save doctor questions if provided
+                  window.lastDoctorQuestions = res.doctorQuestions || [];
                 }
               }
             }

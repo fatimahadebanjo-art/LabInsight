@@ -2,25 +2,23 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LabInsight</title>
-  <link rel="stylesheet" href="lipro.css">
+  <link rel="stylesheet" href="lipro.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon" />
 </head>
 
 <body>
   <header>
     <div class="nav-bar">
-
       <div class="nav-left">
-        <img src="assets/images/LabInsight logo.png" alt="logo">
+        <img src="assets/images/LabInsight logo.png" alt="logo" />
       </div>
-
 
       <div class="hamburger" id="hamburger">
         <div></div>
@@ -28,18 +26,16 @@
         <div></div>
       </div>
 
-
       <div class="nav-right">
         <ul id="navLinks">
           <li><a href="index.html" class="active">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="account.html">Get Started</a></li>
-          <li><a href="analyzer.html" class="btn btn-primary">Analyzer</a></li>
+          <li><a href="analyzer.html" class="btn btn-primary"> Analyzer</a></li>
+          <li><a href="account.html">Account</a></li>
         </ul>
       </div>
     </div>
   </header>
-
 
   <!-- Hero -->
   <section class="hero-minimal">
@@ -56,15 +52,14 @@
           <div class="trust-item"><i class="fa-solid fa-clipboard-check"></i> Clinician-aware</div>
         </div>
         <div style="margin-top: 50px;" class="hero-actions">
-          <a class="btn btn-primary" href="account.html">Analyze Lab Results</a>
+          <a class="btn btn-primary" href="account.html">Start Analysis</a>
           <a class="btn btn-outline" href="#about">Learn More</a>
         </div>
-
       </div>
       <div class="hero-minimal-visual">
         <div class="hero-image">
           <img src="assets/images/expert-ca40a844-5b95-488a-9a14-a52b0731c52c.jfif"
-            alt="Clinical expert reviewing lab results">
+            alt="Clinical expert reviewing lab results" />
           <div class="hero-image-badge">
             <div>
               <p class="badge-title">Smart summaries</p>
@@ -112,7 +107,7 @@
           <li><i class="fa-solid fa-check"></i> Context for follow-up and next steps</li>
         </ul>
         <div class="insight-actions">
-          <a class="btn btn-outline" href="account.html">View the Analyzer</a>
+          <a class="btn btn-outline" href="analyzer.html">View the Analyzer</a>
           <a class="btn btn-primary" href="#process">See the Process</a>
         </div>
       </div>
@@ -167,7 +162,8 @@
           <div class="insight-mini">
             <p class="mini-title">Share</p>
             <p class="mini-text">Export summary for your visit</p>
-            <span class="mini-pill" id="exportPdf">PDF</span>
+            <!-- NOTE: id changed to exportPdfBtn to match analyzer/export code; JS below also accepts legacy id -->
+            <span class="mini-pill" id="exportPdfBtn" role="button" tabindex="0">PDF</span>
           </div>
         </div>
 
@@ -221,7 +217,7 @@
       <div class="process-video">
         <video autoplay muted loop playsinline class="how-to-video">
           <source
-            src="assets/video/LabInsight Pro and 8 more pages - Personal - Microsoft​ Edge 2026-02-06 22-20-36.mp4">
+            src="assets/video/LabInsight Pro and 8 more pages - Personal - Microsoft​ Edge 2026-02-06 22-20-36.mp4" />
         </video>
       </div>
       <div class="process-copy">
@@ -250,7 +246,7 @@
             </div>
           </div>
         </div>
-        <a class="btn btn-primary" href="account.html">Analyze Now</a>
+        <a class="btn btn-primary" href="analyzer.html">Analyze Now</a>
       </div>
     </div>
   </section>
@@ -262,16 +258,14 @@
         <h2>Make lab results feel manageable</h2>
         <p>Start with a quick analysis and get clear guidance in seconds.</p>
       </div>
-      <a class="btn btn-primary" href="account.html">Get Started</a>
+      <a class="btn btn-primary" href="analyzer.html">Get Started</a>
     </div>
   </section>
 
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <img src="assets/images/LabInsight logo.png"
-          alt="LabInsight logo showing a blue heart shape with a medical cross inside the left half and the text LABINSIGHT below in modern font. The design suggests healthcare, trust, and professionalism in a clean and welcoming style."
-          class="footer-logo">
+        <img src="assets/images/LabInsight-Pro-(1)-Photoroom.png" alt="LabInsight Pro logo" class="footer-logo" />
         <p>LabInsight is a health-tech platform that helps users understand laboratory test results through clear,
           AI-assisted explanations.</p>
       </div>
@@ -301,22 +295,17 @@
       <p>© 2026 LabInsight</p>
     </div>
   </footer>
+
+  <!-- Scripts: rules.js remains classic; other files that use import/export are loaded as modules -->
   <script src="js/rules.js"></script>
 
+  <script type="module" src="js/analyzer-core.js"></script>
+  <script type="module" src="js/timeline.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/pdf.js"></script>
+  <script type="module" src="js/home.js"></script>
 
-  <script src="js/analyzer-core.js"></script>
-
-
-  <script src="js/timeline.js"></script>
-
-
-  <script src="js/main.js" type="module"></script>
-
-
-  <script src="js/pdf.js"></script>
-
-
-  <script src="js/home.js"></script>
+  <!-- Small inline helpers (preserve existing nav/hamburger behavior) -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const navLinks = document.querySelectorAll(".nav-right a");
@@ -335,15 +324,168 @@
       const hamburger = document.getElementById("hamburger");
       const navLinks = document.getElementById("navLinks");
 
-      hamburger.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
+      if (hamburger && navLinks) {
+        hamburger.addEventListener("click", () => {
+          navLinks.classList.toggle("show");
+        });
+      }
     });
   </script>
 
+  <!-- Home page: read CBC from localStorage, handle cross-tab updates, wire Export control, and guard export until analysis -->
+  <script>
+    (function () {
+      // Utility to set text safely
+      function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value ?? '—';
+      }
 
+      // Populate CBC fields from a summary object
+      function populateCbcFromObject(obj = {}) {
+        setText('cbc-hb', obj.hb ?? '—');
+        setText('cbc-wbc', obj.wbc ?? '—');
+        setText('cbc-platelets', obj.platelets ?? '—');
+
+        const note = obj.note ?? null;
+        setText('cbc-note', note || 'Awaiting analysis...');
+
+        const highlightsEl = document.getElementById('cbc-highlights');
+        if (highlightsEl) {
+          if (Array.isArray(obj.highlights) && obj.highlights.length) {
+            highlightsEl.innerHTML = obj.highlights.map(h => `<div>${h}</div>`).join('');
+          } else {
+            highlightsEl.textContent = 'No abnormal markers detected.';
+          }
+        }
+      }
+
+      // Read storage keys and update UI
+      function refreshCbcFromStorage() {
+        try {
+          const rawSummary = localStorage.getItem('cbcSummary');
+          if (rawSummary) {
+            const summary = JSON.parse(rawSummary);
+            populateCbcFromObject(summary);
+          } else {
+            // fallback: try to parse cbcSummaryHtml for numbers (best-effort)
+            const html = localStorage.getItem('cbcSummaryHtml');
+            if (html) {
+              const hbMatch = html.match(/Hb:\s*([^<\n\r]+)/i);
+              const wbcMatch = html.match(/WBC:\s*([^<\n\r]+)/i);
+              const plMatch = html.match(/Platelets:\s*([^<\n\r]+)/i);
+              const hb = hbMatch ? hbMatch[1].trim() : null;
+              const wbc = wbcMatch ? wbcMatch[1].trim() : null;
+              const platelets = plMatch ? plMatch[1].trim() : null;
+              populateCbcFromObject({ hb, wbc, platelets });
+            }
+          }
+
+          const ext = localStorage.getItem('cbcResults');
+          if (ext) {
+            try {
+              const extObj = JSON.parse(ext);
+              const note = extObj.note || null;
+              const highlights = extObj.highlights || null;
+              populateCbcFromObject({ note, highlights });
+            } catch (e) {
+              // ignore parse errors
+            }
+          }
+        } catch (err) {
+          console.warn('refreshCbcFromStorage error', err);
+        }
+      }
+
+      // Wire export control and guard it until analysis data exists
+      function wireExportControl() {
+        const exportEl = document.getElementById('exportPdfBtn') || document.getElementById('exportPdf');
+        if (!exportEl) return;
+
+        // Visual/keyboard affordances for span acting as button
+        exportEl.setAttribute('role', 'button');
+        exportEl.setAttribute('tabindex', '0');
+
+        // Initially disable (if it's a button element) or add disabled styling
+        if (exportEl.tagName.toLowerCase() === 'button') {
+          exportEl.disabled = true;
+        } else {
+          exportEl.classList.add('disabled');
+        }
+
+        function enableExport() {
+          if (exportEl.tagName.toLowerCase() === 'button') {
+            exportEl.disabled = false;
+          } else {
+            exportEl.classList.remove('disabled');
+          }
+        }
+
+        // Click handler: call export if available
+        exportEl.addEventListener('click', () => {
+          if (typeof window.LabInsight?.exportPdf === 'function') {
+            window.LabInsight.exportPdf();
+          } else {
+            console.warn('exportPdf function not available on this page.');
+          }
+        });
+
+        // Keyboard activation for non-button element
+        exportEl.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            exportEl.click();
+          }
+        });
+
+        // If analyzer sets window.lastCounts in same tab, enable export
+        window.addEventListener('labinsight:lastCountsSet', () => {
+          enableExport();
+        });
+
+        // Also enable if lastCounts already present (page loaded after analysis)
+        if (window.lastCounts && (window.lastCounts.normal || window.lastCounts.borderline || window.lastCounts.abnormal)) {
+          enableExport();
+        }
+
+        // Expose a helper to enable export from other scripts
+        window.enableLabExport = enableExport;
+      }
+
+      // Listen for storage events (cross-tab)
+      window.addEventListener('storage', (ev) => {
+        if (!ev.key) return;
+        if (['cbcSummary', 'cbcSummaryHtml', 'cbcResults'].includes(ev.key)) {
+          refreshCbcFromStorage();
+        }
+        if (ev.key === 'lastCounts') {
+          // optional: if another tab writes a serialized lastCounts key, enable export
+          try {
+            const lc = JSON.parse(ev.newValue);
+            if (lc && (lc.normal || lc.borderline || lc.abnormal)) {
+              const evt = new Event('labinsight:lastCountsSet');
+              window.dispatchEvent(evt);
+            }
+          } catch (e) { /* ignore */ }
+        }
+      });
+
+      // Same-tab custom event listener (analyzer may dispatch labinsight:cbc)
+      window.addEventListener('labinsight:cbc', (e) => {
+        if (e?.detail) {
+          populateCbcFromObject(e.detail);
+        } else {
+          refreshCbcFromStorage();
+        }
+      });
+
+      // Initialize on DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', () => {
+        refreshCbcFromStorage();
+        wireExportControl();
+      });
+    })();
+  </script>
 </body>
-
-
 
 </html>
