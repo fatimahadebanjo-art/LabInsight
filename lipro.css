@@ -67,12 +67,14 @@ body {
   background: var(--primary-color);
   color: #ffffff;
   box-shadow: 0 12px 24px rgba(7, 37, 64, 0.18);
+  font-family: var(--font-family);
 }
 
 .btn-outline {
   background: #ffffff;
   color: var(--primary-color);
   border: 2px solid rgba(7, 37, 64, 0.12);
+  font-family: var(--font-family);
 }
 
 .btn:hover {
@@ -91,6 +93,12 @@ body {
 
 .nav-right a.btn-primary {
   color: #ffffff !important; 
+}
+.btn-secondary {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(7, 37, 64, 0.18);
+  font-family: var(--font-family);
 }
 
 /* Navigation */
