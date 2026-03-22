@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upgrade Successful</title>
+  <link rel="stylesheet" href="lipro.css">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
+</head>
+<body>
+  <h1>Thank you for upgrading to Pro!</h1>
+  <p id="statusText">Your account is being updated...</p>
+
+  <script type="module">
+    import app from './js/firebase-init.js';
+    import db from './js/realtime-init.js';
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { ref, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+    const auth = getAuth(app);
+    const statusEl = document.getElementById('statusText');
+
+    // Wait for auth state to be ready, then mark user Pro
+    onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    // If analyzer UI exists, show a gentle inline message instead of redirecting
+    const container = document.getElementById('analyzerRoot') || document.getElementById('output');
+    if (container) {
+      const msg = document.createElement('div');
+      msg.className = 'auth-required';
+      msg.innerHTML = 'Please <a href="account.html?show=login">log in</a> to use the analyzer.';
+      container.innerHTML = '';
+      container.appendChild(msg);
+    }
+    return;
+  }
+
+      try {
+        if (statusEl) statusEl.textContent = "Updating your account to Pro...";
+        // Write only the plan child to avoid overwriting other user data
+        await set(ref(db, `users/${user.uid}/plan`), "pro");
+
+        // ✅ Unlock Pro locally only after DB update succeeds
+        localStorage.setItem("plan", "pro");
+        localStorage.setItem("userPlan", "pro");
+        localStorage.setItem("isPro", "true");
+        window.dispatchEvent(new Event("labinsight:planChanged"));
+
+        if (statusEl) statusEl.textContent = "Upgrade complete. Redirecting...";
+        setTimeout(() => {
+          window.location.href = "analyzer.html";
+        }, 1200);
+      } catch (err) {
+        console.error("Failed to mark user pro:", err);
+        if (statusEl) statusEl.textContent = "Upgrade failed. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>
