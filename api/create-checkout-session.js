@@ -11,19 +11,19 @@ export default async function handler(req, res) {
   try {
     const { priceId, uid } = req.body;
 
-    // Dynamically detect the origin (works for production + preview branches)
-    const origin = req.headers.origin;
+    // Detect the origin dynamically (works for production + preview branches)
+    const origin = req.headers.origin || "http://localhost:3000";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${origin}/upgrade.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/index.html`,
+      cancel_url: `${origin}/pro.html`,
       metadata: { uid }
     });
 
-    res.json({ sessionId: session.id });
+    res.status(200).json({ sessionId: session.id });
   } catch (err) {
     console.error("Stripe session creation failed:", err);
     res.status(500).json({ error: err.message });
