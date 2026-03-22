@@ -1,4 +1,4 @@
-﻿const testRules = {
+﻿window.testRules = window.testRules || {
         hb: { name: "Hemoglobin (g/dL)", ranges: [
           { max: 12, category: "abnormal", msg: "LOW - may suggest anemia, which can cause tiredness, weakness or shortness of breath.",
             questions: ["Could this be anemia?", "Do I need iron supplements or further tests?"] },
