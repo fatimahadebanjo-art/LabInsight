@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LabInsight</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LabInsight | Analyzer</title>
   <link rel="stylesheet" href="lipro.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
@@ -13,45 +13,13 @@
 </head>
 
 <body>
-
-
-  <script>
-    if (localStorage.getItem("loggedIn") !== "true") {
-      window.location.href = "account.html#login";
-    }
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const welcomeText = document.getElementById("welcomeUser");
-      const userName = localStorage.getItem("userName") || "User";
-      if (welcomeText) {
-        welcomeText.textContent = `Welcome, ${userName}`;
-      }
-
-      const logoutBtn = document.getElementById("logoutBtn");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", (event) => {
-          event.preventDefault();
-          localStorage.removeItem("loggedIn");
-          localStorage.removeItem("userName");
-          localStorage.removeItem("userEmail");
-          localStorage.removeItem("labinsightCurrentUser");
-          window.location.href = "account.html#login";
-        });
-      }
-    });
-  </script>
-
+  <!-- Header -->
   <header>
-
     <div class="nav-bar">
-
       <div class="nav-left">
         <img src="assets/images/LabInsight logo.png" alt="logo">
         <span id="welcomeUser" class="welcome-text"></span>
       </div>
-
 
       <div class="hamburger" id="hamburger">
         <div></div>
@@ -59,35 +27,42 @@
         <div></div>
       </div>
 
-
       <div class="nav-right">
         <ul id="navLinks">
-          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="account.html">Account</a></li>
-          <li><button id="logoutBtn" class="btn btn-secondary">Logout</button></li>
+
+          <!-- User info (hidden until auth state shows a user) -->
+          <li id="userInfo" style="display:none;">
+            <img id="userPhoto" src="" alt="User photo"
+              style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
+          </li>
+
+          <!-- Logout button (hidden until signed in) -->
+          <li><button id="logoutBtn" class="btn btn-outline" style="display:none;">Logout</button></li>
         </ul>
       </div>
     </div>
+
+    <p id="userGreeting" style="font-weight:600; margin-bottom:10px;"></p>
   </header>
 
-
+  <!-- Hero -->
   <section class="analyzer-hero">
     <h1>Lab Test Analyzer</h1>
     <p>Upload a lab report or enter your test values to get instant insights.</p>
   </section>
 
-
+  <!-- Analyzer Shell -->
   <section class="analyzer-shell">
     <div class="container analyzer-grid">
+      <!-- Upload Section -->
       <section class="upload-section panel-card">
         <h2>Upload Your Lab Report</h2>
         <p>You can upload a <strong>clear, legible</strong> PDF, Word document, or image of your test results.</p>
 
         <input type="file" id="labUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-
         <button id="uploadBtn">Upload</button>
-
         <div id="uploadStatus"></div>
 
         <div class="patient-info">
@@ -110,21 +85,19 @@
           <button id="downloadBtn">Download CSV</button>
           <button id="demoFillBtn">Demo Fill</button>
           <button id="exportPdfBtn">Export PDF</button>
-
-
-
           <span id="questionStatus" aria-live="polite"></span>
         </div>
 
         <div class="question-box">
-          <label for="patient-question">Add your own question:</label>
+          <label for="questionInput">Add your own question:</label>
           <div class="question-row">
             <input type="text" id="questionInput" placeholder="Ask about a specific marker or concern">
-            <button id="addQuestionBtn">Add Question</button>
+            <button id="doctorQuestionsBtn" class="btn btn-outline">Doctor Questions</button>
           </div>
         </div>
       </section>
 
+      <!-- Manual Entry Section -->
       <section class="manual-entry panel-card">
         <div class="section-title">
           <p class="eyebrow">Manual entry</p>
@@ -134,113 +107,99 @@
 
         <!-- Accordion Sections -->
         <div class="accordion">
-
           <!-- Blood Count -->
           <button class="accordion-btn">Blood Count</button>
           <div class="accordion-panel">
-            <label>Hemoglobin (g/dL)</label>
+            <label for="hb">Hemoglobin (g/dL)</label>
             <input type="number" id="hb" class="test-input">
-
-            <label>WBC (x10⁹/L)</label>
+            <label for="wbc">WBC (x10⁹/L)</label>
             <input type="number" id="wbc" class="test-input">
-
-            <label>Platelets (x10⁹/L)</label>
+            <label for="platelets">Platelets (x10⁹/L)</label>
             <input type="number" id="platelets" class="test-input">
           </div>
 
-          <!-- Metabolic/Kidney -->
+          <!-- Metabolic -->
           <button class="accordion-btn">Metabolic</button>
           <div class="accordion-panel">
-            <label>Blood Sugar (mg/dL)</label>
+            <label for="sugar">Blood Sugar (mg/dL)</label>
             <input type="number" id="sugar" class="test-input">
-
-            <label>Creatinine (mg/dL)</label>
+            <label for="creatinine">Creatinine (mg/dL)</label>
             <input type="number" id="creatinine" class="test-input">
-
-            <label>Urea / BUN (mg/dL)</label>
+            <label for="bun">Urea / BUN (mg/dL)</label>
             <input type="number" id="bun" class="test-input">
-
           </div>
 
           <!-- Liver Function -->
           <button class="accordion-btn">Liver Function</button>
           <div class="accordion-panel">
-            <label>ALT (U/L)</label>
+            <label for="alt">ALT (U/L)</label>
             <input type="number" id="alt" class="test-input">
-
-            <label>AST (U/L)</label>
+            <label for="ast">AST (U/L)</label>
             <input type="number" id="ast" class="test-input">
           </div>
 
           <!-- Lipids -->
           <button class="accordion-btn">Lipids</button>
           <div class="accordion-panel">
-            <label>Total Cholesterol (mg/dL)</label>
+            <label for="cholesterol">Total Cholesterol (mg/dL)</label>
             <input type="number" id="cholesterol" class="test-input">
-
-            <label>Triglycerides (mg/dL)</label>
+            <label for="triglycerides">Triglycerides (mg/dL)</label>
             <input type="number" id="triglycerides" class="test-input">
-
-            <label>HDL Cholesterol (mg/dL)</label>
+            <label for="hdl">HDL Cholesterol (mg/dL)</label>
             <input type="number" id="hdl" class="test-input">
-
-            <label>LDL Cholesterol (mg/dL)</label>
+            <label for="ldl">LDL Cholesterol (mg/dL)</label>
             <input type="number" id="ldl" class="test-input">
           </div>
 
           <!-- Electrolytes -->
           <button class="accordion-btn">Electrolytes</button>
           <div class="accordion-panel">
-            <label>Sodium (mmol/L)</label>
+            <label for="sodium">Sodium (mmol/L)</label>
             <input type="number" id="sodium" class="test-input">
-
-            <label>Potassium (mmol/L)</label>
+            <label for="potassium">Potassium (mmol/L)</label>
             <input type="number" id="potassium" class="test-input">
-
-            <label>Chloride (mmol/L)</label>
+            <label for="chloride">Chloride (mmol/L)</label>
             <input type="number" id="chloride" class="test-input">
           </div>
         </div>
 
         <button id="manualAnalyzeBtn">Analyze</button>
-
         <div id="output" class="results-panel"></div>
-
-        <div class="trend-chart-wrapper">
-          <h2>Monthly Trend</h2>
-          <p>Go to <a href="timeline.html">Timeline</a> to view your lab trends over time.</p>
-          <canvas id="trendChart" height="200"></canvas>
-        </div>
-      </section>
-    </div>
-
-
-  </section>
+        <button id="multiRiskBtn" class="btn btn-outline">Run Multi‑Risk Analysis</button>
+        <div id="riskPanel" class="results-panel"></div>
 
 
 
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+        <!-- External Libraries -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+        <!-- LabInsight non-module scripts (keep order) -->
+        <script src="js/storage.js"></script>
+        <script src="js/rules.js"></script>
+        <script type="module" src="js/pro-lock.js"></script>
+        <script src="js/ui.js"></script>
+        <script src="js/ocr.js"></script>
+        <script src="js/charts.js"></script>
+        <script src="js/pdf.js"></script>
+        <script type="module" src="js/notifications.js"></script>
+        <script type="module" src="js/firebase-init.js"></script>
+        <script src="js/timeline.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- LabInsight scripts -->
-  <script src="js/storage.js"></script>
-  <script src="js/rules.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/ocr.js"></script>
-  <script src="js/charts.js"></script>
-  <script src="js/pdf.js"></script>
-  <script src="js/analyzer-core.js"></script>
-  <script src="js/main.js"></script>
-  <script>
+        <!-- analyzer-core.js must be loaded as a module because it imports Firebase auth -->
+        <script type="module" src="js/analyzer-core.js"></script>
 
-    console.log('Legacy analyzer.js dynamic loader removed; using split scripts');
-  </script>
+        <!-- auth helpers: import monitorAuthState and setupLogout (module) -->
+        <script type="module">
+          import { setupLogout, monitorAuthState } from './js/auth.js';
+          setupLogout();
+          monitorAuthState();
+        </script>
 
 
 
@@ -258,6 +217,7 @@
         <h4>Quick Links</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -275,47 +235,44 @@
     </div>
 
     <div class="footer-bottom">
-      <p>© 2026 LabInsight. All rights reserved.</p>
+      <p>© 2026 LabInsight</p>
     </div>
   </footer>
 
-  <script>
-    // Inline loader check to detect if analyzer.js executed
-    setTimeout(() => {
-      // Consider either legacy analyzer.js or the split global `window.LabInsight` as success
-      if (!window.__analyzerLoaded && !window.LabInsight) {
-        console.error('Inline check: neither legacy analyzer.js nor split LabInsight scripts are present.');
-      } else {
-        console.log('Inline check: analyzer scripts present');
-      }
-    }, 300);
-  </script>
+        <script>
+          // Inline loader check to detect if analyzer scripts executed
+          setTimeout(() => {
+            if (!window.__analyzerLoaded && !window.LabInsight) {
+              console.error('Inline check: neither legacy analyzer.js nor split LabInsight scripts are present.');
+            } else {
+              console.log('Inline check: analyzer scripts present');
+            }
+          }, 300);
+        </script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const navLinks = document.querySelectorAll(".nav-right a");
-      const currentPath = window.location.pathname.split("/").pop();
+        <script>
+          // Nav active link highlight
+          document.addEventListener("DOMContentLoaded", () => {
+            const navLinks = document.querySelectorAll(".nav-right a");
+            const currentPath = window.location.pathname.split("/").pop();
+            navLinks.forEach(link => {
+              if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+              }
+            });
+          });
+        </script>
 
-      navLinks.forEach(link => {
-        if (link.getAttribute("href") === currentPath) {
-          link.classList.add("active");
-        }
-      });
-    });
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const hamburger = document.getElementById("hamburger");
-      const navLinks = document.getElementById("navLinks");
-
-      hamburger.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
-    });
-  </script>
-
+        <script>
+          // Hamburger toggle
+          document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("navLinks");
+            hamburger.addEventListener("click", () => {
+              navLinks.classList.toggle("show");
+            });
+          });
+        </script>
 </body>
-
 
 </html>
