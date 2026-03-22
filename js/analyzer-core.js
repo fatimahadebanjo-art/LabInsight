@@ -1,12 +1,28 @@
 // analyzer-core.js
 import './firebase-init.js';
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { ref, get, set, push } 
-  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { ref, get, set, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 import db from "./realtime-init.js";
 
 (function () {
   window.LabInsight = window.LabInsight || {};
+
+  // Notify other tabs and same-tab listeners after saving cbcSummary
+  function notifyCbcSaved() {
+    try {
+      localStorage.setItem('labinsight:lastCounts', JSON.stringify(window.lastCounts || {}));
+      localStorage.setItem('labinsight:cbc:updated', String(Date.now()));
+    } catch (e) {
+      console.warn('Could not write labinsight keys', e);
+    }
+
+    const _labinsight_summary = (() => {
+      try { return JSON.parse(localStorage.getItem('cbcSummary') || '{}'); } catch (err) { return {}; }
+    })();
+
+    window.dispatchEvent(new CustomEvent('labinsight:cbc', { detail: _labinsight_summary }));
+    window.dispatchEvent(new Event('labinsight:lastCountsSet'));
+  }
 
   // --- Utility: dynamically load rules.js if missing ---
   async function ensureRulesLoaded(url = 'js/rules.js') {
@@ -309,7 +325,9 @@ import db from "./realtime-init.js";
             <div class="small">Updated: ${new Date(cbcSummary.timestamp).toLocaleString()}</div>
           </div>`;
         localStorage.setItem('cbcSummaryHtml', html);
-        window.dispatchEvent(new CustomEvent('labinsight:cbc', { detail: cbcSummary }));
+
+        // Centralized notification
+        notifyCbcSaved();
       } catch (err) {
         console.warn('Could not write cbcSummary to localStorage:', err);
       }
@@ -353,6 +371,12 @@ import db from "./realtime-init.js";
 
   // --- Main initializer (runs after rules are ready) ---
   async function initAnalyzer() {
+    // Skip analyzer UI wiring on pages that are not analyzer.html
+    if (!window.location.pathname.includes('analyzer.html')) {
+      console.debug('Analyzer UI skipped on this page.');
+      return;
+    }
+
     try {
       // Ensure rules.js is loaded (attempt dynamic load if necessary)
       await ensureRulesLoaded();
@@ -460,7 +484,8 @@ import db from "./realtime-init.js";
                 </div>`;
               localStorage.setItem('cbcSummaryHtml', html);
 
-              window.dispatchEvent(new CustomEvent('labinsight:cbc', { detail: cbcSummary }));
+              // Centralized notification
+              notifyCbcSaved();
             } catch (err) {
               console.warn('Could not write cbcSummary to localStorage:', err);
             }

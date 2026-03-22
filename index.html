@@ -303,8 +303,7 @@
   <script type="module" src="js/timeline.js"></script>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/pdf.js"></script>
-  <script type="module" src="js/home.js"></script>
-
+  <script src="js/home.js"></script>
   <!-- Small inline helpers (preserve existing nav/hamburger behavior) -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -399,7 +398,7 @@
 
       // Wire export control and guard it until analysis data exists
       function wireExportControl() {
-        const exportEl = document.getElementById('exportPdfBtn') || document.getElementById('exportPdf');
+        const exportEl = document.getElementById('exportPdfBtn') || document.getElementById('');
         if (!exportEl) return;
 
         // Visual/keyboard affordances for span acting as button

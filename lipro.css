@@ -68,6 +68,7 @@ body {
   color: #ffffff;
   box-shadow: 0 12px 24px rgba(7, 37, 64, 0.18);
   font-family: var(--font-family);
+  font-weight: 700;
 }
 
 .btn-outline {
@@ -99,6 +100,7 @@ body {
   color: #ffffff;
   box-shadow: 0 12px 24px rgba(7, 37, 64, 0.18);
   font-family: var(--font-family);
+  font-weight: 700;
 }
 
 /* Navigation */

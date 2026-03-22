@@ -1,4 +1,4 @@
-// home.js
+// js/home.js
 document.addEventListener("DOMContentLoaded", () => {
   const storageKey = "analyzedResults";
   const altSummaryKey = "cbcSummary";
@@ -83,9 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!result) return;
 
     // Update CBC values
-    setText("cbc-hb", result.hbStatus || "—");
-    setText("cbc-wbc", result.wbcStatus || "—");
-    setText("cbc-platelets", result.plateletsStatus || "—");
+    setText("cbc-hb", result.hbStatus || result.hb || "—");
+    setText("cbc-wbc", result.wbcStatus || result.wbc || "—");
+    setText("cbc-platelets", result.plateletsStatus || result.platelets || "—");
     setText("cbc-note", result.note || "Awaiting analysis...");
 
     // Highlights and follow-up
@@ -111,10 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (rawSummary) {
         try {
           const parsed = JSON.parse(rawSummary);
-          // Normalize keys if needed (allow hbStatus vs hb)
           return parsed;
         } catch (e) {
-          // if it's not JSON, ignore
+          // ignore parse error
         }
       }
 
@@ -156,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const interesting = [storageKey, altSummaryKey, altResultsKey, "labinsight:cbc:updated", "labinsight:lastCounts"];
     if (interesting.includes(ev.key)) {
       refreshFromStorage();
-      // If lastCounts changed, re-dispatch local event to enable export UI if present
       if (ev.key === "labinsight:lastCounts") {
         try {
           const lc = JSON.parse(ev.newValue || "null");

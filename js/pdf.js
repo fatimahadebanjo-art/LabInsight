@@ -29,7 +29,7 @@
 
     const resultCanvas = document.getElementById("resultChart");
     if (!resultCanvas) {
-      alert("Please run Analyze first to generate the result chart.");
+      alert("Please run 'Analyze' first to generate the result chart.");
       return;
     }
 
