@@ -14,11 +14,10 @@ import {
   browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-import { doc, getDoc, collection, getDocs } 
-  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+import db from "./realtime-init.js";
+import { ref, get, set } 
+  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-
-import db from "./firestore-init.js";   
 const auth = getAuth(app);
 
 // 🔹 Ensure login persists across reloads
@@ -33,13 +32,24 @@ function redirectToLogin() { window.location.href = "account.html#login"; }
 // ----------------- Plan Helpers -----------------
 async function isProUser(userId) {
   try {
-    const docRef = doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) return false;
-    return docSnap.data().plan === "pro";
+    const snapshot = await get(ref(db, "users/" + userId + "/plan"));
+    if (!snapshot.exists()) return false;
+    return snapshot.val() === "pro";
   } catch (err) {
     console.warn("Failed to fetch user plan", err);
     return false;
+  }
+}
+
+async function saveUserPlan(userId, plan = "free") {
+  try {
+    await set(ref(db, "users/" + userId + "/plan"), plan);
+    console.log("Plan saved:", plan);
+    // localStorage.setItem("plan", plan);
+    // localStorage.setItem("isPro", plan === "pro" ? "true" : "false");
+    window.dispatchEvent(new Event("labinsight:planChanged"));
+  } catch (err) {
+    console.error("Failed to save plan:", err);
   }
 }
 
@@ -88,7 +98,10 @@ export function setupSignupValidation() {
     if (password.length < 8) return alert("Password must be at least 8 characters.");
     if (password !== confirmPassword) return alert("Passwords do not match.");
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      // Save default plan in Realtime Database
+      await saveUserPlan(user.uid, "free");
       redirectToAnalyzer();
     } catch (err) {
       console.error("Signup error:", err);
@@ -126,7 +139,10 @@ export function setupGoogleLogin() {
     statusEl && (statusEl.textContent = "Signing in with Google...");
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      // Save default plan in Realtime Database (if new user)
+      await saveUserPlan(user.uid, "free");
       redirectToAnalyzer();
     } catch (popupErr) {
       console.warn("Google popup error:", popupErr);
@@ -148,6 +164,8 @@ export function setupGoogleLogin() {
     try {
       const redirectResult = await getRedirectResult(auth);
       if (redirectResult?.user) {
+        // Save default plan in Realtime Database (if new user)
+        await saveUserPlan(redirectResult.user.uid, "free");
         redirectToAnalyzer();
       }
     } catch (err) {
@@ -186,8 +204,8 @@ export function monitorAuthState() {
       console.log("User signed in:", user.uid);
       const pro = await isProUser(user.uid);
 
-      localStorage.setItem("plan", pro ? "pro" : "free");
-      localStorage.setItem("isPro", pro ? "true" : "false");
+      // localStorage.setItem("plan", pro ? "pro" : "free");
+      // localStorage.setItem("isPro", pro ? "true" : "false");
       window.dispatchEvent(new Event("labinsight:planChanged"));
 
       if (logoutBtn) logoutBtn.style.display = "inline-block";
@@ -214,8 +232,8 @@ export function monitorAuthState() {
       }
     } else {
       console.log("No user signed in.");
-      localStorage.setItem("plan", "free");
-      localStorage.setItem("isPro", "false");
+      // localStorage.setItem("plan", "free");
+      // localStorage.setItem("isPro", "false");
       window.dispatchEvent(new Event("labinsight:planChanged"));
 
       if (logoutBtn) logoutBtn.style.display = "none";
@@ -228,13 +246,18 @@ export function monitorAuthState() {
   });
 }
 
-// ----------------- Firestore Connectivity Test -----------------
-async function testFirestore() {
+// ----------------- Realtime Database Connectivity Test -----------------
+async function testRealtimeDB() {
   try {
-    const snapshot = await getDocs(collection(db, "users"));
-    console.log("✅ Firestore connected. Users collection size:", snapshot.size);
+    const snapshot = await get(ref(db, "users"));
+    let count = 0;
+    if (snapshot.exists()) {
+      const val = snapshot.val();
+      count = val && typeof val === "object" ? Object.keys(val).length : 0;
+    }
+    console.log("✅ Realtime Database connected. Users count:", count);
   } catch (err) {
-    console.error("❌ Firestore connection failed:", err.message);
+    console.error("❌ Realtime Database connection failed:", err.message || err);
   }
 }
-testFirestore ();
+testRealtimeDB();

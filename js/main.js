@@ -47,17 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   toggle.value = plan === "pro" ? "pro" : "free";
 
-  toggle.addEventListener("change", (e) => {
-    const val = e.target.value;
+//   toggle.addEventListener("change", (e) => {
+//     const val = e.target.value;
 
-    localStorage.setItem("plan", val);
-    localStorage.setItem("userPlan", val);
-    localStorage.setItem("isPro", val === "pro" ? "true" : "false");
+//     localStorage.setItem("plan", val);
+//     localStorage.setItem("userPlan", val);
+//     localStorage.setItem("isPro", val === "pro" ? "true" : "false");
 
-    console.log(`[Dev Toggle] Plan set to "${val}". Reloading...`);
+//     console.log(`[Dev Toggle] Plan set to "${val}". Reloading...`);
 
-    location.reload();
-  });
+//     location.reload();
+//   });
 
-});
+// });
 

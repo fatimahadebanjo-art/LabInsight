@@ -1,11 +1,9 @@
 // analyzer-core.js
 import app from './firebase-init.js';
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
-const auth = getAuth(app);
-import db from "./firestore-init.js";
-
+import { ref, get, set, push } 
+  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import db from "./realtime-init.js";
 
 (function () {
   window.LabInsight = window.LabInsight || {};
@@ -188,6 +186,154 @@ import db from "./firestore-init.js";
     }
   }
 
+  // --- Save result to Realtime Database for the current user ---
+  async function saveResultToDB(userId, values, extendedResults) {
+    try {
+      // Use push to create a unique key under results/{uid}
+      const resultsRef = ref(db, `results/${userId}`);
+      const newRef = push(resultsRef);
+      await set(newRef, {
+        values,
+        extendedResults,
+        timestamp: new Date().toISOString()
+      });
+      console.log("Results saved to Realtime DB for", userId);
+      return { success: true, key: newRef.key };
+    } catch (err) {
+      console.error("Failed to save results:", err);
+      return { success: false, error: err };
+    }
+  }
+
+  // --- List saved results for current user and render into DOM ---
+  async function listSavedResultsForUser(userId) {
+    try {
+      const snapshot = await get(ref(db, `results/${userId}`));
+      const container = document.getElementById("savedResultsList");
+      if (!container) {
+        console.warn("savedResultsList element not found in DOM.");
+      }
+      const results = [];
+      if (snapshot.exists()) {
+        const val = snapshot.val();
+        Object.entries(val).forEach(([key, entry]) => {
+          results.push({
+            id: key,
+            timestamp: entry.timestamp || null,
+            values: entry.values || {},
+            extendedResults: entry.extendedResults || {}
+          });
+        });
+        // Sort by timestamp descending
+        results.sort((a, b) => {
+          const ta = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+          const tb = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+          return tb - ta;
+        });
+      }
+
+      if (container) {
+        container.innerHTML = "";
+        if (results.length === 0) {
+          container.innerHTML = "<div class='empty'>No saved results.</div>";
+        } else {
+          results.forEach(r => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "saved-result";
+            const timeText = r.timestamp ? new Date(r.timestamp).toLocaleString() : "Unknown time";
+            wrapper.innerHTML = `
+              <div class="saved-result-header">
+                <strong>${timeText}</strong>
+                <button class="view-result-btn" data-id="${r.id}">View</button>
+              </div>
+              <div class="saved-result-body" id="body-${r.id}" style="display:none;">
+                <pre class="small">${JSON.stringify(r.values, null, 2)}</pre>
+                <pre class="small">${JSON.stringify(r.extendedResults, null, 2)}</pre>
+              </div>
+            `;
+            container.appendChild(wrapper);
+          });
+
+          // Attach click handlers for view buttons
+          container.querySelectorAll(".view-result-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+              const id = btn.getAttribute("data-id");
+              const body = document.getElementById(`body-${id}`);
+              if (!body) return;
+              body.style.display = body.style.display === "none" ? "block" : "none";
+            });
+          });
+        }
+      }
+
+      return results;
+    } catch (err) {
+      console.error("Failed to list saved results:", err);
+      return [];
+    }
+  }
+
+  // --- Exposed saveResult used by Save Result button ---
+  window.LabInsight.saveResult = async function (vals) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please log in to save results.");
+      return;
+    }
+    try {
+      const extendedResults = runExtendedAnalysis(vals);
+      extendedResults.timestamp = new Date().toISOString();
+
+      // Save locally as before
+      try {
+        localStorage.setItem("cbcResults", JSON.stringify(extendedResults));
+      } catch (e) {
+        console.warn("Could not save to localStorage:", e);
+      }
+
+      // Save compact CBC summary and dispatch event
+      try {
+        const cbcSummary = {
+          hb: vals.hb || null,
+          wbc: vals.wbc || null,
+          platelets: vals.platelets || null,
+          timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('cbcSummary', JSON.stringify(cbcSummary));
+        const html = `
+          <div class="cbc-summary">
+            <div>Hb: ${cbcSummary.hb ?? '—'}</div>
+            <div>WBC: ${cbcSummary.wbc ?? '—'}</div>
+            <div>Platelets: ${cbcSummary.platelets ?? '—'}</div>
+            <div class="small">Updated: ${new Date(cbcSummary.timestamp).toLocaleString()}</div>
+          </div>`;
+        localStorage.setItem('cbcSummaryHtml', html);
+        window.dispatchEvent(new CustomEvent('labinsight:cbc', { detail: cbcSummary }));
+      } catch (err) {
+        console.warn('Could not write cbcSummary to localStorage:', err);
+      }
+
+      // Save to Realtime Database
+      const res = await saveResultToDB(user.uid, vals, extendedResults);
+      const statusEl = document.getElementById("questionStatus");
+      if (res.success) {
+        if (statusEl) statusEl.textContent = "Result saved.";
+        // Refresh saved results list if present
+        await listSavedResultsForUser(user.uid);
+      } else {
+        if (statusEl) statusEl.textContent = "Save failed.";
+      }
+    } catch (err) {
+      console.error("saveResult wrapper error:", err);
+      const statusEl = document.getElementById("questionStatus");
+      if (statusEl) statusEl.textContent = "Save failed.";
+    }
+  };
+
+  // --- Expose listing function so UI can call it on load ---
+  window.LabInsight.listSavedResultsForUser = listSavedResultsForUser;
+
   // --- Main initializer (runs after rules are ready) ---
   async function initAnalyzer() {
     try {
@@ -203,7 +349,7 @@ import db from "./firestore-init.js";
 
       // Firebase auth gating
       const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if (!user) {
           if (window.location.pathname.includes('analyzer.html')) {
             alert("Please log in to access the analyzer.");
@@ -221,6 +367,13 @@ import db from "./firestore-init.js";
           else if (hour < 17) greeting = "Good afternoon";
           else greeting = "Good evening";
           welcomeEl.textContent = `${greeting}, ${user.displayName || user.email}`;
+        }
+
+        // If saved results list exists, populate it for this user
+        try {
+          await listSavedResultsForUser(user.uid);
+        } catch (err) {
+          console.warn("Could not list saved results on auth state change:", err);
         }
       });
 
@@ -251,7 +404,7 @@ import db from "./firestore-init.js";
             console.error("Evaluation/render chart error:", err);
           }
 
-          // Extended analysis + save
+          // Extended analysis + save to localStorage + UI update
           try {
             const extendedResults = runExtendedAnalysis(values);
             extendedResults.timestamp = new Date().toISOString();
@@ -323,7 +476,7 @@ import db from "./firestore-init.js";
             try {
               window.LabInsight.saveResult(vals);
               const statusEl = document.getElementById("questionStatus");
-              if (statusEl) statusEl.textContent = "Result saved.";
+              if (statusEl) statusEl.textContent = "Saving...";
             } catch (err) {
               console.error("saveResult error:", err);
               const statusEl = document.getElementById("questionStatus");
@@ -369,4 +522,6 @@ import db from "./firestore-init.js";
   window.LabInsight.gatherInputs = gatherInputs;
   window.LabInsight.runExtendedAnalysis = runExtendedAnalysis;
   window.LabInsight.updateAnalyzerUI = updateAnalyzerUI;
+  window.LabInsight.saveResultToDB = saveResultToDB;
+  window.LabInsight.listSavedResultsForUser = listSavedResultsForUser;
 })();

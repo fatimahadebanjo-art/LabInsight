@@ -2,44 +2,44 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LabInsight Pro</title>
-  <link rel="stylesheet" href="lipro.css">
+  <link rel="stylesheet" href="lipro.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon">
-  <script src="https://js.stripe.com/clover/stripe.js"></script>
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="shortcut icon" href="Copilot_20260313_191418.png" type="image/x-icon" />
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
   <header>
-  <div class="nav-bar">
-    
-    <div class="nav-left">
-      <img src="assets/images/LabInsight logo.png" alt="logo">
-    </div>
+    <div class="nav-bar">
 
-    
-    <div class="hamburger" id="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+      <div class="nav-left">
+        <img src="assets/images/LabInsight logo.png" alt="logo" />
+      </div>
 
-    
-    <div class="nav-right">
-      <ul id="navLinks">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="analyzer.html">Analyzer</a></li>
-        <li><a href="account.html" class="nav-btn">Account</a></li>
-      </ul>
+
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+
+      <div class="nav-right">
+        <ul id="navLinks">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="analyzer.html">Analyzer</a></li>
+          <li><a href="account.html" class="nav-btn">Account</a></li>
+        </ul>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
 
   <section class="pro-hero">
@@ -154,13 +154,15 @@
       </div>
     </div>
   </section>
-  
+
 
 
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <img src="assets/images/LabInsight logo.png" alt="LabInsight logo showing a blue heart shape with a medical cross inside the left half and the text LABINSIGHT below in modern font. The design suggests healthcare, trust, and professionalism in a clean and welcoming style." class="footer-logo">
+        <img src="assets/images/LabInsight logo.png"
+          alt="LabInsight logo showing a blue heart shape with a medical cross inside the left half and the text LABINSIGHT below in modern font. The design suggests healthcare, trust, and professionalism in a clean and welcoming style."
+          class="footer-logo" />
         <p>LabInsight is a health-tech platform that helps users understand laboratory test results through clear,
           AI-assisted explanations.</p>
       </div>
@@ -191,53 +193,83 @@
     </div>
   </footer>
 
+  <script src="js/rules.js"></script>
+
+  <script src="js/analyzer-core.js"></script>
+
+  <script src="js/timeline.js"></script>
+
+  <script src="js/main.js"></script>
+
+  <script src="js/pdf.js"></script>
+
+  <script src="js/home.js"></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const navLinks = document.querySelectorAll(".nav-right a");
-    const currentPath = window.location.pathname.split("/").pop();
+    document.addEventListener("DOMContentLoaded", () => {
+      const navLinks = document.querySelectorAll(".nav-right a");
+      const currentPath = window.location.pathname.split("/").pop();
 
-    navLinks.forEach(link => {
-      if (link.getAttribute("href") === currentPath) {
-        link.classList.add("active");
-      }
-    });
-  });
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("navLinks");
-
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
-});
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const setProPlan = () => localStorage.setItem("plan", "pro");
-    document.getElementById("startProBtn")?.addEventListener("click", setProPlan);
-    document.getElementById("upgradetoprobtn")?.addEventListener("click", setProPlan);
-  });
-</script>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("upgradetoprobtn");
-    if (btn) {
-      btn.addEventListener("click", () => {
-        window.location.href = "https://buy.stripe.com/test_6oU14oagV3592fd45KgQE00";
+      navLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
+        }
       });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+      });
+    });
+  </script>
+
+
+
+  <!-- Stripe Checkout integration -->
+  <script type="module">
+    // Initialize Stripe with your publishable key (Test mode shown)
+    const stripe = Stripe("pk_test_51TBakVLS43voUE7bcvf4oMCSgUnoRoqwxcfo40kB5nFdrCVvMawDAJnZiM8efArO7y6Du1jfThwopZSLhMkPPmAq00VauQ1jkD");
+
+    async function startCheckout() {
+      try {
+        const resp = await fetch("/api/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            priceId: "price_1TCmxdLS43voUE7bpZ6KEj00",
+            uid: "user123"
+          })
+        });
+
+        if (!resp.ok) {
+          const text = await resp.text();
+          throw new Error(text || "Failed to create checkout session");
+        }
+
+        const { sessionId } = await resp.json();
+        const result = await stripe.redirectToCheckout({ sessionId });
+        if (result.error) {
+          alert(result.error.message);
+        }
+      } catch (err) {
+        console.error("Checkout error:", err);
+        alert("Unable to start checkout. Please try again.");
+      }
     }
-  });
-</script>
 
-
+    // Attach the function to the Upgrade button
+    document.getElementById("upgradetoprobtn")?.addEventListener("click", (e) => {
+      // Prevent default if button is inside a form or anchor
+      e.preventDefault();
+      startCheckout();
+    });
+  </script>
 
 </body>
 
