@@ -6,6 +6,8 @@ import db from "./realtime-init.js";
 
 (function () {
   window.LabInsight = window.LabInsight || {};
+  let analyzedResults = [];
+
 
   // Notify other tabs and same-tab listeners after saving cbcSummary
   function notifyCbcSaved() {
@@ -476,12 +478,12 @@ import db from "./realtime-init.js";
               localStorage.setItem('cbcSummary', JSON.stringify(cbcSummary));
 
               const html = `
-                <div class="cbc-summary">
-                  <div>Hb: ${cbcSummary.hb ?? '—'}</div>
-                  <div>WBC: ${cbcSummary.wbc ?? '—'}</div>
-                  <div>Platelets: ${cbcSummary.platelets ?? '—'}</div>
-                  <div class="small">Updated: ${new Date(cbcSummary.timestamp).toLocaleString()}</div>
-                </div>`;
+          <div class="cbc-summary">
+            <div>Hb: ${cbcSummary.hb ?? '—'}</div>
+            <div>WBC: ${cbcSummary.wbc ?? '—'}</div>
+            <div>Platelets: ${cbcSummary.platelets ?? '—'}</div>
+            <div class="small">Updated: ${new Date(cbcSummary.timestamp).toLocaleString()}</div>
+          </div>`;
               localStorage.setItem('cbcSummaryHtml', html);
 
               // Centralized notification
@@ -491,6 +493,10 @@ import db from "./realtime-init.js";
             }
 
             updateAnalyzerUI(extendedResults);
+
+            // 🔑 Save results globally for export
+            analyzedResults = extendedResults;
+
           } catch (err) {
             console.error("runExtendedAnalysis/updateAnalyzerUI error:", err);
           }
@@ -498,6 +504,7 @@ import db from "./realtime-init.js";
       } else {
         console.warn("manualAnalyzeBtn not found in DOM.");
       }
+
 
       // Demo Fill populates all 15 inputs
       const demoBtn = document.getElementById("demoFillBtn");

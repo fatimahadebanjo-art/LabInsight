@@ -117,7 +117,7 @@
               <p class="insight-title">CBC Summary</p>
               <p class="insight-sub">Last updated: Today</p>
             </div>
-            <span class="pill">Review</span>
+            <span class="pill"><a href="timeline.html">Review</a></span>
           </div>
 
           <!-- Dynamic rows -->
@@ -483,6 +483,83 @@
       });
     })();
   </script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const summaryRaw = localStorage.getItem("cbcSummary");
+    const analyzedResultsRaw = localStorage.getItem("cbcResults");
+
+    // Update CBC values
+    if (summaryRaw) {
+      try {
+        const summary = JSON.parse(summaryRaw);
+        document.getElementById("cbc-hb").textContent = summary.hb ?? "—";
+        document.getElementById("cbc-wbc").textContent = summary.wbc ?? "—";
+        document.getElementById("cbc-platelets").textContent = summary.platelets ?? "—";
+
+        // Update the "Last updated" subtitle
+        const sub = document.querySelector(".insight-sub");
+        if (sub) {
+          sub.textContent = "Last updated: " + new Date(summary.timestamp).toLocaleString();
+        }
+      } catch (err) {
+        console.warn("Could not parse cbcSummary:", err);
+      }
+    }
+
+    // Update note and highlight
+    if (analyzedResultsRaw) {
+      try {
+        const analyzedResults = JSON.parse(analyzedResultsRaw);
+
+        // Note
+        if (analyzedResults.notes) {
+          document.getElementById("cbc-note").textContent = analyzedResults.notes;
+        }
+
+        // Highlight
+        if (analyzedResults.highlights) {
+          const highlightEl = document.getElementById("cbc-highlight");
+          let highlightClass = "";
+
+          const value = analyzedResults.highlights.toLowerCase();
+          if (value.includes("normal")) {
+            highlightClass = "highlight-normal";
+          } else if (value.includes("borderline")) {
+            highlightClass = "highlight-borderline";
+          } else if (value.includes("abnormal")) {
+            highlightClass = "highlight-abnormal";
+          }
+
+          if (highlightEl) {
+            highlightEl.textContent = analyzedResults.highlights;
+            highlightEl.className = "tag " + highlightClass; // keep base tag + highlight styling
+          }
+        }
+      } catch (err) {
+        console.warn("Could not parse analyzedResults:", err);
+      }
+    }
+  });
+</script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const navLinks = document.querySelectorAll(".nav-right a");
+      const currentPath = window.location.pathname.split("/").pop();
+
+      navLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
+        }
+      });
+    });
+  </script>
+
+
+  
 </body>
 
 </html>

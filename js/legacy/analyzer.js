@@ -852,7 +852,7 @@ function renderTrendChart() { renderMonthlyChart(); }
 
 // Fallback handlers: delegated accordion toggle and minimal Analyze fallback
 (function(){
-  // Delegated click handler â€” keeps accordions & Analyze responsive even if initial handlers failed
+  // Delegated click handler keeps accordions & Analyze responsive even if initial handlers failed
   document.addEventListener('click', function(e){
     try {
       const btn = e.target.closest ? e.target.closest('.accordion-btn') : null;

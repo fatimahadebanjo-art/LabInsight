@@ -1104,6 +1104,19 @@ g
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
 }
 
+.saved-results {
+  margin-top: 40px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.saved-results h3 {
+  margin-bottom: 12px;
+  color: var(--primary-color);
+}
+
 /* Risk badge */
 .risk-badge {
   padding: 20px;

@@ -31,6 +31,7 @@
         <ul id="navLinks">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
+          <li><a href="timeline.html">Timeline</a></li>
 
           <!-- User info (hidden until auth state shows a user) -->
           <li id="userInfo" style="display:none;">
@@ -167,39 +168,43 @@
         <div id="output" class="results-panel"></div>
         <button id="multiRiskBtn" class="btn btn-outline">Run Multi‑Risk Analysis</button>
         <div id="riskPanel" class="results-panel"></div>
+      </section>
+    </div>
 
 
 
 
 
-        <!-- External Libraries -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <!-- External Libraries (keep these first) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        <!-- LabInsight non-module scripts (keep order) -->
-        <script src="js/storage.js"></script>
-        <script src="js/rules.js"></script>
-        <script type="module" src="js/pro-lock.js"></script>
-        <script src="js/ui.js"></script>
-        <script src="js/ocr.js"></script>
-        <script src="js/charts.js"></script>
-        <script src="js/pdf.js"></script>
-        <script type="module" src="js/notifications.js"></script>
-        <script type="module" src="js/firebase-init.js"></script>
-        <script src="js/timeline.js"></script>
+<!-- LabInsight core UI helpers (must come early so initAccordion exists) -->
+<script src="js/storage.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/ui.js"></script>   <!-- accordion + scroll header lives here -->
 
-        <!-- analyzer-core.js must be loaded as a module because it imports Firebase auth -->
-        <script type="module" src="js/analyzer-core.js"></script>
+<!-- Other non-module scripts -->
+<script src="js/ocr.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/timeline.js"></script>
 
-        <!-- auth helpers: import monitorAuthState and setupLogout (module) -->
-        <script type="module">
-          import { setupLogout, monitorAuthState } from './js/auth.js';
-          setupLogout();
-          monitorAuthState();
-        </script>
+<!-- Module scripts (Firebase, auth, analyzer-core) -->
+<script type="module" src="js/pro-lock.js"></script>
+<script type="module" src="js/notifications.js"></script>
+<script type="module" src="js/firebase-init.js"></script>
+<script type="module" src="js/analyzer-core.js"></script>
+
+<!-- Auth helpers -->
+<script type="module">
+  import { setupLogout, monitorAuthState } from './js/auth.js';
+  setupLogout();
+  monitorAuthState();
+</script>
 
 
 
@@ -217,7 +222,6 @@
         <h4>Quick Links</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="analyzer.html">Analyzer</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -273,6 +277,34 @@
             });
           });
         </script>
+
+        <script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Accordion test running...");
+  document.querySelectorAll(".accordion-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      console.log("Clicked:", btn.textContent);
+      const panel = btn.nextElementSibling;
+      if (panel) {
+        panel.style.display = panel.style.display === "block" ? "none" : "block";
+      }
+    });
+  });
+});
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.getElementById("navLinks");
+    if (localStorage.getItem("loggedIn") === "true") {
+      const timelineLink = document.createElement("li");
+      timelineLink.innerHTML = '<a href="timeline.html">Timeline</a>';
+      navLinks.insertBefore(timelineLink, navLinks.querySelector(".nav-btn").parentElement);
+    }
+  });
+</script>
+
+
 </body>
 
 </html>

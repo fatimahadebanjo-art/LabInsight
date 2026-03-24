@@ -10,14 +10,14 @@
     buttons.forEach(btn => {
       if (!btn.getAttribute('type')) btn.setAttribute('type','button');
       btn.addEventListener('click', function () {
-        this.classList.toggle('active');
-        const panel = this.nextElementSibling;
-        if (panel) {
-          const isOpen = panel.classList.toggle('open');
-          panel.style.display = isOpen ? 'block' : 'none';
-          this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        }
-      });
+  this.classList.toggle('active');
+  const panel = this.nextElementSibling;
+  if (panel) {
+    const isOpen = panel.classList.toggle('open');
+    this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+});
+
       const panel = btn.nextElementSibling; if (panel && !panel.id) panel.id = 'panel-'+Math.random().toString(36).slice(2,8);
     });
   }
