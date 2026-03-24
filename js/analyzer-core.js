@@ -8,7 +8,6 @@ import db from "./realtime-init.js";
   window.LabInsight = window.LabInsight || {};
   let analyzedResults = [];
 
-
   // Notify other tabs and same-tab listeners after saving cbcSummary
   function notifyCbcSaved() {
     try {
@@ -351,6 +350,20 @@ import db from "./realtime-init.js";
         console.warn("Could not update window.lastCounts during saveResult:", err);
       }
 
+      // 🔹 Save to global pool for exportPdf (labResults)
+      try {
+        let labResults = {};
+        try {
+          labResults = JSON.parse(localStorage.getItem("labResults") || "{}");
+        } catch (err) {
+          console.warn("Could not parse existing labResults:", err);
+        }
+        labResults.cbc = extendedResults;
+        localStorage.setItem("labResults", JSON.stringify(labResults));
+      } catch (err) {
+        console.warn("Failed to write labResults to localStorage:", err);
+      }
+
       // Save to Realtime Database
       const res = await saveResultToDB(user.uid, vals, extendedResults);
       const statusEl = document.getElementById("questionStatus");
@@ -495,6 +508,19 @@ import db from "./realtime-init.js";
             updateAnalyzerUI(extendedResults);
 
             // 🔑 Save results globally for export
+            try {
+              let labResults = {};
+              try {
+                labResults = JSON.parse(localStorage.getItem("labResults") || "{}");
+              } catch (err) {
+                console.warn("Could not parse labResults:", err);
+              }
+              labResults.cbc = extendedResults;
+              localStorage.setItem("labResults", JSON.stringify(labResults));
+            } catch (err) {
+              console.warn("Failed to write labResults to localStorage:", err);
+            }
+
             analyzedResults = extendedResults;
 
           } catch (err) {
@@ -504,7 +530,6 @@ import db from "./realtime-init.js";
       } else {
         console.warn("manualAnalyzeBtn not found in DOM.");
       }
-
 
       // Demo Fill populates all 15 inputs
       const demoBtn = document.getElementById("demoFillBtn");

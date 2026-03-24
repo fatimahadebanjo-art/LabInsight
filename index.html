@@ -486,63 +486,98 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const summaryRaw = localStorage.getItem("cbcSummary");
-    const analyzedResultsRaw = localStorage.getItem("cbcResults");
+document.addEventListener("DOMContentLoaded", () => {
+  // Apply CBC summary and highlight when available
+  function applyCbcSummary() {
+    let summary = {};
+    try {
+      summary = JSON.parse(localStorage.getItem('cbcSummary') || '{}');
+    } catch (err) {
+      console.warn('Could not parse cbcSummary:', err);
+      summary = {};
+    }
 
-    // Update CBC values
-    if (summaryRaw) {
-      try {
-        const summary = JSON.parse(summaryRaw);
-        document.getElementById("cbc-hb").textContent = summary.hb ?? "—";
-        document.getElementById("cbc-wbc").textContent = summary.wbc ?? "—";
-        document.getElementById("cbc-platelets").textContent = summary.platelets ?? "—";
+    // Update small summary fields if present
+    const hbEl = document.getElementById('cbc-hb');
+    const wbcEl = document.getElementById('cbc-wbc');
+    const plateletsEl = document.getElementById('cbc-platelets');
+    if (hbEl) hbEl.textContent = summary.hb ?? '—';
+    if (wbcEl) wbcEl.textContent = summary.wbc ?? '—';
+    if (plateletsEl) plateletsEl.textContent = summary.platelets ?? '—';
 
-        // Update the "Last updated" subtitle
-        const sub = document.querySelector(".insight-sub");
-        if (sub) {
-          sub.textContent = "Last updated: " + new Date(summary.timestamp).toLocaleString();
-        }
-      } catch (err) {
-        console.warn("Could not parse cbcSummary:", err);
+    // Safe read of global pool for highlights (preferred)
+    let labResults = null;
+    try {
+      labResults = JSON.parse(localStorage.getItem('labResults') || 'null');
+    } catch (err) {
+      console.warn('Could not parse labResults:', err);
+      labResults = null;
+    }
+
+    // Prefer labResults.cbc.highlightsText, fallback to cbcResults or summary
+    let highlightText = '';
+    if (labResults && labResults.cbc) {
+      const t = labResults.cbc;
+      if (typeof t.highlightsText === 'string' && t.highlightsText.trim()) {
+        highlightText = t.highlightsText.trim();
+      } else if (Array.isArray(t.highlights) && t.highlights.length) {
+        highlightText = t.highlights.join(', ');
       }
     }
 
-    // Update note and highlight
-    if (analyzedResultsRaw) {
+    // If still empty, try cbcResults (older key)
+    if (!highlightText) {
       try {
-        const analyzedResults = JSON.parse(analyzedResultsRaw);
-
-        // Note
-        if (analyzedResults.notes) {
-          document.getElementById("cbc-note").textContent = analyzedResults.notes;
-        }
-
-        // Highlight
-        if (analyzedResults.highlights) {
-          const highlightEl = document.getElementById("cbc-highlight");
-          let highlightClass = "";
-
-          const value = analyzedResults.highlights.toLowerCase();
-          if (value.includes("normal")) {
-            highlightClass = "highlight-normal";
-          } else if (value.includes("borderline")) {
-            highlightClass = "highlight-borderline";
-          } else if (value.includes("abnormal")) {
-            highlightClass = "highlight-abnormal";
-          }
-
-          if (highlightEl) {
-            highlightEl.textContent = analyzedResults.highlights;
-            highlightEl.className = "tag " + highlightClass; // keep base tag + highlight styling
-          }
+        const cbcResults = JSON.parse(localStorage.getItem('cbcResults') || '{}');
+        if (typeof cbcResults.highlightsText === 'string' && cbcResults.highlightsText.trim()) {
+          highlightText = cbcResults.highlightsText.trim();
+        } else if (Array.isArray(cbcResults.highlights) && cbcResults.highlights.length) {
+          highlightText = cbcResults.highlights.join(', ');
         }
       } catch (err) {
-        console.warn("Could not parse analyzedResults:", err);
+        // ignore parse errors
       }
+    }
+
+    // Update highlight pill safely
+    const pill = document.getElementById('cbc-highlight');
+    if (pill) {
+      const text = highlightText || 'No highlights';
+      pill.textContent = text;
+
+      // Reset classes and apply one of three states
+      pill.className = 'tag';
+      const v = text.toLowerCase();
+      if (v.includes('borderline')) {
+        pill.classList.add('highlight-borderline');
+      } else if (v.includes('low') || v.includes('high') || v.includes('abnormal')) {
+        pill.classList.add('highlight-abnormal');
+      } else if (v && !v.includes('no highlights')) {
+        pill.classList.add('highlight-normal');
+      } else {
+        pill.classList.add('highlight-empty');
+      }
+    }
+  }
+
+  // Run once on load
+  applyCbcSummary();
+
+  // Re-apply when other tabs update cbcSummary or labResults
+  window.addEventListener('storage', (e) => {
+    if (!e.key) return;
+    if (e.key === 'cbcSummary' || e.key === 'labResults' || e.key === 'cbcResults' || e.key === 'labinsight:cbc:updated') {
+      applyCbcSummary();
     }
   });
+
+  // Also listen for the custom event dispatched by analyzer
+  window.addEventListener('labinsight:cbc', (ev) => {
+    applyCbcSummary();
+  });
+});
 </script>
+
 
 
   <script>

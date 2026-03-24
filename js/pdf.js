@@ -23,20 +23,38 @@
     return false;
   }
 
+  // --- Utility: safe retrieval of labResults ---
+  function getLabResults() {
+    const raw = localStorage.getItem("labResults");
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (err) {
+      console.warn("Could not parse labResults:", err);
+      return null;
+    }
+  }
+
   // --- Main PDF Export ---
   async function exportPdf() {
     if (!requirePro("Export PDF")) return;
 
-    const resultCanvas = document.getElementById("resultChart");
-    if (!resultCanvas) {
-      alert("Please run 'Analyze' first to generate the result chart.");
+    // Prefer labResults as the canonical source for export
+    const labResults = getLabResults();
+    if (!labResults) {
+      alert("No analyzed results available to export.");
       return;
     }
+
+    // Chart presence is still useful for including the result chart image
+    const resultCanvas = document.getElementById("resultChart");
+    const trendCanvas = document.getElementById("trendChart");
+    const resultImg = resultCanvas?.toDataURL?.("image/png", 1.0) || null;
+    const trendImg = trendCanvas?.toDataURL?.("image/png", 1.0) || null;
 
     // Load logo if available
     const logoEl = document.querySelector(".nav-left img") || document.querySelector(".footer-logo");
     const logoUrl = logoEl?.getAttribute("src") || null;
-
     const loadImageDataUrl = async (url) => {
       if (!url) return null;
       return new Promise((resolve) => {
@@ -53,10 +71,6 @@
         img.src = url;
       });
     };
-
-    const trendCanvas = document.getElementById("trendChart");
-    const resultImg = resultCanvas.toDataURL("image/png", 1.0);
-    const trendImg = trendCanvas?.toDataURL("image/png", 1.0) || null;
     const logoData = await loadImageDataUrl(logoUrl);
 
     const counts = window.lastCounts || { normal: 0, borderline: 0, abnormal: 0 };
@@ -70,6 +84,7 @@
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ unit: "mm", format: "a4" });
       const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
       // --- Header ---
       if (logoData) pdf.addImage(logoData, "PNG", 15, 10, 30, 30);
@@ -87,13 +102,18 @@
       pdf.setLineWidth(0.5);
       pdf.line(15, 45, pageWidth - 15, 45);
 
-      // --- Current Analysis ---
+      // --- Current Analysis (first test block) ---
       let y = 50;
       pdf.setFontSize(12);
       pdf.text("Current Analysis", 15, y);
 
       const imgW = 70, imgH = 70;
-      pdf.addImage(resultImg, "PNG", 15, y + 5, imgW, imgH);
+      if (resultImg) {
+        pdf.addImage(resultImg, "PNG", 15, y + 5, imgW, imgH);
+      } else {
+        pdf.setFontSize(10);
+        pdf.text("No result chart available.", 15, y + 10);
+      }
 
       let sx = 15 + imgW + 10;
       let sy = y + 10;
@@ -106,27 +126,86 @@
       pdf.text(`Normal: ${counts.normal}`, sx, sy); sy += 8;
 
       pdf.text("Questions to Ask Your Doctor:", sx, sy); sy += 6;
-      if (!docQuestions.length) pdf.text("- None provided", sx, sy);
-      else docQuestions.forEach((q) => {
-        pdf.text(`- ${q}`, sx, sy);
+      if (!docQuestions.length) {
+        pdf.text("- None provided", sx, sy);
         sy += 6;
-        if (sy > 270) { pdf.addPage(); sy = 20; }
-      });
+      } else {
+        for (const q of docQuestions) {
+          pdf.text(`- ${q}`, sx, sy);
+          sy += 6;
+          if (sy > pageHeight - 40) { pdf.addPage(); sy = 20; }
+        }
+      }
 
-      // --- Saved Results ---
-      const stored = typeof window.LabInsight.getStored === "function" ? window.LabInsight.getStored() : [];
-      if (stored.length) {
+      // --- All Tests from labResults ---
+      pdf.addPage();
+      pdf.setFontSize(12);
+      pdf.text("Analyzed Tests", 15, 20);
+      let y2 = 28;
+      pdf.setFontSize(10);
+
+      const tests = Object.keys(labResults);
+      for (const testName of tests) {
+        const test = labResults[testName] || {};
+        pdf.setFontSize(11);
+        pdf.text(testName.toUpperCase(), 15, y2);
+        y2 += 6;
+        pdf.setFontSize(10);
+
+        // Print statuses (keys ending with Status)
+        Object.keys(test).forEach((k) => {
+          if (k.endsWith("Status")) {
+            const label = k.replace("Status", "");
+            const value = String(test[k] ?? "—");
+            pdf.text(`${label}: ${value}`, 20, y2);
+            y2 += 6;
+          }
+        });
+
+        // Note
+        if (test.note) {
+          pdf.text(`Note: ${test.note}`, 20, y2);
+          y2 += 8;
+        }
+
+        // Highlights: prefer highlightsText, fallback to joining array
+        const highlightsText = (typeof test.highlightsText === "string" && test.highlightsText.trim())
+          ? test.highlightsText
+          : (Array.isArray(test.highlights) ? test.highlights.join(", ") : "");
+        if (highlightsText) {
+          pdf.text(`Highlights: ${highlightsText}`, 20, y2);
+          y2 += 8;
+        }
+
+        // Timestamp
+        if (test.timestamp) {
+          pdf.setFontSize(9);
+          pdf.text(`Recorded: ${new Date(test.timestamp).toLocaleString()}`, 20, y2);
+          y2 += 8;
+          pdf.setFontSize(10);
+        }
+
+        // Page break handling
+        if (y2 > pageHeight - 30) {
+          pdf.addPage();
+          y2 = 20;
+        }
+      }
+
+      // --- Saved Results (fallback to window.LabInsight.getStored if available) ---
+      const stored = (typeof window.LabInsight.getStored === "function") ? window.LabInsight.getStored() : [];
+      if (stored && stored.length) {
         pdf.addPage();
         pdf.setFontSize(12);
-        pdf.text("Saved Results", 15, 20);
-        let y2 = 28;
+        pdf.text("Saved Results (Recent)", 15, 20);
+        let y3 = 28;
         pdf.setFontSize(10);
         stored.slice(-15).reverse().forEach((en) => {
           const d = en.date || (en.timestamp?.split("T")[0]) || "";
           const c = en.counts || {};
-          pdf.text(`${d} — Abnormal: ${c.abnormal || 0}, Borderline: ${c.borderline || 0}, Normal: ${c.normal || 0}`, 15, y2);
-          y2 += 6;
-          if (y2 > 270) { pdf.addPage(); y2 = 20; }
+          pdf.text(`${d} — Abnormal: ${c.abnormal || 0}, Borderline: ${c.borderline || 0}, Normal: ${c.normal || 0}`, 15, y3);
+          y3 += 6;
+          if (y3 > pageHeight - 30) { pdf.addPage(); y3 = 20; }
         });
       }
 
@@ -138,7 +217,10 @@
         const usableWidth = pageWidth - 30;
         const trendHeight = pdf.internal.pageSize.getHeight() - 40;
         pdf.addImage(trendImg, "PNG", 15, 30, usableWidth, trendHeight);
-      } else pdf.text("No trend chart available.", 15, 40);
+      } else {
+        pdf.setFontSize(10);
+        pdf.text("No trend chart available.", 15, 40);
+      }
 
       // --- Footer ---
       pdf.setFontSize(9);
@@ -161,10 +243,7 @@
 
   // --- Attach handlers to buttons ---
   document.getElementById("exportPdfBtn")?.addEventListener("click", () => {
-
-    if (!window.LabInsight.requirePro("PDF Export")) return;
-
+    if (!requirePro("PDF Export")) return;
     exportPdf();
-
   });
 })();
